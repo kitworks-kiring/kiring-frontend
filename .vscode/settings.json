@@ -1,0 +1,19 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // prettier로 기본 포맷터 지정
+  "editor.formatOnSave": true, // 저장 시 자동 포맷팅 실행
+  "editor.tabSize": 2, // 탭 너비를 2칸으로 설정
+  "editor.wordWrap": "on", // 화면 폭 좁아지면 자동 줄바꿈 활성화
+  "editor.inlineSuggest.enabled": true, // 코파일럿 인라인 코드 추천 기능 활성화
+  "terminal.integrated.cursorBlinking": true, // 터미널 커서 깜빡임 활성화
+  "javascript.format.enable": false, // 자바스크립트 포맷팅 비활성화 (prettier 사용 목적)
+  "typescript.tsdk": "node_modules/typescript/lib", // 타입스크립트 SDK 경로를 node_modules로 설정 (로컬 버전 고정 사용)
+  "commit-message-editor.view.tabSize": 2, // 커밋 메세지 작성 시 탭 너비를 2칸으로 설정
+  "files.trimTrailingWhitespace": true, // 파일 저장 시 공백 제거
+  "files.insertFinalNewline": true, // 파일 저장 시 마지막 줄에 개행 추가
+  "prettier.requireConfig": false, // .prettierrc 등의 설정 파일이 없으면 prettier 비활성화
+  "eslint.format.enable": true, // eslint 포맷팅 활성화
+  "eslint.validate": ["javascript", "typescript", "javascriptreact", "typescriptreact"], // eslint가 적용될 파일 확장자 목록 (js, ts, jsx, tsx)
+  "eslint.rules.customizations": [
+    { "rule": "import/order", "severity": "error" } // import 순서 강제 적용
+  ],
+}

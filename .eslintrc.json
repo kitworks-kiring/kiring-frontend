@@ -1,0 +1,38 @@
+{
+  "extends": ["next/core-web-vitals", "eslint:recommended", "plugins:prettier/recommended", "import"],
+  "plugins": ["prettier"],
+  "rules": {
+    // * prettier
+    "prettier/prettier": "error",
+    // * next.js & react 관련
+    "no-unused-vars": "warn", // 사용하지 않는 변수 선언 시 경고
+    "react/self-closing-comp": "error", // 불필요한 closing 태그 방지
+    "react/jsx-boolean-value": ["error", "never"], // 불필요한 true값 생략
+    "react/no-array-index-key": "warn", // list의 key로 index 사용 시 경고
+    "react/jsx-curly-brace-presence": ["error", { "props": "always", "children": "never" }], // {} 사용 props 필수, children 금지
+    // * 코드 정리 & 성능 관련
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "alphabetize": { "order": "asc", "caseInsensitive": true }
+      }
+    ]
+  },
+  // * eslint parser 설정 (의도치 않은 오류나 누락 방지)
+  "parserOptions": {
+    "ecmaVersion": 2020, // 최신 ECMA Script 문법 허용
+    "sourceType": "module", // import/export 문법 허용
+    "ecmaFeatures": {
+      "jsx": true // JSX 문법 허용
+    }
+  },
+  // * eslint 모듈 해석 설정 (import 경로 인식)
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "./tsconfig.json"
+      }
+    }
+  }
+}
