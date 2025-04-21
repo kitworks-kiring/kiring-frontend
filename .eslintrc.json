@@ -1,6 +1,11 @@
 {
-  "extends": ["next/core-web-vitals", "eslint:recommended", "plugins:prettier/recommended", "import"],
-  "plugins": ["prettier"],
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugins:prettier/recommended",
+    "import"
+  ],
+  "plugins": ["prettier", "simple-import-sort"],
   "rules": {
     // * prettier
     "prettier/prettier": "error",
@@ -17,7 +22,9 @@
         "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
         "alphabetize": { "order": "asc", "caseInsensitive": true }
       }
-    ]
+    ],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   },
   // * eslint parser 설정 (의도치 않은 오류나 누락 방지)
   "parserOptions": {

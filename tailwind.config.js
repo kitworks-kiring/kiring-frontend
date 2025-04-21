@@ -1,3 +1,5 @@
+import tailwindcssAnimate from 'tailwindcss-animate'
+
 module.exports = {
   content: [
     './src/app/**/*.{js,ts,jsx,tsx}',
@@ -13,5 +15,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [tailwindcssAnimate],
 }

@@ -4,6 +4,9 @@
   "editor.tabSize": 2, // 탭 너비를 2칸으로 설정
   "editor.wordWrap": "on", // 화면 폭 좁아지면 자동 줄바꿈 활성화
   "editor.inlineSuggest.enabled": true, // 코파일럿 인라인 코드 추천 기능 활성화
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
   "terminal.integrated.cursorBlinking": true, // 터미널 커서 깜빡임 활성화
   "javascript.format.enable": false, // 자바스크립트 포맷팅 비활성화 (prettier 사용 목적)
   "typescript.tsdk": "node_modules/typescript/lib", // 타입스크립트 SDK 경로를 node_modules로 설정 (로컬 버전 고정 사용)
@@ -14,6 +17,8 @@
   "eslint.format.enable": true, // eslint 포맷팅 활성화
   "eslint.validate": ["javascript", "typescript", "javascriptreact", "typescriptreact"], // eslint가 적용될 파일 확장자 목록 (js, ts, jsx, tsx)
   "eslint.rules.customizations": [
-    { "rule": "import/order", "severity": "error" } // import 순서 강제 적용
-  ],
+    { "rule": "import/order", "severity": "error" }, // import 순서 강제 적용
+    { "rule": "simple-import-sort/imports", "severity": "error" }, // simple-import-sort imports 규칙 추가
+    { "rule": "simple-import-sort/exports", "severity": "error" } // simple-import-sort exports 규칙 추가
+  ]
 }
