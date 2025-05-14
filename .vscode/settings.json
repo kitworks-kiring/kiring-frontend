@@ -5,7 +5,7 @@
   "editor.wordWrap": "on", // 화면 폭 좁아지면 자동 줄바꿈 활성화
   "editor.inlineSuggest.enabled": true, // 코파일럿 인라인 코드 추천 기능 활성화
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "terminal.integrated.cursorBlinking": true, // 터미널 커서 깜빡임 활성화
   "javascript.format.enable": false, // 자바스크립트 포맷팅 비활성화 (prettier 사용 목적)
