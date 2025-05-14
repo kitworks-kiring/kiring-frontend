@@ -1,9 +1,6 @@
-@import 'tw-animate-css';
-
 @custom-variant dark (&:is(.dark *));
 
-@import 'tailwindcss/preflight';
-@tailwind utilities;
+@import 'tailwindcss';
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -118,5 +115,10 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  main {
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }

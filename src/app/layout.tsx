@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Providers } from './providers'
 import './globals.css'
+import Header from '@/components/Header'
+import Navigation from '@/components/Navigation'
 
 export const metadata: Metadata = {
   title: 'Kiring',
@@ -13,9 +15,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body>
-        <Providers>{children}</Providers>
+    <html lang="ko" className="h-full">
+      <body className="h-full overflow-hidden bg-gray-100">
+        <Providers>
+          <div className="mx-auto flex h-full w-full max-w-150 flex-col bg-white">
+            <Header />
+            <main className="min-h-0 grow overflow-y-auto px-4 pt-14 pb-18">{children}</main>
+            <Navigation />
+          </div>
+        </Providers>
       </body>
     </html>
   )
