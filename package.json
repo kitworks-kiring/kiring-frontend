@@ -10,6 +10,7 @@
     "build:tokens": "node config/design-token.config.mjs"
   },
   "dependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query": "^5.74.4",
     "axios": "^1.9.0",
     "class-variance-authority": "^0.7.1",
