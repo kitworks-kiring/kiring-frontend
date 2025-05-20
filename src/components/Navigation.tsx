@@ -44,7 +44,10 @@ export default function Navigation() {
     <nav className="fixed bottom-0 h-18 w-full max-w-150 rounded-t-[12px] bg-white px-6 shadow-[0_-1px_5px_0_rgba(0,0,0,0.1)]">
       <div className="flex h-full w-full justify-between">
         {NAV_BUTTONS.map(({ title, icon: Icon, endpoint }) => {
-          const isActive = pathname === endpoint
+          // 홈('/')의 경우 정확히 일치할 때만 활성화
+          const isActive = endpoint === '/'
+            ? pathname === '/'
+            : pathname.startsWith(endpoint)
           const color = isActive ? 'text-purple-500' : 'text-gray-300'
 
           return (
