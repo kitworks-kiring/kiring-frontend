@@ -3,9 +3,10 @@
 @import 'tailwindcss';
 /* 토큰 적용 CSS */
 @import '../styles/design-tokens.css';
+@import '../styles/utilities.css';
 
 @theme inline {
-   --font-sans: Pretendard, sans-serif;
+  --font-sans: Pretendard, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -123,5 +124,8 @@
     &::-webkit-scrollbar {
       display: none;
     }
+  }
+  button {
+    @apply cursor-pointer;
   }
 }
