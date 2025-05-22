@@ -4,6 +4,7 @@ module.exports = {
   content: [
     './src/app/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
+    './src/styles/**/*.{css}',
     './node_modules/@shadcn/ui/**/*.{js,ts,jsx,tsx}',
   ],
   // * 다크모드 활성화 여부
