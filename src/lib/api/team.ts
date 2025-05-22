@@ -1,5 +1,5 @@
 import ApiClient from './client'
 
-export const getTeamLength = async () => {
-  return await ApiClient.get<{ count: number }>('/api/team')
+export const getTeamLength = () => {
+  return ApiClient.get<{ count: number }>('/api/team')
 }
