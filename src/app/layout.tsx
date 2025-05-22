@@ -20,7 +20,7 @@ export default function RootLayout({
         <Providers>
           <div className="mx-auto flex h-full w-full max-w-150 flex-col bg-white">
             <Header />
-            <main className="min-h-0 grow overflow-y-auto px-4 pt-14 pb-18">{children}</main>
+            <main className="min-h-0 grow overflow-y-auto pt-14 pb-18">{children}</main>
             <Navigation />
           </div>
         </Providers>
