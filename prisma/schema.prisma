@@ -34,12 +34,12 @@ model like {
 model plane {
   plane_id                     String    @id(map: "PLANE_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   sender_id                    String    @default(dbgenerated("auth.uid()")) @db.Uuid
-  receiver_id                  String    @default(dbgenerated("auth.uid()")) @db.Uuid
+  reveiver_id                  String    @default(dbgenerated("auth.uid()")) @db.Uuid
   message                      String    @default("")
   is_printable                 Boolean   @default(true)
   sent_at                      DateTime  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   updated_at                   DateTime? @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  user_plane_receiver_idTouser user      @relation("plane_receiver_idTouser", fields: [receiver_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "PLANE_reveiver_id_fkey")
+  user_plane_reveiver_idTouser user      @relation("plane_reveiver_idTouser", fields: [reveiver_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "PLANE_reveiver_id_fkey")
   user_plane_sender_idTouser   user      @relation("plane_sender_idTouser", fields: [sender_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "PLANE_sender_id_fkey")
 }
 
@@ -88,7 +88,7 @@ model user {
   created_at                    DateTime  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   updated_at                    DateTime? @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   like                          like[]
-  plane_plane_receiver_idTouser plane[]   @relation("plane_receiver_idTouser")
+  plane_plane_reveiver_idTouser plane[]   @relation("plane_reveiver_idTouser")
   plane_plane_sender_idTouser   plane[]   @relation("plane_sender_idTouser")
   team                          team      @relation(fields: [team_code], references: [team_code], onDelete: NoAction, onUpdate: NoAction, map: "USER_team_code_fkey")
 }
