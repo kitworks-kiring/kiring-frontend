@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model calendar {
+  calendar_id String    @id(map: "CALENDAR_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  team_code   String?   @db.VarChar
+  title       String    @default("") @db.VarChar
+  date        DateTime  @db.Date
+  type        String    @default("") @db.VarChar
+  created_at  DateTime  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  updated_at  DateTime? @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  team        team?     @relation(fields: [team_code], references: [team_code], onDelete: NoAction, onUpdate: NoAction, map: "CALENDAR_team_code_fkey")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model like {
+  restaurant_id String   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id       String   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  liked_at      DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  user          user     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "LIKES_user_id_fkey")
+
+  @@id([restaurant_id, user_id], map: "LIKES_pkey")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model plane {
+  plane_id                     String    @id(map: "PLANE_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sender_id                    String    @default(dbgenerated("auth.uid()")) @db.Uuid
+  reveiver_id                  String    @default(dbgenerated("auth.uid()")) @db.Uuid
+  message                      String    @default("")
+  is_printable                 Boolean   @default(true)
+  sent_at                      DateTime  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  updated_at                   DateTime? @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  user_plane_reveiver_idTouser user      @relation("plane_reveiver_idTouser", fields: [reveiver_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "PLANE_reveiver_id_fkey")
+  user_plane_sender_idTouser   user      @relation("plane_sender_idTouser", fields: [sender_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "PLANE_sender_id_fkey")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model restaurant {
+  restaurant_id String    @id(map: "RESTAURANTS_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String    @default("") @db.VarChar
+  main_category String?   @default("") @db.VarChar
+  sub_category  String?   @default("") @db.VarChar
+  menu          String?   @default("") @db.VarChar
+  img_url       String?   @default("")
+  lat           Float?
+  lng           Float?
+  distance      Int?      @db.SmallInt
+  address       String?   @default("") @db.VarChar
+  phone         String?   @default("") @db.VarChar
+  created_at    DateTime  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  updated_at    DateTime? @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model team {
+  team_id    String     @id(map: "TEAM_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  team_code  String     @unique(map: "TEAM_team_code_key") @default("") @db.VarChar
+  team_name  String     @unique(map: "TEAM_team_name_key") @default("") @db.VarChar
+  created_at DateTime   @default(now()) @db.Timestamptz(6)
+  calendar   calendar[]
+  user       user[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model user {
+  user_id                       String    @id(map: "USER_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                          String    @default("") @db.VarChar
+  team_code                     String    @db.VarChar
+  phone                         String    @unique(map: "USER_phone_key") @default("") @db.VarChar
+  corp_email                    String    @default("") @db.VarChar
+  kakao_email                   String?   @default("") @db.VarChar
+  nickname                      String?   @default("") @db.VarChar
+  birth_date                    DateTime? @db.Date
+  join_date                     DateTime  @db.Date
+  github_id                     String?   @default("") @db.VarChar
+  profile_url                   String?   @default("")
+  is_employed                   Boolean   @default(false)
+  is_registered                 Boolean   @default(false)
+  created_at                    DateTime  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  updated_at                    DateTime? @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  like                          like[]
+  plane_plane_reveiver_idTouser plane[]   @relation("plane_reveiver_idTouser")
+  plane_plane_sender_idTouser   plane[]   @relation("plane_sender_idTouser")
+  team                          team      @relation(fields: [team_code], references: [team_code], onDelete: NoAction, onUpdate: NoAction, map: "USER_team_code_fkey")
+}
