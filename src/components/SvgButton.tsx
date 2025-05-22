@@ -1,5 +1,7 @@
 'use client'
 
+import clsx from 'clsx'
+
 interface SvgButtonProps {
   icon: React.ReactNode
   onClick: () => void
@@ -19,7 +21,10 @@ export default function SvgButton({
 }: SvgButtonProps) {
   return (
     <button
-      className={`w-[${width}px] h-[${height}px] flex flex-col items-center justify-center ${bottomTitle ? 'gap-1' : ''}`}
+      className={clsx(
+        `w-[${width}px] h-[${height}px] flex flex-col items-center justify-center`,
+        bottomTitle && 'gap-1',
+      )}
       type="button"
       onClick={onClick}
       aria-label={ariaLabel}
