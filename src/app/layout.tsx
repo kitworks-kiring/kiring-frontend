@@ -3,6 +3,7 @@ import { Providers } from './providers'
 import './globals.css'
 import Header from '@/components/Header'
 import Navigation from '@/components/Navigation'
+import { NextAuthProvider } from '@/providers/next-auth'
 
 export const metadata: Metadata = {
   title: 'Kiring',
@@ -11,19 +12,21 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="ko" className="h-full">
+    <html lang="ko">
       <body className="h-full overflow-hidden bg-gray-100">
+        <NextAuthProvider>
         <Providers>
           <div className="mx-auto flex h-full w-full max-w-150 flex-col bg-white">
             <Header />
-            <main className="min-h-0 grow overflow-y-auto pt-14 pb-18">{children}</main>
+            <main className="min-h-screen grow overflow-y-auto pt-14 pb-18">{children}</main>
             <Navigation />
           </div>
         </Providers>
+        </NextAuthProvider>
       </body>
     </html>
   )
