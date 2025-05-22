@@ -8,7 +8,10 @@ import { useRouter } from 'next/navigation'
 export default function Header() {
   const router = useRouter()
   return (
-    <nav aria-label="헤더 네비게이션" className="fixed top-0 h-14 w-full max-w-150 bg-white p-4">
+    <nav
+      aria-label="헤더 네비게이션"
+      className="fixed top-0 h-14 w-full max-w-[390px] bg-white p-4"
+    >
       <div className="flex h-full w-full justify-between">
         <SvgButton ariaLabel="홈으로 이동" icon={<HeaderLogo />} onClick={() => router.push('/')} />
         <div className="flex gap-3">
