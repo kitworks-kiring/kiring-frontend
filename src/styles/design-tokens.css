@@ -1,113 +1,114 @@
 @theme {
   /* 컬러 */
-  --color-basic-white: #ffffff;
-  --color-basic-black: #000000;
-  --color-gray-gray-50: #f6f8fa;
-  --color-gray-gray-100: #e8e8e8;
-  --color-gray-gray-200: #dddddd;
-  --color-gray-gray-300: #cecece;
-  --color-gray-gray-400: #c5c5c5;
-  --color-gray-gray-500: #b6b6b6;
-  --color-gray-gray-600: #a6a6a6;
-  --color-gray-gray-700: #818181;
-  --color-gray-gray-800: #646464;
-  --color-gray-gray-900: #4c4c4c;
-  --color-purple-purple-50: #f0ecfe;
-  --color-purple-purple-100: #d1c3fb;
-  --color-purple-purple-200: #bba6f9;
-  --color-purple-purple-300: #9d7ef6;
-  --color-purple-purple-400: #8965f4;
-  --color-purple-purple-500: #6c3ef1;
-  --color-purple-purple-600: #6238db;
-  --color-purple-purple-700: #4d2cab;
-  --color-purple-purple-800: #3b2285;
-  --color-purple-purple-900: #2d1a65;
+ --color-basic-white: #ffffff;
+  --color-basic-black: #2d2d2d;
+  --color-gray-50: #f6f8fa;
+  --color-gray-100: #e8e8e8;
+  --color-gray-200: #dddddd;
+  --color-gray-300: #cecece;
+  --color-gray-400: #c5c5c5;
+  --color-gray-500: #b6b6b6;
+  --color-gray-600: #a6a6a6;
+  --color-gray-700: #818181;
+  --color-gray-800: #646464;
+  --color-gray-900: #4c4c4c;
+  --color-purple-50: #f0ecfe;
+  --color-purple-100: #d1c3fb;
+  --color-purple-200: #bba6f9;
+  --color-purple-300: #9d7ef6;
+  --color-purple-400: #8965f4;
+  --color-purple-500: #6c3ef1;
+  --color-purple-600: #5d0dd1;
+  --color-purple-700: #4d2cab;
+  --color-purple-800: #3b2285;
+  --color-purple-900: #2d1a65;
   --color-system-red: #fd2922;
   --color-system-yellow: #ffb800;
   --color-system-green: #00aa48;
   --color-system-blue: #0076e4;
   --color-system-purple: #6c3ef1;
+  --color-sns-kakao: #fee500;
 
   /* 타이포그래피 */
-  --font-family-head1: Pretendard;
+    --font-family-head1: Pretendard;
   --font-size-head1: 48px;
   --font-weight-head1: 600;
-  --line-height-head1: auto;
+  --line-height-head1: 120%;
 
   --font-family-head2: Pretendard;
   --font-size-head2: 32px;
   --font-weight-head2: 600;
-  --line-height-head2: auto;
+  --line-height-head2: 120%;
 
   --font-family-head3: Pretendard;
   --font-size-head3: 24px;
   --font-weight-head3: 600;
-  --line-height-head3: auto;
+  --line-height-head3: 120%;
 
   --font-family-head4: Pretendard;
   --font-size-head4: 20px;
   --font-weight-head4: 600;
-  --line-height-head4: auto;
+  --line-height-head4: 120px;
 
   --font-family-head5: Pretendard;
   --font-size-head5: 16px;
   --font-weight-head5: 600;
-  --line-height-head5: auto;
+  --line-height-head5: 120%;
 
   --font-family-head6: Pretendard;
   --font-size-head6: 12px;
   --font-weight-head6: 600;
-  --line-height-head6: auto;
+  --line-height-head6: 120%;
 
   --font-family-body1: Pretendard;
   --font-size-body1: 18px;
   --font-weight-body1: 500;
-  --line-height-body1: auto;
+  --line-height-body1: 120%;
 
   --font-family-body2-sb: Pretendard;
   --font-size-body2-sb: 16px;
   --font-weight-body2-sb: 600;
-  --line-height-body2-sb: auto;
+  --line-height-body2-sb: 120%;
 
   --font-family-body2: Pretendard;
   --font-size-body2: 16px;
   --font-weight-body2: 500;
-  --line-height-body2: auto;
+  --line-height-body2: 150%;
 
   --font-family-body3-sb: Pretendard;
   --font-size-body3-sb: 14px;
   --font-weight-body3-sb: 600;
-  --line-height-body3-sb: auto;
+  --line-height-body3-sb: 120%;
 
   --font-family-body3: Pretendard;
   --font-size-body3: 14px;
   --font-weight-body3: 500;
-  --line-height-body3: auto;
+  --line-height-body3: 120%;
 
   --font-family-body4-sb: Pretendard;
   --font-size-body4-sb: 12px;
   --font-weight-body4-sb: 600;
-  --line-height-body4-sb: auto;
+  --line-height-body4-sb: 120%;
 
   --font-family-body4: Pretendard;
   --font-size-body4: 12px;
   --font-weight-body4: 500;
-  --line-height-body4: auto;
+  --line-height-body4: 120%;
 
   --font-family-body5: Pretendard;
   --font-size-body5: 10px;
   --font-weight-body5: 500;
-  --line-height-body5: auto;
+  --line-height-body5: 120%;
 
   --font-family-body6: Pretendard;
   --font-size-body6: 8px;
   --font-weight-body6: 500;
-  --line-height-body6: auto;
+  --line-height-body6: 120%;
 }
 
 @layer components {
   /* 타이포그래피 컴포넌트 */
-  .head1 {
+   .head1 {
     font-family: var(--font-family-head1);
     font-size: var(--font-size-head1);
     font-weight: var(--font-weight-head1);
