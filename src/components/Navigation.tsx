@@ -53,7 +53,8 @@ export default function Navigation() {
 
           return (
             <SvgButton
-              key={title}
+              key={endpoint}
+              ariaLabel={`${title} 탭으로 이동`}
               icon={<Icon className={color} />}
               onClick={() => router.push(endpoint)}
               bottomTitle={<span className={`body4 ${color}`}>{title}</span>}
