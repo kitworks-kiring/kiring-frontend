@@ -19,20 +19,24 @@ export default function Admin() {
   }
 
   const getApiTest = async () => {
-    try {
-      const count = await getTeamLength()
-      alert(`team count: ${count}`)
-    } catch (error) {
-      console.error('Error fetching team length:', error)
+    const [res, err] = await getTeamLength()
+    if (err) {
+      console.error('Error fetching team length:', err)
+      return
     }
+    alert(`team count: ${res?.data?.count || 0}`)
   }
 
   return (
     <section className="flex-col-center h-full gap-4">
-      <button onClick={getHealthCheck} className={`${btnCommonStyle} bg-system-green`}>
+      <button
+        type="button"
+        onClick={getHealthCheck}
+        className={`${btnCommonStyle} bg-system-green`}
+      >
         health check
       </button>
-      <button onClick={getApiTest} className={`${btnCommonStyle} bg-system-blue`}>
+      <button type="button" onClick={getApiTest} className={`${btnCommonStyle} bg-system-blue`}>
         api test
       </button>
     </section>
