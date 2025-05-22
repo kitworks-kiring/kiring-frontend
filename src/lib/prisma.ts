@@ -7,7 +7,7 @@ const globalForPrisma = globalThis as unknown as {
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
-    log: ['query'], // 개발 모드에서 쿼리 로그 출력
+    log: process.env.DEBUG_PRISMA === 'true' ? ['query'] : [],
   })
 
 if (process.env.NODE_ENV !== 'production') {
