@@ -30,7 +30,7 @@ export default function SvgButton({
       aria-label={ariaLabel}
     >
       {Icon}
-      {bottomTitle && bottomTitle}
+      {bottomTitle}
     </button>
   )
 }
