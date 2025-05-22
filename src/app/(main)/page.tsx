@@ -1,10 +1,10 @@
-import Image from 'next/image'
 import DefaultKiring from '@/assets/intro-kiring.svg'
 
 export default function Main() {
   return (
-    <div className="bg-gray-gray-50 h-full w-full">
-      <section className="flex h-[210px] justify-between">
+    <div className="flex flex-col gap-3 bg-gray-50">
+      {/* Intro Section */}
+      <section className="flex h-[198px] justify-between pr-4 pl-[21px]">
         <span className="head3 mt-7 text-black">
           키링의
           <br />
@@ -13,11 +13,25 @@ export default function Main() {
           <span className="text-system-purple">로그인</span> 후<br />
           만나보세요!
         </span>
-        <DefaultKiring className="max-w-[189.5px] self-center" />
+        <div className="mt-[10px] h-full max-w-[190px] self-center">
+          <DefaultKiring className="w-full" />
+        </div>
       </section>
-      <section>추천 Section</section>
-      <section>주간 일정 Section</section>
-      <section>구성원 Section</section>
+
+      {/* Recommend Section */}
+      <section className="h-[285px] w-full bg-emerald-300">
+        <div></div>
+      </section>
+
+      {/* Weekly Schedule Section */}
+      <section className="h-[285px] w-full bg-blue-400">
+        <div></div>
+      </section>
+
+      {/* Member Section */}
+      <section className="h-[285px] w-full bg-amber-400">
+        <div></div>
+      </section>
     </div>
   )
 }
