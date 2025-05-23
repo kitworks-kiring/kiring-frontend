@@ -1,6 +1,19 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+/**
+ * @swagger
+ * /api/health:
+ *   get:
+ *     summary: DB, API 상태 체크
+ *     description: DB와 API의 상태를 체크합니다.
+ *     tags:
+ *       - Health Check
+ *     responses:
+ *       true:
+ *         description: 성공적으로 상태를 반환합니다.
+ */
+
 export async function GET() {
   const status = {
     app: true, // Next.js 라우트가 동작한다면 기본 true
