@@ -8,7 +8,7 @@ type Options<T> = {
 }
 
 /**
- * 비동기 함수를 실행하고, 예외 발생 시 튜플 형태[res, err]의 결과 반환
+ * 비동기 비즈니스 로직을 수행하고, 예외 발생 시 튜플 형태[res, err]의 결과 반환 (try/catch 처리 추상화)
  *
  * @template T - 반환될 데이터의 타입
  * @param {() => Promise<T>} fn - 실행할 비동기 함수
