@@ -7,11 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:tokens": "node config/design-token.config.mjs",
-    "postinstall": "prisma generate"
+    "build:tokens": "node config/design-token.config.mjs"
   },
   "dependencies": {
-    "@prisma/client": "^6.8.2",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query": "^5.74.4",
     "axios": "^1.9.0",
@@ -19,11 +17,8 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.503.0",
     "next": "15.3.1",
-    "prisma": "^6.8.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-react": "5.3.2",
     "tailwind-merge": "^3.2.0",
     "zustand": "^5.0.3"
   },
@@ -35,8 +30,6 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/swagger-jsdoc": "^6.0.4",
-    "@types/swagger-ui-react": "^5.18.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
