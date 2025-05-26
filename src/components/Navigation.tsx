@@ -1,40 +1,8 @@
 'use client'
 
 import SvgButton from '@/components/SvgButton'
-import NavPlaceIcon from '@/assets/nav-place.svg'
-import NavTransitIcon from '@/assets/nav-transit.svg'
-import NavHomeIcon from '@/assets/nav-home.svg'
-import NavCalendarIcon from '@/assets/nav-calendar.svg'
-import NavCommunityIcon from '@/assets/nav-community.svg'
+import { NAV_BUTTONS } from '@/constants/navigation'
 import { usePathname, useRouter } from 'next/navigation'
-
-const NAV_BUTTONS = [
-  {
-    icon: NavPlaceIcon,
-    title: '플레이스',
-    endpoint: '/place',
-  },
-  {
-    icon: NavTransitIcon,
-    title: '교통',
-    endpoint: '/transit',
-  },
-  {
-    icon: NavHomeIcon,
-    title: '홈',
-    endpoint: '/',
-  },
-  {
-    icon: NavCalendarIcon,
-    title: '캘린더',
-    endpoint: '/calendar',
-  },
-  {
-    icon: NavCommunityIcon,
-    title: '커뮤니티',
-    endpoint: '/community',
-  },
-]
 
 export default function Navigation() {
   const pathname = usePathname()
