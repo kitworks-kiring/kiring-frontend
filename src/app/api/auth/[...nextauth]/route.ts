@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import KakaoProvider from 'next-auth/providers/kakao'; // 카카오 OAuth 제공자
 
+
 interface KakaoProfile {
   id: string;
   kakao_account?: {
@@ -17,6 +18,11 @@ const handler = NextAuth({
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID!, // 카카오 REST API 키
       clientSecret: process.env.KAKAO_CLIENT_SECRET || '',
+      authorization: {
+    params: {
+      prompt: 'login',
+    },
+  },
     }),
   ],
   session: {
@@ -29,6 +35,12 @@ const handler = NextAuth({
   },
    // 로그인 성공 후 호출되는 콜백 함수
   callbacks: {
+    async signIn({ user, account, profile }) {
+      console.log("🚀 ~ signIn ~ user:", user)
+      console.log("🚀 ~ signIn ~ account:", account)
+      console.log("🚀 ~ signIn ~ profile:", profile)
+      return true
+    },
     async jwt({ token, account, profile }) {
       // 로그인 후 토큰에 사용자 정보 저장
       if (account && profile) {
@@ -46,6 +58,7 @@ const handler = NextAuth({
         session.user.name = token.name;
         session.user.image = token.picture;
       }
+      console.log('NODE_ENV:', process.env.NODE_ENV)
       return session;
     },
   },

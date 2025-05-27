@@ -11,5 +11,6 @@ export const config = {
     // 보호 페이지
     // '/settings/:path*',
     '/mypage/:path*',
+    '/community/:path*',
   ],
 };

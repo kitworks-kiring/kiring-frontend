@@ -3,7 +3,6 @@ import { Providers } from './providers'
 import './globals.css'
 import Header from '@/components/Header'
 import Navigation from '@/components/Navigation'
-import { NextAuthProvider } from '@/providers/next-auth'
 
 export const metadata: Metadata = {
   title: 'Kiring',
@@ -18,7 +17,6 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="h-full overflow-hidden bg-gray-100">
-        <NextAuthProvider>
         <Providers>
           <div className="mx-auto flex h-full w-full max-w-150 flex-col bg-white">
             <Header />
@@ -26,7 +24,6 @@ export default function RootLayout({
             <Navigation />
           </div>
         </Providers>
-        </NextAuthProvider>
       </body>
     </html>
   )
