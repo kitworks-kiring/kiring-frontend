@@ -1,7 +1,7 @@
 'use client'
 
-import MainTab, { TabItem } from '@/components/tabs/MainTab'
-import { useTabs } from '@/components/tabs/MainTab/useTab'
+import DefaultTab, { TabItem } from '@/components/tabs/DefaultTab'
+import { useTabs } from '@/components/tabs/DefaultTab/useTab'
 import { PLACE_MAIN_TAB_LIST } from './constants'
 
 export default function Place() {
@@ -15,8 +15,7 @@ export default function Place() {
 
   return (
     <section className="h-full">
-      <MainTab tabs={tabs} active={activeTab} onChange={onTabClick} />
-
+      <DefaultTab tabs={tabs} active={activeTab} onChange={onTabClick} />
       {activeTab === tabs[0].value && <p>맛집</p>}
       {activeTab === tabs[1].value && <p>산책로</p>}
     </section>

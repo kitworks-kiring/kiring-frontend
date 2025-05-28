@@ -7,13 +7,13 @@ export interface TabItem {
   value: string
 }
 
-interface MainTabProps {
+interface DefaultTabProps {
   tabs: TabItem[]
   active: string
   onChange: (value: string) => void
 }
 
-export default function MainTab({ tabs, active, onChange }: MainTabProps) {
+export default function DefaultTab({ tabs, active, onChange }: DefaultTabProps) {
   return (
     <nav aria-label="페이지 분류 탭" className="border-b border-gray-100 px-4">
       <ul role="tablist" className="flex">
