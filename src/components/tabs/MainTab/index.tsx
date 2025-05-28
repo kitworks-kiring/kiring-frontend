@@ -2,39 +2,39 @@
 
 import clsx from 'clsx'
 
-export default function MainTab({
-  mainTabList,
-  activeTab,
-  onTabClick,
-}: {
-  mainTabList: {
-    label: string
-    type: string
-  }[]
-  activeTab: string
-  onTabClick?: (type: string) => void
-}) {
+export interface TabItem {
+  label: string
+  value: string
+}
+
+interface MainTabProps {
+  tabs: TabItem[]
+  active: string
+  onChange: (value: string) => void
+}
+
+export default function MainTab({ tabs, active, onChange }: MainTabProps) {
   return (
-    <section className="border-b border-gray-100 px-4">
-      <ul className="flex">
-        {mainTabList?.map(({ label, type }, idx) => (
-          <li key={`${type}-${idx}`} className="flex-row-center h-9 w-15">
+    <nav aria-label="페이지 분류 탭" className="border-b border-gray-100 px-4">
+      <ul role="tablist" className="flex">
+        {tabs.map(({ label, value }) => (
+          <li key={value} className="flex-row-center h-9 w-15">
             <button
+              role="tab"
               type="button"
+              aria-selected={value === active}
               className={clsx(
                 'font-body2-sb flex h-full flex-col items-center justify-start',
                 'transition-colors',
-                type === activeTab
-                  ? 'border-b-2 border-purple-500 text-purple-500'
-                  : 'text-gray-600',
+                value === active ? 'border-b-2 border-purple-500 text-purple-500' : 'text-gray-600',
               )}
-              onClick={() => onTabClick?.(type)}
+              onClick={() => onChange(value)}
             >
               {label}
             </button>
           </li>
         ))}
       </ul>
-    </section>
+    </nav>
   )
 }

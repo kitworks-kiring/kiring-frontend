@@ -1,30 +1,24 @@
 'use client'
 
-import { useState } from 'react'
-import MainTab from '@/components/MainTab'
+import MainTab, { TabItem } from '@/components/tabs/MainTab'
+import { useTabs } from '@/components/tabs/MainTab/useTab'
+import { PLACE_MAIN_TAB_LIST } from './constants'
 
 export default function Place() {
-  const [currentTabIdx, setCurrentTabIdx] = useState(0)
-  const mainTabList = [
-    {
-      label: '맛집',
-      type: 'restaurant',
-    },
-    {
-      label: '산책로',
-      type: 'trail',
-    },
-  ]
-  const onTabClick = (idx: number) => setCurrentTabIdx(idx)
+  const defaultTab = PLACE_MAIN_TAB_LIST[0].type
+  const { activeTab, onTabClick } = useTabs(defaultTab)
+
+  const tabs: TabItem[] = PLACE_MAIN_TAB_LIST.map(({ label, type }) => ({
+    label,
+    value: type,
+  }))
 
   return (
     <section className="h-full">
-      <MainTab mainTabList={mainTabList} currentTabIdx={currentTabIdx} onTabClick={onTabClick} />
-      {currentTabIdx === 0 && (
-        <div className="p-4">
-          <h2 className="font-body1-sb">맛집 목록</h2>
-        </div>
-      )}
+      <MainTab tabs={tabs} active={activeTab} onChange={onTabClick} />
+
+      {activeTab === tabs[0].value && <p>맛집</p>}
+      {activeTab === tabs[1].value && <p>산책로</p>}
     </section>
   )
 }
