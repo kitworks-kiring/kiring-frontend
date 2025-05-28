@@ -4,15 +4,15 @@ import clsx from 'clsx'
 
 export default function MainTab({
   mainTabList,
-  currentTabIdx,
+  activeTab,
   onTabClick,
 }: {
   mainTabList: {
     label: string
     type: string
   }[]
-  currentTabIdx: number
-  onTabClick?: (idx: number) => void
+  activeTab: string
+  onTabClick?: (type: string) => void
 }) {
   return (
     <section className="border-b border-gray-100 px-4">
@@ -24,11 +24,11 @@ export default function MainTab({
               className={clsx(
                 'font-body2-sb flex h-full flex-col items-center justify-start',
                 'transition-colors',
-                idx === currentTabIdx
+                type === activeTab
                   ? 'border-b-2 border-purple-500 text-purple-500'
                   : 'text-gray-600',
               )}
-              onClick={() => onTabClick?.(idx)}
+              onClick={() => onTabClick?.(type)}
             >
               {label}
             </button>

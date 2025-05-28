@@ -2,8 +2,8 @@
 
 import HeaderLogo from '@/assets/header-logo.svg'
 import DefaultProfile from '@/assets/default-profile.svg'
-import SvgButton from '@/components/SvgButton'
-import { NAV_BUTTONS } from '@/constants/navigation'
+import SvgButton from '@/components/ui/SvgButton'
+import { NAV_BUTTONS } from '@/components/layout/Navigation/constants'
 import { useRouter, usePathname } from 'next/navigation'
 
 export default function Header() {

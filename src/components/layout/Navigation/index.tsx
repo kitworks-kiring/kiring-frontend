@@ -1,7 +1,7 @@
 'use client'
 
-import SvgButton from '@/components/SvgButton'
-import { NAV_BUTTONS } from '@/constants/navigation'
+import SvgButton from '@/components/ui/SvgButton'
+import { NAV_BUTTONS } from '@/components/layout/Navigation/constants'
 import { usePathname, useRouter } from 'next/navigation'
 
 export default function Navigation() {
