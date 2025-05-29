@@ -10,9 +10,9 @@ export default function Header() {
   const router = useRouter()
   const pathname = usePathname()
 
-  const matchedNavItem = NAV_BUTTONS.find(
-    ({ endpoint }) => endpoint === pathname || endpoint === '/',
-  )
+  const matchedNavItem =
+    NAV_BUTTONS.find(({ endpoint }) => endpoint === pathname) ??
+    NAV_BUTTONS.find(({ endpoint }) => endpoint === '/')
 
   return (
     <nav aria-label="헤더 네비게이션" className="fixed top-0 h-14 w-full max-w-150 bg-white p-4">
