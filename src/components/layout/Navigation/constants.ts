@@ -4,7 +4,13 @@ import NavHomeIcon from '@/assets/nav-home.svg'
 import NavCalendarIcon from '@/assets/nav-calendar.svg'
 import NavCommunityIcon from '@/assets/nav-community.svg'
 
-export const NAV_BUTTONS = [
+export interface NavButtons {
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+  title: string
+  endpoint: string
+}
+
+export const NAV_BUTTONS: NavButtons[] = [
   {
     icon: NavPlaceIcon,
     title: '플레이스',

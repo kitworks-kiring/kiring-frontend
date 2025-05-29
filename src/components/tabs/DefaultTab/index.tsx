@@ -23,6 +23,7 @@ export default function DefaultTab({ tabs, active, onChange }: DefaultTabProps) 
               role="tab"
               type="button"
               aria-selected={value === active}
+              tabIndex={value === active ? 0 : -1}
               className={clsx(
                 'font-body2-sb flex h-full flex-col items-center justify-start',
                 'transition-colors',

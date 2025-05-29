@@ -3,7 +3,10 @@
 import { useState, useEffect } from 'react'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 
-export function useTabs(defaultTab: string) {
+export function useTabs(defaultTab: string): {
+  activeTab: string
+  onTabClick: (tab: string) => void
+} {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const router = useRouter()
