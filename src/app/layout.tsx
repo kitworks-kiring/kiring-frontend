@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Providers } from './providers'
 import './globals.css'
-import Header from '@/components/Header'
-import Navigation from '@/components/Navigation'
+import Header from '@/components/layout/Header'
+import Navigation from '@/components/layout/Navigation'
 
 export const metadata: Metadata = {
   title: 'Kiring',
