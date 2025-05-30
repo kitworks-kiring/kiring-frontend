@@ -1,44 +1,44 @@
 export const PLACE_MAIN_TAB_LIST = [
   {
     label: '맛집',
-    type: 'restaurant',
+    value: 'restaurant',
   },
   {
     label: '산책로',
-    type: 'trail',
+    value: 'trail',
   },
 ] as const
 
 export const PLACE_FILTER_TAB_LIST = [
   {
     label: '랜덤',
-    type: 'random',
+    value: 'random',
   },
   {
     label: '점심',
-    type: 'lunch',
+    value: 'lunch',
   },
   {
     label: '저녁',
-    type: 'dinner',
+    value: 'dinner',
   },
   {
     label: '카페',
-    type: 'cafe',
+    value: 'cafe',
   },
 ] as const
 
 export const PLACE_SORT_DROPDOWN_LIST = [
   {
     label: '거리순',
-    type: 'distance',
+    value: 'distance',
   },
   {
     label: '인기순',
-    type: 'popular',
+    value: 'popular',
   },
   {
     label: '최신순',
-    type: 'latest',
+    value: 'latest',
   },
 ] as const
