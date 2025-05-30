@@ -1,4 +1,4 @@
-export const PLACE_MAIN_TAB_LIST = [
+export const PLACE_DEFAULT_TAB_LIST = [
   {
     label: '맛집',
     value: 'restaurant',
@@ -9,7 +9,7 @@ export const PLACE_MAIN_TAB_LIST = [
   },
 ] as const
 
-export const PLACE_FILTER_TAB_LIST = [
+export const PLACE_BUBBLE_TAB_LIST = [
   {
     label: '랜덤',
     value: 'random',
@@ -30,12 +30,12 @@ export const PLACE_FILTER_TAB_LIST = [
 
 export const PLACE_SORT_DROPDOWN_LIST = [
   {
-    label: '거리순',
-    value: 'distance',
-  },
-  {
     label: '인기순',
     value: 'popular',
+  },
+  {
+    label: '거리순',
+    value: 'distance',
   },
   {
     label: '최신순',
