@@ -17,3 +17,18 @@
 .nav-pd {
   @apply pb-18;
 }
+
+.line-2-bg {
+  @apply bg-[#3CB44A];
+}
+
+.line-9-bg {
+  @apply bg-[#D1A62C];
+}
+.line-2-border {
+  @apply border-[#3CB44A];
+}
+
+.line-9-border {
+  @apply border-[#D1A62C];
+}
