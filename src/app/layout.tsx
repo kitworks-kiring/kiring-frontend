@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import { Providers } from './providers'
 import './globals.css'
-import Header from '@/components/layout/Header'
-import Navigation from '@/components/layout/Navigation'
 
 export const metadata: Metadata = {
   title: 'Kiring',
@@ -18,11 +16,7 @@ export default function RootLayout({
     <html lang="ko" className="h-full">
       <body className="h-full overflow-hidden bg-gray-100">
         <Providers>
-          <div className="mx-auto flex h-full w-full max-w-150 flex-col bg-white">
-            <Header />
-            <main className="min-h-0 grow overflow-y-auto pt-14 pb-18">{children}</main>
-            <Navigation />
-          </div>
+          <div className="mx-auto flex h-full w-full max-w-150 flex-col bg-white">{children}</div>
         </Providers>
       </body>
     </html>
