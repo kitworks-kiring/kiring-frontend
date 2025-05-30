@@ -1,7 +1,7 @@
 'use client'
 
 import SectionHeader from '@/app/(full-layout)/(main)/components/section-header'
-import PlaceCard from '@/app/(full-layout)/(main)/components/remommend-section/place-card'
+import PlaceCard from '@/app/(full-layout)/(main)/components/recommend-section/place-card'
 
 export default function RecommendSection() {
   return (

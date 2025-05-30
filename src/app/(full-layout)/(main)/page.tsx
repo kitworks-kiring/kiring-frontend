@@ -1,5 +1,5 @@
 import IntroSection from '@/app/(full-layout)/(main)/components/intro-section'
-import RecommendSection from '@/app/(full-layout)/(main)/components/remommend-section/recommend-section'
+import RecommendSection from '@/app/(full-layout)/(main)/components/recommend-section/recommend-section'
 import WeeklyScheduleSection from '@/app/(full-layout)/(main)/components/weekly-schedule-section'
 import MemberSection from '@/app/(full-layout)/(main)/components/member-section'
 
