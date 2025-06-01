@@ -11,6 +11,9 @@ import {
 import SortSelectBox, { SortItem } from '@/app/(header-layout)/place/components/SortSelectBox'
 import Navigation from '@/components/layout/Navigation'
 import PlaceCalendar from '@/assets/place-calendar.svg'
+import RestaurantCard from '@/app/(header-layout)/place/components/RestaurantCard'
+import RestaurantWideCard from '@/app/(header-layout)/place/components/RestaurantWideCard'
+import { restaurantList } from '../mock/restaurant'
 
 export default function RestaurantContents() {
   // const initialActiveBubble = PLACE_BUBBLE_TAB_LIST[1].value
@@ -31,7 +34,7 @@ export default function RestaurantContents() {
       {/* header section */}
       <section className="full-width sticky top-9 z-1 flex h-12 items-center justify-between border-b bg-white px-4">
         <p className="font-body4 text-gray-500">
-          <b>522개</b>의 매장
+          <b>{restaurantList?.length ?? 0}개</b>의 매장
         </p>
         <SortSelectBox sortOptions={sortOptions} active={selectedSort} onChange={onSelectSort} />
       </section>
@@ -47,7 +50,7 @@ export default function RestaurantContents() {
       {/* map content */}
       <section
         className={clsx(
-          'full-width absolute top-21 h-[calc(100dvh-12.5rem)] bg-blue-200',
+          'full-width absolute top-21 h-[calc(100dvh-12.5rem)] bg-blue-200 duration-400',
           showMap ? 'visible opacity-100' : 'invisible opacity-0',
         )}
       >
@@ -71,13 +74,11 @@ export default function RestaurantContents() {
               <div className="position-centered-x absolute top-4 h-2 w-20 rounded-sm bg-gray-200" />
             </button>
           )}
-          {`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-          been the industry's standard dummy text ever since the 1500s, when an unknown printer
-          took a galley of type and scrambled it to make a type specimen book. It has survived not
-          only five centuries, but also the leap into electronic typesetting, remaining essentially
-          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
-          PageMaker including versions of Lorem Ipsum.`.repeat(3)}
+          {selectedSort !== 'latest' ? (
+            <RestaurantCard restaurantList={restaurantList} />
+          ) : (
+            <RestaurantWideCard restaurantList={restaurantList} />
+          )}
         </section>
       </div>
 
