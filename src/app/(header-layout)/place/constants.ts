@@ -1,3 +1,10 @@
+// styles
+export const HEADER_MARGIN_TOP = '23'
+export const MAP_HEIGHT_CALC = '[calc(100dvh-12.5rem)]'
+export const CONTENT_TRANSLATE_Y = 'translate-y-[calc(100vh-8rem)]'
+export const SHOW_MAP_BTN_BOTTOM = '25'
+
+// tab list
 export const PLACE_DEFAULT_TAB_LIST = [
   {
     label: '맛집',
