@@ -64,4 +64,30 @@ export const restaurantList = [
     menus: ['파스타', '리조또', '피자'],
     liked: false,
   },
+  {
+    id: 6,
+    name: '포옹남 당산점',
+    imageUrl:
+      'https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNTA1MjZfMTYg%2FMDAxNzQ4MjMyODAyNzg2.40Fj6GJoOUVItGFPZ3Nfq0nqFCeJllI3VfihLglrgecg.a8L9S1mq38lFxZ1c0g51c52srWzW-zhKhQTLVYTfZWkg.JPEG%2F20250526_121724.jpg.jpg%3Ftype%3Dw1500_60_sharpen',
+    category: '아시아식・당산',
+    distance: '200',
+    averagePrice: '10500',
+    likes: 14,
+    popular: true,
+    menus: ['쌀국수', '껌승', '짜조'],
+    liked: true,
+  },
+  {
+    id: 7,
+    name: '양산도 당산점',
+    imageUrl:
+      'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220301_113%2F1646122518661QDjX8_JPEG%2F12.JPG',
+    category: '일식・당산',
+    distance: '80',
+    averagePrice: '25000',
+    likes: 2,
+    popular: false,
+    menus: ['히츠마부시', '부타동', '사케동'],
+    liked: false,
+  },
 ]
