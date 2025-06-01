@@ -7,10 +7,6 @@ import { useSingleSelect } from '@/components/tabs/BubbleTab/useSingleSelect'
 import {
   // PLACE_BUBBLE_TAB_LIST,
   PLACE_SORT_DROPDOWN_LIST,
-  HEADER_MARGIN_TOP,
-  MAP_HEIGHT_CALC,
-  CONTENT_TRANSLATE_Y,
-  SHOW_MAP_BTN_BOTTOM,
 } from '@/app/(header-layout)/place/constants'
 import SortSelectBox, { SortItem } from '@/app/(header-layout)/place/components/SortSelectBox'
 import Navigation from '@/components/layout/Navigation'
@@ -31,11 +27,9 @@ export default function RestaurantContents() {
   const [showMap, setShowMap] = useState(false)
 
   return (
-    <div className="relative">
+    <div className="nav-pd relative pt-9">
       {/* header section */}
-      <section
-        className={`full-width fixed top-0 z-1 mt-${HEADER_MARGIN_TOP} flex h-12 items-center justify-between border-b bg-white px-4`}
-      >
+      <section className="full-width sticky top-9 z-1 flex h-12 items-center justify-between border-b bg-white px-4">
         <p className="font-body4 text-gray-500">
           <b>522개</b>의 매장
         </p>
@@ -51,20 +45,20 @@ export default function RestaurantContents() {
       /> */}
 
       {/* map content */}
-      {/* <section className={`full-width absolute top-21 h-${MAP_HEIGHT_CALC} bg-blue-200`}> */}
       <section
         className={clsx(
-          `full-width absolute top-21 h-${MAP_HEIGHT_CALC} bg-blue-200`,
+          'full-width absolute top-21 h-[calc(100dvh-12.5rem)] bg-blue-200',
           showMap ? 'visible opacity-100' : 'invisible opacity-0',
         )}
       >
         TODO: Kakao Map
       </section>
+
       {/* content section */}
       <div
         className={clsx(
           'full-width h-full transition-transform duration-400',
-          showMap ? `nav-shadow z-1 ${CONTENT_TRANSLATE_Y}` : 'mt-21 translate-y-0',
+          showMap ? 'nav-shadow z-1 translate-y-[calc(100vh-13rem)]' : 'translate-y-0',
         )}
       >
         <section className="h-full overflow-y-auto">
@@ -77,7 +71,6 @@ export default function RestaurantContents() {
               <div className="position-centered-x absolute top-4 h-2 w-20 rounded-sm bg-gray-200" />
             </button>
           )}
-          {/* TODO: restaurant card list */}
           {`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
           been the industry's standard dummy text ever since the 1500s, when an unknown printer
           took a galley of type and scrambled it to make a type specimen book. It has survived not
@@ -89,12 +82,12 @@ export default function RestaurantContents() {
       </div>
 
       {/* footer section */}
-      <div>
+      <div className="bg-blue-500">
         {!showMap && (
           <>
             <button
               type="button"
-              className={`flex-row-center position-centered-x fixed bottom-${SHOW_MAP_BTN_BOTTOM} rounded-3xl bg-black px-4 py-3 text-white`}
+              className={`flex-row-center position-centered-x fixed bottom-25 z-1 rounded-3xl bg-black px-4 py-3 text-white`}
               onClick={() => setShowMap(true)}
             >
               <span>지도 보기</span>

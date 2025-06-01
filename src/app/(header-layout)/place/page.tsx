@@ -4,10 +4,8 @@ import PlaceContent from '@/app/(header-layout)/place/components/PlaceContent'
 
 export default function Place() {
   return (
-    <section className="h-full">
-      <Suspense fallback={<LoadingSpinner />}>
-        <PlaceContent />
-      </Suspense>
-    </section>
+    <Suspense fallback={<LoadingSpinner />}>
+      <PlaceContent />
+    </Suspense>
   )
 }
