@@ -15,7 +15,10 @@ interface DefaultTabProps {
 
 export default function DefaultTab({ tabs, active, onChange }: DefaultTabProps) {
   return (
-    <nav aria-label="페이지 분류 탭" className="border-b border-gray-100 px-4">
+    <nav
+      aria-label="페이지 분류 탭"
+      className="position-centered-x full-width fixed top-14 z-1 border-b border-gray-100 bg-white px-4"
+    >
       <ul role="tablist" className="flex">
         {tabs.map(({ label, value }) => (
           <li key={value} className="flex-row-center h-9 w-15">

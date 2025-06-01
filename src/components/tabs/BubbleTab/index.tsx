@@ -11,9 +11,10 @@ interface BubbleTabProps {
   bubbles: BubbleItem[]
   active: string
   onChange: (value: string) => void
+  propsClass?: string
 }
 
-export default function BubbleTab({ bubbles, active, onChange }: BubbleTabProps) {
+export default function BubbleTab({ bubbles, active, onChange, propsClass }: BubbleTabProps) {
   return (
     <section>
       <ul className="flex items-center gap-2 border-b-4 border-gray-50 px-4 py-3">
@@ -26,6 +27,7 @@ export default function BubbleTab({ bubbles, active, onChange }: BubbleTabProps)
               className={clsx(
                 'font-body4 rounded-3xl border px-4 py-2',
                 value === active ? 'border-purple-500 bg-purple-500 text-white' : 'border-gray-200',
+                propsClass,
               )}
               onClick={() => onChange(value)}
             >
