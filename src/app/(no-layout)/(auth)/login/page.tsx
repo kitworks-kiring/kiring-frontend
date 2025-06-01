@@ -4,6 +4,8 @@ import { LOGIN_ERROR_MESSAGES } from '@/app/(no-layout)/(auth)/login/constants'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
+import LoginLogo from '@/assets/login-logo.svg'
+import IcoKakao from '@/assets/ico-kakao.svg'
 
 export default function LoginPage() {
   const { status } = useSession()
@@ -19,20 +21,31 @@ export default function LoginPage() {
   }, [status, router])
 
   useEffect(() => {
+    if (!error || error === 'callback') return // 에러가 없거나 콜백 에러는 무시
     if (error) {
       // 에러 메시지
-      alert(showLoginErrorMessage(error))
+      showLoginErrorMessage(error)
 
       // 메시지 확인 후 ?error= 파라미터 제거
       removeErrorParam()
     }
   }, [error])
 
-  const showLoginErrorMessage = (type?: string): string => {
-    return (
-      LOGIN_ERROR_MESSAGES.find((err) => err.type === type)?.message ??
-      LOGIN_ERROR_MESSAGES.find((err) => err.type === 'Default')!.message
-    )
+  const showLoginErrorMessage = (type?: string): void => {
+    const errorItem =
+      LOGIN_ERROR_MESSAGES.find((err) => err.type === type) ??
+      LOGIN_ERROR_MESSAGES.find((err) => err.type === 'Default')!
+
+    const { message, confirmable } = errorItem
+
+    if (confirmable) {
+      const shouldRetry = confirm(message)
+      if (shouldRetry) {
+        signIn('kakao', { callbackUrl: '/', prompt: 'login' })
+      }
+    } else {
+      alert(message)
+    }
   }
 
   const removeErrorParam = () => {
@@ -46,20 +59,34 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center">
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
-          <h2 className="mt-6 text-3xl font-bold tracking-tight">로그인</h2>
+    <div className="flex h-full w-full flex-col items-center justify-between bg-gradient-to-b from-purple-300 to-purple-600 px-4 py-10 text-white">
+      <div className="mt-25 flex w-full max-w-md flex-col items-start">
+        {/* 로고 */}
+        <div className="mb-6 text-6xl font-bold tracking-tight">
+          <LoginLogo />
         </div>
 
-        <div className="mt-8 space-y-4">
-          <button
-            onClick={handleKakaoLogin}
-            className="group relative flex w-full justify-center rounded-md bg-[#FEE500] px-3 py-2 text-sm font-semibold text-black hover:bg-[#FDD835] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FEE500]"
-          >
-            카카오로 로그인
-          </button>
+        {/* 슬로건 */}
+        <div className="head3 mb-5">회사생활의 연결고리, 키링</div>
+        <div className="body2 text-white/90">
+          맛집부터 커뮤니티, 팀 일정 관리까지
+          <br />
+          회사생활에 필요한 모든 서비스를 한번에
         </div>
+      </div>
+
+      {/* 로그인 버튼 */}
+      <div className="body2 w-full space-y-6">
+        <button
+          onClick={handleKakaoLogin}
+          className="bg-sns-kakao flex-row-center w-full gap-3 rounded-xl px-4 py-4 text-black"
+        >
+          <IcoKakao /> 카카오로 시작하기
+        </button>
+
+        <button onClick={() => router.push('/')} className="w-full text-white/90 underline">
+          로그인 없이 이용하기
+        </button>
       </div>
     </div>
   )
