@@ -45,13 +45,18 @@ const handler = NextAuth({
       try {
         const kakaoProfile = profile as KakaoProfile
         const kakaoId = kakaoProfile.id
-        const phoneNumber = formatPhoneNumber(kakaoProfile.kakao_account?.phone_number || '')
-        console.log('🚀 ~ signIn ~ phoneNumber:', phoneNumber)
-        console.log('🚀 ~ signIn ~ kakaoProfile:', kakaoId)
+        // const phoneNumber = formatPhoneNumber(kakaoProfile.kakao_account?.phone_number || '') // 전화번호 포맷팅 (필요시)
 
         const res = await fetch(`http://13.124.210.210/members/${kakaoId}`)
         if (res.status === 200) {
           return true // 로그인 허용
+        }
+
+        // 🧪 테스트 계정 허용
+        const testKakaoId = Number(process.env.TEST_KAKAO_ID) // 테스트용 카카오 ID
+        const testPhone = formatPhoneNumber(process.env.TEST_KAKAO_PHONE || '') // 테스트용 전화번호
+        if (kakaoId === testKakaoId && testPhone) {
+          return true
         }
 
         // 회원이 아니면 로그인 페이지로 리다이렉트 + 쿼리스트링 전달
