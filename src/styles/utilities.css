@@ -1,0 +1,19 @@
+.flex-row-center {
+  @apply flex flex-row items-center justify-center;
+}
+
+.flex-col-center {
+  @apply flex flex-col items-center justify-center;
+}
+
+.default-layout {
+  @apply min-h-0 grow overflow-y-auto;
+}
+
+.header-pd {
+  @apply pt-14;
+}
+
+.nav-pd {
+  @apply pb-18;
+}
