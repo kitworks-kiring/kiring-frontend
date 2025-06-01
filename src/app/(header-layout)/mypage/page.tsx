@@ -1,29 +1,26 @@
-'use client';
+'use client'
 
-import { signOut, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export default function MyPage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const { data: session, status } = useSession()
+  const router = useRouter()
 
   useEffect(() => {
+    // 비로그인 상태 로그인 페이지 리다이렉트
     if (status === 'unauthenticated') {
-      router.push('/login');
+      router.push('/login')
     }
-  }, [status, router]);
+  }, [status, router])
 
   const handleLogout = () => {
-    signOut({ callbackUrl: '/login' });
-  };
-
-  if (status === 'loading') {
-    return <div>Loading...</div>;
+    signOut({ callbackUrl: '/login' })
   }
 
   if (!session) {
-    return null;
+    return null
   }
 
   return (
@@ -37,9 +34,7 @@ export default function MyPage() {
               className="mx-auto h-24 w-24 rounded-full"
             />
           )}
-          <h2 className="mt-4 text-2xl font-bold">
-            {session.user?.name || '사용자'}
-          </h2>
+          <h2 className="mt-4 text-2xl font-bold">{session.user?.name || '사용자'}</h2>
         </div>
 
         <div className="space-y-4">
@@ -52,5 +47,5 @@ export default function MyPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

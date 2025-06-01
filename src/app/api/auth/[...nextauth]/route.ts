@@ -1,68 +1,87 @@
-import NextAuth from 'next-auth';
-import KakaoProvider from 'next-auth/providers/kakao'; // 카카오 OAuth 제공자
-
+import NextAuth from 'next-auth'
+import KakaoProvider from 'next-auth/providers/kakao' // 카카오 OAuth 제공자
 
 interface KakaoProfile {
-  id: string;
+  id: number // 카카오 고유 유저 ID
   kakao_account?: {
     profile?: {
-      nickname: string;
-      profile_image_url: string;
-    };
-  };
+      nickname: string
+      profile_image_url: string
+    }
+  }
+}
+
+const formatPhoneNumber = (raw: string) => {
+  return raw
+    .replace('+82', '0') // 국가번호 제거 → +82 → 0
+    .replace(/[-\s]/g, '') // 하이픈, 공백 제거
 }
 
 const handler = NextAuth({
   providers: [
-    //사용할 로그인 제공자(provider) 설정
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID!, // 카카오 REST API 키
       clientSecret: process.env.KAKAO_CLIENT_SECRET || '',
       authorization: {
-    params: {
-      prompt: 'login',
-    },
-  },
+        params: {
+          // prompt: 'login', // 자동 로그인
+          prompt: 'login consent', // 로그인 동의 화면 표시
+        },
+      },
     }),
   ],
   session: {
     strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 30 * 24 * 60 * 60, // 30 일
   },
   pages: {
     signIn: '/login',
-    error: '/login', // 에러 발생시 로그인 페이지로 리다이렉트
+    error: '/login',
   },
-   // 로그인 성공 후 호출되는 콜백 함수
+  // 로그인 성공 후 호출되는 콜백 함수
   callbacks: {
-    async signIn({ user, account, profile }) {
-      console.log("🚀 ~ signIn ~ user:", user)
-      console.log("🚀 ~ signIn ~ account:", account)
-      console.log("🚀 ~ signIn ~ profile:", profile)
-      return true
+    async signIn({ profile }) {
+      // 로그인 허용 여부 판단 (백엔드 검증)
+      try {
+        const kakaoProfile = profile as KakaoProfile
+        const kakaoId = kakaoProfile.id
+        const phoneNumber = formatPhoneNumber(kakaoProfile.kakao_account?.phone_number || '')
+        console.log('🚀 ~ signIn ~ phoneNumber:', phoneNumber)
+        console.log('🚀 ~ signIn ~ kakaoProfile:', kakaoId)
+
+        const res = await fetch(`http://13.124.210.210/members/${kakaoId}`)
+        if (res.status === 200) {
+          return true // 로그인 허용
+        }
+
+        // 회원이 아니면 로그인 페이지로 리다이렉트 + 쿼리스트링 전달
+        return `/login?error=AUTH_ERROR_${res.status}`
+      } catch (error) {
+        return `/login?error=${(error as Error).message}`
+      }
     },
     async jwt({ token, account, profile }) {
-      // 로그인 후 토큰에 사용자 정보 저장
+      // 로그인 후 사용자 정보 JWT 토큰 저장
       if (account && profile) {
-        const kakaoProfile = profile as KakaoProfile;
-        token.id = kakaoProfile.id; // 카카오 고유 유저 ID
-        token.name = kakaoProfile.kakao_account?.profile?.nickname; // 닉네임
-        token.picture = kakaoProfile.kakao_account?.profile?.profile_image_url; // 프로필 이미지
+        const kakaoProfile = profile as KakaoProfile
+        token.id = kakaoProfile.id // 카카오 고유 유저 ID
+        token.name = kakaoProfile.kakao_account?.profile?.nickname // 닉네임
+        token.picture = kakaoProfile.kakao_account?.profile?.profile_image_url // 프로필 이미지
       }
-      return token;
+      return token
     },
     async session({ session, token }) {
-      // 세션 객체에 토큰 정보 전달
+      // 클라이언트에 전달할 세션 정보 구성
       if (session.user) {
-        session.user.id = token.id;
-        session.user.name = token.name;
-        session.user.image = token.picture;
+        session.user.id = token.id
+        session.user.name = token.name
+        session.user.image = token.picture
       }
-      console.log('NODE_ENV:', process.env.NODE_ENV)
-      return session;
+      // 세션에 JWT 토큰 정보 추가
+      return session
     },
   },
   debug: process.env.NODE_ENV === 'development', // 개발 환경에서만 디버그 모드 활성화
-});
+})
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }
