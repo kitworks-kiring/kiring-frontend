@@ -9,7 +9,7 @@ import Navigation from '@/components/layout/Navigation'
 import { restaurantList } from '@/app/(header-layout)/place/mock/restaurant'
 import PlaceCalendar from '@/assets/place-calendar.svg'
 
-export default function TestContents() {
+export default function RestaurantContents() {
   const initialActiveSort = PLACE_SORT_DROPDOWN_LIST[0].value
   const { selected: selectedSort, onSelect: onSelectSort } = useSingleSelect(initialActiveSort)
   const sortOptions: SortItem[] = PLACE_SORT_DROPDOWN_LIST.map(({ label, value }) => ({
