@@ -1,4 +1,4 @@
-import LikeButton from '@/assets/like-button.svg'
+import LikedButton from '@/assets/liked-button.svg'
 import Like from '@/assets/like.svg'
 
 import Image from 'next/image'
@@ -20,7 +20,7 @@ export default function PlaceCard({ index }: PlaceCardProps) {
       <div>
         <div className="flex items-center justify-between">
           <span className="body2 text-basic-black">해주반</span>
-          <LikeButton />
+          <LikedButton />
         </div>
         <div className="flex items-center gap-1">
           <div className="flex items-center gap-[2px]">

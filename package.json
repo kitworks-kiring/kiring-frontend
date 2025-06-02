@@ -10,6 +10,7 @@
     "build:tokens": "node config/design-token.config.mjs"
   },
   "dependencies": {
+    "@auth/core": "^0.34.2",
     "@svgr/webpack": "^8.1.0",
     "@prisma/client": "^6.8.2",
     "@tanstack/react-query": "^5.74.4",
@@ -18,6 +19,7 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.503.0",
     "next": "15.3.1",
+    "next-auth": "^4.24.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.2.0",
