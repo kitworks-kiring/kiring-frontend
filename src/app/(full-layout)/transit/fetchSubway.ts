@@ -23,7 +23,7 @@ export default async function fetchSubway() {
       const res = await response.json()
 
       // 호출 횟수 초과 에러 발생 시
-      if (res.message && res.message.includes(ERROR_MESSAGE)) {
+      if (res.message?.includes(ERROR_MESSAGE)) {
         console.log(`API_KEY_${i}: 호출 횟수 초과`)
         lastError = new Error(res.message)
         continue // 다음 키로 시도
