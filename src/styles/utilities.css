@@ -1,13 +1,9 @@
-.flex-row-center {
-  @apply flex flex-row items-center justify-center;
-}
-
-.flex-col-center {
-  @apply flex flex-col items-center justify-center;
+.full-width {
+  @apply w-full max-w-110 min-w-80;
 }
 
 .default-layout {
-  @apply min-h-0 grow overflow-y-auto;
+  @apply relative min-h-0 max-w-110 grow overflow-y-auto;
 }
 
 .header-pd {
@@ -16,4 +12,21 @@
 
 .nav-pd {
   @apply pb-18;
+}
+
+.nav-shadow {
+  @apply rounded-t-xl bg-white shadow-[0_-1px_5px_0_rgba(0,0,0,0.1)];
+}
+
+.flex-row-center {
+  @apply flex flex-row items-center justify-center;
+}
+
+.flex-col-center {
+  @apply flex flex-col items-center justify-center;
+}
+
+.position-centered-x {
+  /* top 위치는 각 페이지에서 개별적으로 지정 */
+  @apply left-1/2 -translate-x-1/2 transform;
 }

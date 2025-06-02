@@ -12,9 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko" className="h-dvh">
       <body className="h-dvh overflow-hidden bg-gray-100">
         <Providers>
-          <div className="mx-auto flex h-full w-full max-w-110 min-w-80 flex-col bg-white">
-            {children}
-          </div>
+          <div className="full-width mx-auto flex h-full flex-col bg-white">{children}</div>
         </Providers>
       </body>
     </html>

@@ -9,10 +9,7 @@ export default function Navigation() {
   const router = useRouter()
 
   return (
-    <nav
-      aria-label="메인 네비게이션"
-      className="fixed bottom-0 h-18 w-full max-w-110 rounded-t-[12px] bg-white px-6 shadow-[0_-1px_5px_0_rgba(0,0,0,0.1)]"
-    >
+    <nav aria-label="메인 네비게이션" className="nav-shadow full-width fixed bottom-0 h-18 px-6">
       <div className="flex h-full w-full justify-between">
         {NAV_BUTTONS.map(({ title, icon: Icon, endpoint }) => {
           // 홈('/')의 경우 정확히 일치할 때만 활성화

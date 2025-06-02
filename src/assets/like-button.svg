@@ -1,28 +1,20 @@
 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<circle cx="10" cy="10" r="9.5" stroke="#DDDDDD"/>
-<mask id="mask0_560_586" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="3" y="4" width="14" height="14">
-<rect x="3" y="4" width="14" height="14" fill="url(#pattern0_560_586)"/>
+<circle cx="10" cy="10" r="10" fill="#DDDDDD"/>
+<mask id="mask0_753_781" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="3" y="4" width="14" height="14">
+<rect x="3" y="4" width="14" height="14" fill="url(#pattern0_753_781)"/>
 </mask>
-<g mask="url(#mask0_560_586)">
+<g mask="url(#mask0_753_781)">
 </g>
-<g clip-path="url(#clip0_560_586)">
-<mask id="mask1_560_586" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="3" y="4" width="14" height="14">
-<rect x="3" y="4" width="14" height="14" fill="url(#pattern1_560_586)"/>
-</mask>
-<g mask="url(#mask1_560_586)">
-<path d="M3 4H17V18H3V4Z" fill="#6C3EF1"/>
-</g>
+<g clip-path="url(#clip0_753_781)">
+<path d="M12.6245 6.25C14.1449 6.25 15.3333 7.43764 15.3335 8.95801C15.3335 9.89625 14.9154 10.7867 14.0786 11.8105C13.2361 12.8413 12.0221 13.9454 10.5103 15.3193L10.0005 15.7783L9.49072 15.3145L9.48975 15.3135L8.4126 14.333C7.39355 13.3961 6.5523 12.5821 5.92041 11.8096C5.08388 10.7867 4.6665 9.89614 4.6665 8.95801C4.66667 7.43775 5.85425 6.25017 7.37451 6.25C8.23812 6.25 9.07559 6.6541 9.61963 7.29297L9.99951 7.74023L10.3804 7.29297C10.9243 6.65426 11.7611 6.2501 12.6245 6.25Z" stroke="white"/>
 </g>
 <defs>
-<pattern id="pattern0_560_586" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_560_586" transform="scale(0.02)"/>
+<pattern id="pattern0_753_781" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_753_781" transform="scale(0.02)"/>
 </pattern>
-<pattern id="pattern1_560_586" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_560_586" transform="scale(0.02)"/>
-</pattern>
-<clipPath id="clip0_560_586">
+<clipPath id="clip0_753_781">
 <rect width="14" height="14" fill="white" transform="translate(3 4)"/>
 </clipPath>
-<image id="image0_560_586" width="50" height="50" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAABs0lEQVR4nO2Yu0oDQRhGjzdU4hVE0dIXELSzsbTwARS11VYhgpaCIghiqyBYCHZWIngBLyjaJKCIzxDwgsFCiQYyMvALKQJZM7ObSZgDH4TdnX/nMNnZnQGPx+PxeDwl0QMsARdACsgCaSAJbAKDAWoMybVJaZuVWufAItBNiDQAa8AXoIrkGOgvUEMfOwnQ/hNYBeptS7QDNwE6kJ8PYCqvxrQc+0+Na6DN5kic/bMDf8kBcWChxPYKOLU1MnGDTtjKvKmEHtY3B0RegVYTkUkHJJRk3ERk3wEBJdkzEXlyQEBJHk1EXhwQUJJnE5EfBwSU5NtExIUZS0n0v6NkquYZ2XVAQEl2quU9MmEi0gy8OyCRlr4YseKAyDIWaJVFT7kkUkALlhiVT/KoJXLAGJbZKIPIOiFQBxxFKHEo9wwFPXNcRSBxC8QIGb3YSoQo8QB0EBGdwF0IEgmgi4iJGWxKFMql6XLWhEbgwNKD3USZ0Vs12wYSW2FsxJkwK4ufoAL62hkcZTjg54xeJI3gOH1FJgF9rpcKoQaYAzJ5AhnZaa+lAhkA7iX6t8fj8Xg8HkLkF7MMMiFgEn0nAAAAAElFTkSuQmCC"/>
+<image id="image0_753_781" width="50" height="50" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAABs0lEQVR4nO2Yu0oDQRhGjzdU4hVE0dIXELSzsbTwARS11VYhgpaCIghiqyBYCHZWIngBLyjaJKCIzxDwgsFCiQYyMvALKQJZM7ObSZgDH4TdnX/nMNnZnQGPx+PxeDwl0QMsARdACsgCaSAJbAKDAWoMybVJaZuVWufAItBNiDQAa8AXoIrkGOgvUEMfOwnQ/hNYBeptS7QDNwE6kJ8PYCqvxrQc+0+Na6DN5kic/bMDf8kBcWChxPYKOLU1MnGDTtjKvKmEHtY3B0RegVYTkUkHJJRk3ERk3wEBJdkzEXlyQEBJHk1EXhwQUJJnE5EfBwSU5NtExIUZS0n0v6NkquYZ2XVAQEl2quU9MmEi0gy8OyCRlr4YseKAyDIWaJVFT7kkUkALlhiVT/KoJXLAGJbZKIPIOiFQBxxFKHEo9wwFPXNcRSBxC8QIGb3YSoQo8QB0EBGdwF0IEgmgi4iJGWxKFMql6XLWhEbgwNKD3USZ0Vs12wYSW2FsxJkwK4ufoAL62hkcZTjg54xeJI3gOH1FJgF9rpcKoQaYAzJ5AhnZaa+lAhkA7iX6t8fj8Xg8HkLkF7MMMiFgEn0nAAAAAElFTkSuQmCC"/>
 </defs>
 </svg>
