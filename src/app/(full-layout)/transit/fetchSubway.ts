@@ -3,10 +3,17 @@ import { SubwayArrivalType } from '@/app/(full-layout)/transit/types/subwayType'
 export default async function fetchSubway() {
   try {
     const response = await fetch('/api/subway')
+
+    if (!response.ok) {
+      const errorData = await response.json()
+      console.error('API 오류:', errorData)
+      return null
+    }
+
     const res = await response.json()
 
-    if (res.error) {
-      console.error(res.error)
+    if (!res.realtimeArrivalList) {
+      console.error('응답 형식이 올바르지 않습니다:', res)
       return null
     }
 
@@ -18,6 +25,11 @@ export default async function fetchSubway() {
     const subwayNum9: SubwayArrivalType[] = realtimeArrivalList.filter(
       (item: SubwayArrivalType) => item.subwayId === '1009',
     )
+
+    if (subwayNum2.length === 0 && subwayNum9.length === 0) {
+      console.error('2호선과 9호선의 지하철 정보가 없습니다')
+      return null
+    }
 
     /**
      * 방면별로 묶고, 각 방면에서 도착이 빠른 2개만 추출
@@ -75,7 +87,7 @@ export default async function fetchSubway() {
     // 2호선, 9호선, 데이터 생성 시각 반환
     return { groupedNum2, groupedNum9, receptnDt: realtimeArrivalList[0].recptnDt }
   } catch (error) {
-    console.error(error)
+    console.error('지하철 정보를 가져오는데 실패했습니다:', error)
     return null
   }
 }
