@@ -1,8 +1,12 @@
 import React from 'react'
 import clsx from 'clsx'
 
-export default function RealtimeHeader() {
-  const isLive = true
+interface RealtimeHeaderProps {
+  isLive: boolean
+  onToggle: (isLive: boolean) => void
+}
+
+export default function RealtimeHeader({ isLive, onToggle }: RealtimeHeaderProps) {
   return (
     <div className="mt-2 flex w-fit items-center justify-between rounded-full border border-gray-200">
       <button

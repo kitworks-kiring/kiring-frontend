@@ -14,7 +14,8 @@ import { SubwayDataType } from '@/app/(full-layout)/transit/types/subwayType'
 
 export default function SubwayContents() {
   const initialActiveTab = 'all'
-
+  const [isLive2, setIsLive2] = useState(true)
+  const [isLive9, setIsLive9] = useState(true)
   const [subwayData, setSubwayData] = useState<SubwayDataType | null>(null)
   const { selected, onSelect } = useSingleSelect(initialActiveTab)
 
@@ -50,7 +51,7 @@ export default function SubwayContents() {
             {selected !== '9' && (
               <div className="flex flex-col gap-3">
                 <GroupHeader number={2} />
-                <RealtimeHeader />
+                <RealtimeHeader isLive={isLive2} onToggle={setIsLive2} />
                 <DirectionGrid grouped={groupedNum2} />
               </div>
             )}
@@ -58,7 +59,7 @@ export default function SubwayContents() {
             {selected !== '2' && (
               <div className="flex flex-col gap-3">
                 <GroupHeader number={9} />
-                <RealtimeHeader />
+                <RealtimeHeader isLive={isLive9} onToggle={setIsLive9} />
                 <DirectionGrid grouped={groupedNum9} />
               </div>
             )}
