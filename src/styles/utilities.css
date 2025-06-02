@@ -30,3 +30,18 @@
   /* top 위치는 각 페이지에서 개별적으로 지정 */
   @apply left-1/2 -translate-x-1/2 transform;
 }
+
+.line-2-bg {
+  @apply bg-[#3CB44A];
+}
+
+.line-9-bg {
+  @apply bg-[#D1A62C];
+}
+.line-2-border {
+  @apply border-[#3CB44A];
+}
+
+.line-9-border {
+  @apply border-[#D1A62C];
+}
