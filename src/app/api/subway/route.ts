@@ -2,11 +2,11 @@ import { NextResponse } from 'next/server'
 
 const ERROR_MESSAGE = '일일 호출건수'
 const API_KEYS = [
-  process.env.NEXT_PUBLIC_SUBWAY_API_KEY_0,
-  process.env.NEXT_PUBLIC_SUBWAY_API_KEY_1,
-  process.env.NEXT_PUBLIC_SUBWAY_API_KEY_2,
-  process.env.NEXT_PUBLIC_SUBWAY_API_KEY_3,
-  process.env.NEXT_PUBLIC_SUBWAY_API_KEY_4,
+  process.env.SUBWAY_API_KEY_0,
+  process.env.SUBWAY_API_KEY_1,
+  process.env.SUBWAY_API_KEY_2,
+  process.env.SUBWAY_API_KEY_3,
+  process.env.SUBWAY_API_KEY_4,
 ]
 
 export async function GET() {
