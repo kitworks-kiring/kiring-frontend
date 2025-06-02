@@ -9,9 +9,7 @@ export default function MyPage() {
   const router = useRouter()
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/login')
-    }
+    if (status === 'unauthenticated') router.push('/login')
   }, [status, router])
 
   const handleLogout = () => {
@@ -44,6 +42,7 @@ export default function MyPage() {
 
         <div className="space-y-4">
           <button
+            type="button"
             onClick={handleLogout}
             className="bg-system-red body2 w-full rounded-md px-4 py-3 text-white"
           >

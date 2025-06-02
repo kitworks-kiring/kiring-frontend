@@ -21,7 +21,7 @@ const handler = NextAuth({
   providers: [
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID!, // 카카오 REST API 키
-      clientSecret: process.env.KAKAO_CLIENT_SECRET || '',
+      clientSecret: process.env.KAKAO_CLIENT_SECRET!, // 카카오 클라이언트 시크릿
       authorization: {
         params: {
           // prompt: 'login', // 자동 로그인
@@ -47,7 +47,7 @@ const handler = NextAuth({
         const kakaoId = kakaoProfile.id
         // const phoneNumber = formatPhoneNumber(kakaoProfile.kakao_account?.phone_number || '') // 전화번호 포맷팅 (필요시)
 
-        const res = await fetch(`http://13.124.210.210/members/${kakaoId}`)
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/members/${kakaoId}`)
         if (res.status === 200) {
           return true // 로그인 허용
         }

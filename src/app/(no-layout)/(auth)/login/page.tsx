@@ -22,13 +22,11 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!error || error === 'callback') return // 에러가 없거나 콜백 에러는 무시
-    if (error) {
-      // 에러 메시지
-      showLoginErrorMessage(error)
+    // 에러 메시지
+    showLoginErrorMessage(error)
 
-      // 메시지 확인 후 ?error= 파라미터 제거
-      removeErrorParam()
-    }
+    // 메시지 확인 후 ?error= 파라미터 제거
+    removeErrorParam()
   }, [error])
 
   const showLoginErrorMessage = (type?: string): void => {
@@ -43,9 +41,9 @@ export default function LoginPage() {
       if (shouldRetry) {
         signIn('kakao', { callbackUrl: '/', prompt: 'login' })
       }
-    } else {
-      alert(message)
+      return
     }
+    alert(message)
   }
 
   const removeErrorParam = () => {

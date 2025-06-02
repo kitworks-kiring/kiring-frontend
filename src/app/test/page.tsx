@@ -9,7 +9,7 @@ export default function HealthCheckPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('http://13.124.210.210/health')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/health`)
       .then((res) => {
         setStatus(res.status)
         return res.text()
