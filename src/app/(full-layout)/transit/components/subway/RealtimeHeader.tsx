@@ -6,6 +6,9 @@ export default function RealtimeHeader() {
   return (
     <div className="mt-2 flex w-fit items-center justify-between rounded-full border border-gray-200">
       <button
+        onClick={() => onToggle?.(true)}
+        aria-pressed={isLive}
+        aria-label="실시간 정보 보기"
         className={clsx(
           `body4 scale-[1.03] rounded-full px-3 py-2`,
           isLive && 'border border-purple-500 text-purple-500',
@@ -14,6 +17,9 @@ export default function RealtimeHeader() {
         실시간
       </button>
       <button
+        onClick={() => onToggle?.(false)}
+        aria-pressed={!isLive}
+        aria-label="시간표 보기"
         className={clsx(
           `body4 scale-[1.03] rounded-full px-3 py-2`,
           !isLive && 'border border-purple-500 text-purple-500',
