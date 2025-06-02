@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import clsx from 'clsx'
 
 export interface SortItem {
@@ -16,15 +16,33 @@ interface SortSelectBoxProps {
 
 export default function SortSelectBox({ sortOptions, active, onChange }: SortSelectBoxProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const currentActive = sortOptions.find((option) => option.value === active)
 
+  const currentActive = sortOptions.find((option) => option.value === active) ?? sortOptions[0]
+
+  const sortContainerRef = useRef<HTMLDivElement>(null)
+
+  // dropdown 외부 클릭 시 닫기
+  const onClickContainerOutside = useCallback((e: MouseEvent) => {
+    const target = e.target as Node
+    if (sortContainerRef.current && !sortContainerRef.current.contains(target)) {
+      setIsOpen(false)
+    }
+  }, [])
+
+  // 정렬 옵션 클릭 시
   const onSortClick = (value: string) => {
     onChange(value)
     setIsOpen(false)
   }
 
+  useEffect(() => {
+    if (!isOpen) return
+    document.addEventListener('mousedown', onClickContainerOutside)
+    return () => document.removeEventListener('mousedown', onClickContainerOutside)
+  }, [isOpen, onClickContainerOutside])
+
   return (
-    <div className="relative w-18 text-sm">
+    <div ref={sortContainerRef} className="relative w-18 text-sm">
       <label id="sortbox-label" className="sr-only">
         리스트 정렬 기준
       </label>
