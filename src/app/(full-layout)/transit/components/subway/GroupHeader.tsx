@@ -1,15 +1,5 @@
 import clsx from 'clsx'
-
-const groupHeader = {
-  2: {
-    from: '영등포구청',
-    to: '당산',
-  },
-  9: {
-    from: '선유도',
-    to: '당산',
-  },
-} as const
+import { SUBWAY_GROUP_HEADER } from '@/app/(full-layout)/transit/constants'
 
 export default function GroupHeader({ number }: { number: number }) {
   return (
@@ -21,11 +11,15 @@ export default function GroupHeader({ number }: { number: number }) {
     >
       <div className="flex items-center gap-2">
         <div>{'<'}</div>
-        <span className="body3">{groupHeader[number as keyof typeof groupHeader].from}</span>
+        <span className="body3">
+          {SUBWAY_GROUP_HEADER[number as keyof typeof SUBWAY_GROUP_HEADER].from}
+        </span>
       </div>
 
       <div className="flex items-center gap-2">
-        <span className="body3">{groupHeader[number as keyof typeof groupHeader].to}</span>
+        <span className="body3">
+          {SUBWAY_GROUP_HEADER[number as keyof typeof SUBWAY_GROUP_HEADER].to}
+        </span>
         <div>{'>'}</div>
       </div>
 

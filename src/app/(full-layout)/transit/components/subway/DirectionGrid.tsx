@@ -1,14 +1,8 @@
 'use client'
 import React, { useEffect, useState } from 'react'
+import { SubwayArrivalType } from '@/app/(full-layout)/transit/types/subwayType'
 
-type Train = {
-  barvlDt: string
-  recptnDt: string
-  btrainSttus: string
-  destination: string
-  ordkey: string
-}
-type SubwayGroup = Record<string, Train[]>
+type SubwayGroup = Record<string, SubwayArrivalType[]>
 
 function isExpress(btrainSttus?: string) {
   return btrainSttus?.includes('급행')
@@ -62,7 +56,7 @@ export default function DirectionGridClient({ grouped }: { grouped: SubwayGroup 
           {row.map(([korDirection, trains]) => (
             <div
               key={korDirection}
-              className="flex-1 rounded-xl border border-gray-200 bg-white p-3 shadow-sm"
+              className="flex-1 rounded-xl border border-gray-200 bg-white p-3"
             >
               <div className="mb-2 text-base font-bold text-gray-900">{korDirection}</div>
               {trains.map((train, idx) => (
