@@ -3,7 +3,7 @@
 import DefaultTab from '@/components/tabs/DefaultTab'
 import { useTab } from '@/components/tabs/DefaultTab/useTab'
 import SubwayContents from '@/app/(full-layout)/transit/components/subway/SubwayContents'
-import BusContents from '@/app/(full-layout)/transit/components/bus/ButContents'
+import BusContents from '@/app/(full-layout)/transit/components/bus/BusContents'
 import BicycleContents from '@/app/(full-layout)/transit/components/bicycle/BicycleContents'
 import { TRANSIT_TABS } from '@/app/(full-layout)/transit/constants'
 
