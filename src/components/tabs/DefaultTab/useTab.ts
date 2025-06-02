@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 
-export function useTabs(defaultTab: string): {
+export function useTab(initialActiveTab: string): {
   activeTab: string
   onTabClick: (tab: string) => void
 } {
@@ -11,20 +11,21 @@ export function useTabs(defaultTab: string): {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const currentTab = searchParams.get('tabView') || defaultTab
+  const currentTab = searchParams.get('tabView') || initialActiveTab
   const [activeTab, setActiveTab] = useState(currentTab)
 
   useEffect(() => {
-    if (currentTab !== activeTab) {
-      setActiveTab(currentTab)
-    }
-  }, [currentTab, activeTab])
+    setActiveTab(currentTab)
+  }, [currentTab])
 
-  const onTabClick = (tab: string) => {
-    if (tab === activeTab) return
-    setActiveTab(tab)
-    router.replace(`${pathname}?tabView=${tab}`)
-  }
+  const onTabClick = useCallback(
+    (tab: string) => {
+      if (tab === activeTab) return
+      setActiveTab(tab)
+      router.push(`${pathname}?tabView=${tab}`)
+    },
+    [activeTab, pathname, router],
+  )
 
   return { activeTab, onTabClick }
 }
