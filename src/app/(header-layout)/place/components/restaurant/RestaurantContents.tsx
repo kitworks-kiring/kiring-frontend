@@ -2,9 +2,11 @@ import { useState } from 'react'
 import clsx from 'clsx'
 import { useSingleSelect } from '@/components/tabs/BubbleTab/useSingleSelect'
 import { PLACE_SORT_DROPDOWN_LIST } from '@/app/(header-layout)/place/constants'
-import SortSelectBox, { SortItem } from '@/app/(header-layout)/place/components/SortSelectBox'
-import RestaurantCard from '@/app/(header-layout)/place/components/RestaurantCard'
-import RestaurantWideCard from '@/app/(header-layout)/place/components/RestaurantWideCard'
+import SortSelectBox, {
+  SortItem,
+} from '@/app/(header-layout)/place/components/restaurant/SortSelectBox'
+import NarrowCard from '@/app/(header-layout)/place/components/restaurant/NarrowCard'
+import WideCard from '@/app/(header-layout)/place/components/restaurant/WideCard'
 import Navigation from '@/components/layout/Navigation'
 import { restaurantList } from '@/app/(header-layout)/place/mock/restaurant'
 import PlaceCalendar from '@/assets/place-calendar.svg'
@@ -37,9 +39,9 @@ export default function RestaurantContents() {
         )}
       >
         {selectedSort !== 'latest' ? (
-          <RestaurantCard restaurantList={restaurantList} />
+          <NarrowCard restaurantList={restaurantList} />
         ) : (
-          <RestaurantWideCard restaurantList={restaurantList} />
+          <WideCard restaurantList={restaurantList} />
         )}
       </section>
       <section

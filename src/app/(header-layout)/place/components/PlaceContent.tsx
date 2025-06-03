@@ -3,8 +3,8 @@
 import DefaultTab, { TabItem } from '@/components/tabs/DefaultTab'
 import { useTab } from '@/components/tabs/DefaultTab/useTab'
 import { PLACE_DEFAULT_TAB_LIST } from '@/app/(header-layout)/place/constants'
-import RestaurantContents from '@/app/(header-layout)/place/components/RestaurantContents'
-import TrailContents from '@/app/(header-layout)/place/components/TrailContents'
+import RestaurantContents from '@/app/(header-layout)/place/components/restaurant/RestaurantContents'
+import TrailContents from '@/app/(header-layout)/place/components/trail/TrailContents'
 
 export default function PlaceContent() {
   const initialActiveTab = PLACE_DEFAULT_TAB_LIST[0].value

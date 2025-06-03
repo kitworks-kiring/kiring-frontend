@@ -1,26 +1,12 @@
-import Image from 'next/image'
 import React from 'react'
-import Like from '@/assets/like.svg'
-import LikedButton from '@/assets/liked-button.svg'
-import LikeButton from '@/assets/like-button.svg'
+import Image from 'next/image'
 import clsx from 'clsx'
+import Like from '@/assets/like.svg'
+import LikeButton from '@/assets/like-button.svg'
+import LikedButton from '@/assets/liked-button.svg'
+import { RestaurantListType } from '@/app/(header-layout)/place/types/restaurantType'
 
-export default function RestaurantWideCard({
-  restaurantList,
-}: {
-  restaurantList: {
-    id: number
-    name: string
-    imageUrl: string
-    category: string
-    distance: string
-    averagePrice: string
-    likes: number
-    popular: boolean
-    menus: string[]
-    liked: boolean
-  }[]
-}) {
+export default function WideCard({ restaurantList }: { restaurantList: RestaurantListType }) {
   const flexItemsCenter = 'body5 flex items-center'
 
   return (
