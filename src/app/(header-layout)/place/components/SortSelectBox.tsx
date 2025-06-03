@@ -53,7 +53,7 @@ export default function SortSelectBox({ sortOptions, active, onChange }: SortSel
         aria-expanded={isOpen}
         aria-controls="custom-select-list"
         aria-labelledby="sortbox-label sortbox-button"
-        className="font-body4 flex w-full justify-between rounded-sm border border-transparent px-2 py-1 outline-none focus-visible:border focus-visible:border-purple-100"
+        className="body4 flex w-full justify-between rounded-sm border border-transparent px-2 py-1 outline-none focus-visible:border focus-visible:border-purple-100"
         onClick={() => setIsOpen((prev: boolean) => !prev)}
       >
         <span>{currentActive?.label}</span>

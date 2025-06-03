@@ -28,7 +28,7 @@ export default function DefaultTab({ tabs, active, onChange }: DefaultTabProps) 
               aria-selected={value === active}
               tabIndex={value === active ? 0 : -1}
               className={clsx(
-                'font-body2-sb flex h-full flex-col items-center justify-start transition-colors',
+                'body2-sb flex h-full flex-col items-center justify-start transition-colors',
                 value === active ? 'border-b-2 border-purple-500 text-purple-500' : 'text-gray-600',
               )}
               onClick={() => onChange(value)}

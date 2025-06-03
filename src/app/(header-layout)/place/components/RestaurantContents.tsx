@@ -23,7 +23,7 @@ export default function RestaurantContents() {
     <div className="relative pt-9">
       {/* count section */}
       <section className="full-width sticky top-9 z-1 flex h-12 items-center justify-between border-b bg-white px-4">
-        <p className="font-body4 text-gray-500">
+        <p className="body4 text-gray-500">
           <b>{restaurantList?.length ?? 0}개</b>의 매장
         </p>
         <SortSelectBox sortOptions={sortOptions} active={selectedSort} onChange={onSelectSort} />
