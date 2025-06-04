@@ -1,4 +1,9 @@
-export interface RestaurantType {
+export interface LatLngType {
+  lat: number
+  lng: number
+}
+
+export interface RestaurantType extends LatLngType {
   id: number
   name: string
   imageUrl: string
@@ -12,3 +17,16 @@ export interface RestaurantType {
 }
 
 export type RestaurantListType = RestaurantType[]
+
+export interface RestaurantMapProps {
+  center: LatLngType
+  onCenterChange: (center: LatLngType) => void
+  restaurantList: RestaurantListType
+}
+
+export interface CalcDistanceType {
+  oldLat: number
+  oldLng: number
+  newLat: number
+  newLng: number
+}

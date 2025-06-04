@@ -73,7 +73,7 @@ export default function SortSelectBox({ sortOptions, active, onChange }: SortSel
               role="option"
               aria-selected={value === active}
               className={clsx(
-                'cursor-pointer p-1 hover:bg-purple-50',
+                'body4 cursor-pointer p-1 hover:bg-purple-50',
                 value === active ? 'bg-purple-500 text-white hover:bg-purple-500' : 'bg-white',
                 index === 0 && 'rounded-t-sm',
                 index === sortOptions.length - 1 && 'rounded-b-sm',
