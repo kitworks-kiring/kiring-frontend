@@ -31,6 +31,10 @@
   @apply left-1/2 -translate-x-1/2 transform;
 }
 
+.position-centered-y {
+  @apply top-1/2 -translate-y-1/2 transform;
+}
+
 .line-2-bg {
   @apply bg-[#3CB44A];
 }
