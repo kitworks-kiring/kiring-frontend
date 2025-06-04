@@ -31,40 +31,43 @@ export default function SubwayContents() {
 
   return (
     <>
-      <BubbleTab
-        bubbles={SUBWAY_BUBBLES}
-        active={selected}
-        onChange={onSelect}
-        propsClass="body4"
-      />
-      {subwayData ? (
-        <>
-          <div className="flex items-center justify-between border-b-2 border-gray-50 px-4 py-3">
-            <div className="body2-sb flex items-center gap-2 text-gray-600">
-              <IcoPin />
-              당산역
-            </div>
-            <div className="body4 text-gray-600">{dayjs(receptnDt).format('A h:mm:ss')}</div>
+      <div className="full-width fixed top-23 z-10 bg-white">
+        <BubbleTab
+          bubbles={SUBWAY_BUBBLES}
+          active={selected}
+          onChange={onSelect}
+          propsClass="body4"
+        />
+
+        <div className="flex items-center justify-between border-b-2 border-gray-50 px-4 py-3">
+          <div className="body2-sb flex items-center gap-2 text-gray-600">
+            <IcoPin />
+            당산역
           </div>
-          <section className="mt-7 flex flex-col gap-10 px-4">
-            {/* 2호선 */}
-            {selected !== '9' && (
-              <div className="flex flex-col gap-3">
-                <GroupHeader number={2} />
-                <RealtimeHeader isLive={isLive2} onToggle={setIsLive2} />
-                <DirectionGrid grouped={groupedNum2} />
-              </div>
-            )}
-            {/* 9호선 */}
-            {selected !== '2' && (
-              <div className="flex flex-col gap-3">
-                <GroupHeader number={9} />
-                <RealtimeHeader isLive={isLive9} onToggle={setIsLive9} />
-                <DirectionGrid grouped={groupedNum9} />
-              </div>
-            )}
-          </section>
-        </>
+          {subwayData && (
+            <div className="body4 text-gray-600">{dayjs(receptnDt).format('A h:mm:ss')}</div>
+          )}
+        </div>
+      </div>
+      {subwayData ? (
+        <section className="mt-40 flex flex-col gap-10 px-4">
+          {/* 2호선 */}
+          {selected !== '9' && (
+            <div className="flex flex-col gap-3">
+              <GroupHeader number={2} />
+              <RealtimeHeader isLive={isLive2} onToggle={setIsLive2} />
+              <DirectionGrid grouped={groupedNum2} />
+            </div>
+          )}
+          {/* 9호선 */}
+          {selected !== '2' && (
+            <div className="flex flex-col gap-3">
+              <GroupHeader number={9} />
+              <RealtimeHeader isLive={isLive9} onToggle={setIsLive9} />
+              <DirectionGrid grouped={groupedNum9} />
+            </div>
+          )}
+        </section>
       ) : (
         <div>데이터를 불러올 수 없습니다.</div>
       )}

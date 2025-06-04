@@ -17,7 +17,7 @@ interface BubbleTabProps {
 export default function BubbleTab({ bubbles, active, onChange, propsClass }: BubbleTabProps) {
   return (
     <section>
-      <ul className="flex items-center gap-2 border-b-4 border-gray-50 px-4 py-3">
+      <ul className="top-21 flex items-center gap-2 border-b-4 border-gray-50 px-4 py-3">
         {bubbles.map(({ label, value }) => (
           <li key={value} className="flex-row-center">
             <button

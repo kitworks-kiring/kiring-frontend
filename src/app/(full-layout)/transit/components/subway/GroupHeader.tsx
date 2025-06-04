@@ -25,7 +25,7 @@ export default function GroupHeader({ number }: { number: number }) {
 
       <div
         className={clsx(
-          'flex-row-center absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 gap-1 rounded-full border-4 bg-white px-10 py-1.5',
+          'flex-row-center position-centered-y position-centered-x absolute gap-1 rounded-full border-4 bg-white px-10 py-1.5',
           number === 2 ? 'line-2-border' : 'line-9-border',
         )}
       >
