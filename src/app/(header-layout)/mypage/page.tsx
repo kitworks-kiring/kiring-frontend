@@ -1,43 +1,69 @@
 'use client'
 
-import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
+
 export default function MyPage() {
-  const { data: session, status } = useSession()
   const router = useRouter()
+  const [user, setUser] = useState<{
+    nickname?: string
+    email?: string
+    team?: { name: string }
+    profileImageUrl?: string
+  } | null>(null)
+  const [isAuthChecked, setIsAuthChecked] = useState(false)
+
+  // ✅ accessToken 기반 로그인 여부 확인
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken')
+    if (!accessToken) {
+      router.push('/login')
+      return
+    }
+    setIsAuthChecked(true)
+  }, [router])
 
   useEffect(() => {
-    if (status === 'unauthenticated') router.push('/login')
-  }, [status, router])
+    const accessToken = localStorage.getItem('accessToken')
+    if (!accessToken) return
 
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}members/me`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setUser(data?.data?.member))
+      .catch((err) => {
+        console.error('사용자 정보 조회 실패:', err)
+      })
+  }, [])
+
+  // ✅ 로그아웃 시 토큰 삭제
   const handleLogout = () => {
-    signOut({ callbackUrl: '/login' })
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+    router.push('/login')
   }
 
-  const isLoading = status === 'loading'
-  const isLoggedIn = status === 'authenticated' && session
-
-  if (isLoading || !isLoggedIn) {
-    return null
-  }
+  if (!isAuthChecked) return null
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-md space-y-8">
         <div className="text-center">
-          {session.user?.image && (
-            <Image
-              src={session.user.image}
-              alt={session.user.name || '프로필'}
-              width={96}
-              height={96}
-              className="mx-auto rounded-full"
-              priority
-            />
-          )}
-          <h2 className="head3 mt-4">{session.user?.name || '사용자'}</h2>
+          <Image
+            src={user?.profileImageUrl ?? '/default-avatar.png'}
+            alt="사용자 프로필"
+            width={96}
+            height={96}
+            className="mx-auto rounded-full"
+            priority
+          />
+          <h2 className="head3 mt-4">{user?.nickname ?? '사용자'}</h2>
+          <div className="mt-2 text-gray-600">{user?.email}</div>
+          <div className="mt-1 text-gray-500">{user?.team?.name}</div>
         </div>
 
         <div className="space-y-4">
