@@ -11,19 +11,32 @@ import GroupHeader from '@/app/(full-layout)/transit/components/subway/GroupHead
 import RealtimeHeader from '@/app/(full-layout)/transit/components/subway/RealtimeHeader'
 import fetchSubway from '@/app/(full-layout)/transit/fetchSubway'
 import { SubwayDataType } from '@/app/(full-layout)/transit/types/subwayType'
+import IcoRefresh from '@/assets/ico-refresh.svg'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export default function SubwayContents() {
   const initialActiveTab = 'all'
   const [isLive2, setIsLive2] = useState(true)
   const [isLive9, setIsLive9] = useState(true)
   const [subwayData, setSubwayData] = useState<SubwayDataType | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const { selected, onSelect } = useSingleSelect(initialActiveTab)
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const fetchData = async () => {
+    setIsLoading(true)
+    try {
       const data = await fetchSubway()
       setSubwayData(data)
+    } catch (error) {
+      console.error('지하철 정보를 가져오는데 실패했습니다:', error)
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 300)
     }
+  }
+
+  useEffect(() => {
     fetchData()
   }, [])
 
@@ -44,12 +57,28 @@ export default function SubwayContents() {
             <IcoPin />
             당산역
           </div>
-          {subwayData && (
-            <div className="body4 text-gray-600">{dayjs(receptnDt).format('A h:mm:ss')}</div>
-          )}
+          <div className="flex items-center gap-2">
+            {subwayData && (
+              <div className="body4 text-gray-800">{dayjs(receptnDt).format('A h:mm:ss')}</div>
+            )}
+            <button onClick={fetchData} disabled={isLoading}>
+              <IcoRefresh />
+            </button>
+          </div>
         </div>
       </div>
-      {subwayData ? (
+      {isLoading && (
+        <div className="mt-40 flex h-[50vh] items-center justify-center">
+          <LoadingSpinner />
+        </div>
+      )}
+      {!subwayData ||
+        (Object.keys(subwayData).length === 0 && (
+          <div className="mt-40 flex h-[50vh] items-center justify-center text-gray-600">
+            데이터를 불러올 수 없습니다.
+          </div>
+        ))}
+      {subwayData && !isLoading && (
         <section className="mt-40 flex flex-col gap-10 px-4">
           {/* 2호선 */}
           {selected !== '9' && (
@@ -68,8 +97,6 @@ export default function SubwayContents() {
             </div>
           )}
         </section>
-      ) : (
-        <div>데이터를 불러올 수 없습니다.</div>
       )}
     </>
   )
