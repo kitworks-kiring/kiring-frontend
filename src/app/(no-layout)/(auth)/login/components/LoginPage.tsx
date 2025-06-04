@@ -1,21 +1,14 @@
 'use client'
 
-import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSession, signIn } from 'next-auth/react'
 import LoginLogo from '@/assets/login-logo.svg'
 import IcoKakao from '@/assets/ico-kakao.svg'
 import LoginErrorHandler from '@/app/(no-layout)/(auth)/login/components/LoginErrorHandler'
 export default function LoginPage() {
-  const { status } = useSession()
   const router = useRouter()
 
-  useEffect(() => {
-    if (status === 'authenticated') router.push('/')
-  }, [status, router])
-
   const handleKakaoLogin = () => {
-    signIn('kakao', { callbackUrl: '/' })
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/kakao'`
   }
 
   return (
