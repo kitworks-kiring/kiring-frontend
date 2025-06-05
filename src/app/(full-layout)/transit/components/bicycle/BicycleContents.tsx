@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react'
 import dayjs from '@/lib/dayjs'
 import IcoRefresh from '@/assets/ico-refresh.svg'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
-import { DdarungiStation } from '@/app/(full-layout)/transit/types/bicycleType'
+import { BicycleStationType } from '@/app/(full-layout)/transit/types/bicycleType'
+import BicycleGrid from '@/app/(full-layout)/transit/components/bicycle/BicycleGrid'
+import IcoBicycleLogo from '@/assets/ico-bicycle-logo.svg'
 
 export default function BicycleContents() {
-  const [stations, setStations] = useState<DdarungiStation[]>([])
+  const [stations, setStations] = useState<BicycleStationType[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [createdAt, setCreatedAt] = useState(0)
   async function fetchStations() {
@@ -32,7 +34,11 @@ export default function BicycleContents() {
 
   return (
     <>
-      <div className="full-width fixed top-23 z-10 flex min-h-10 items-center justify-end border-b-2 border-gray-50 bg-white px-4 py-3">
+      <div className="full-width fixed top-23 z-10 flex min-h-10 items-center justify-between border-b-2 border-gray-50 bg-white px-4 py-3">
+        <div className="flex items-center gap-2">
+          <IcoBicycleLogo />
+          <span className="body2-sb text-gray-600">당산역</span>
+        </div>
         <div className="flex items-center gap-2">
           <div className="body4 text-gray-800">
             {createdAt ? dayjs(createdAt).format('A h:mm:ss') : ''}
@@ -43,18 +49,23 @@ export default function BicycleContents() {
         </div>
       </div>
 
-      <div className="mt-24 flex flex-col gap-4 px-4">
+      <div className="mt-21 flex flex-col">
         {isLoading ? (
           <div className="flex-row-center absolute top-0 left-0 h-full w-full">
             <LoadingSpinner />
           </div>
         ) : (
-          stations?.map((station) => (
-            <div key={station.stationId} className="rounded-xl border bg-white p-4">
-              <div className="font-bold">{station.stationName}</div>
-              <div>총 거치대: {station.rackTotCnt}</div>
-              <div>남은 자전거: {station.parkingBikeTotCnt}</div>
-            </div>
+          stations?.map((station: BicycleStationType, index: number) => (
+            <BicycleGrid
+              key={station.stationId}
+              index={index}
+              stationName={station.stationName}
+              shared={station.shared}
+              parkingBikeTotCnt={station.parkingBikeTotCnt}
+              rackTotCnt={station.rackTotCnt}
+              stationLatitude={station.stationLatitude}
+              stationLongitude={station.stationLongitude}
+            />
           ))
         )}
       </div>
