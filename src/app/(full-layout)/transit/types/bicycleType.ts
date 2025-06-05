@@ -1,4 +1,4 @@
-export interface DdarungiStation {
+export interface BicycleStationType {
   rackTotCnt: string // 총 거치대 수
   stationName: string // 거치대 이름
   parkingBikeTotCnt: string // 남은 자전거 수
