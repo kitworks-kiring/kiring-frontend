@@ -1,26 +1,13 @@
-import Image from 'next/image'
 import React from 'react'
-import Like from '@/assets/like.svg'
-import LikedButton from '@/assets/liked-button.svg'
-import LikeButton from '@/assets/like-button.svg'
+import Image from 'next/image'
 import clsx from 'clsx'
+import { getDistanceFromCompany, getWalkingTimeFromCompany } from '@/utils/calcDistance'
+import Like from '@/assets/like.svg'
+import LikeButton from '@/assets/like-button.svg'
+import LikedButton from '@/assets/liked-button.svg'
+import { RestaurantListType } from '@/app/(header-layout)/place/types/restaurantType'
 
-export default function RestaurantCard({
-  restaurantList,
-}: {
-  restaurantList: {
-    id: number
-    name: string
-    imageUrl: string
-    category: string
-    distance: string
-    averagePrice: string
-    likes: number
-    popular: boolean
-    menus: string[]
-    liked: boolean
-  }[]
-}) {
+export default function NarrowCard({ restaurantList }: { restaurantList: RestaurantListType }) {
   const flexItemsCenter = 'body5 flex items-center'
 
   return (
@@ -32,11 +19,13 @@ export default function RestaurantCard({
           imageUrl,
           category,
           distance,
-          averagePrice,
+          // averagePrice,
           likes,
           popular,
           menus,
           liked,
+          lat,
+          lng,
         }) => (
           <div
             key={id}
@@ -68,10 +57,13 @@ export default function RestaurantCard({
                 <span className="text-gray-600">{category}</span>
               </li>
               <li className={clsx(flexItemsCenter, 'body5 gap-1')}>
-                <span className="text-purple-300">{distance}m</span>
+                <span className="text-purple-300">
+                  {getDistanceFromCompany({ lat, lng }) ?? distance}m
+                </span>
                 <span className="text-gray-300">/</span>
                 <span className="text-gray-600">
-                  평균 <b className="text-gray-700">{(+averagePrice).toLocaleString()}원</b>
+                  {/* 평균 <b className="text-gray-700">{(+averagePrice).toLocaleString()}원</b> */}
+                  평균 <b className="text-gray-700">{getWalkingTimeFromCompany({ lat, lng })}분</b>
                 </span>
               </li>
               <li>

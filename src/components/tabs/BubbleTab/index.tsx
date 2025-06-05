@@ -25,7 +25,7 @@ export default function BubbleTab({ bubbles, active, onChange, propsClass }: Bub
               aria-pressed={value === active}
               tabIndex={value === active ? 0 : -1}
               className={clsx(
-                'font-body4 rounded-3xl border px-4 py-2',
+                'body4 rounded-3xl border px-4 py-2',
                 value === active ? 'border-purple-500 bg-purple-500 text-white' : 'border-gray-200',
                 propsClass,
               )}

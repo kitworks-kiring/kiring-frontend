@@ -53,7 +53,7 @@ export default function SortSelectBox({ sortOptions, active, onChange }: SortSel
         aria-expanded={isOpen}
         aria-controls="custom-select-list"
         aria-labelledby="sortbox-label sortbox-button"
-        className="font-body4 flex w-full justify-between rounded-sm border border-transparent px-2 py-1 outline-none focus-visible:border focus-visible:border-purple-100"
+        className="body4 flex w-full justify-between rounded-sm border border-transparent px-2 py-1 outline-none focus-visible:border focus-visible:border-purple-100"
         onClick={() => setIsOpen((prev: boolean) => !prev)}
       >
         <span>{currentActive?.label}</span>
@@ -73,7 +73,7 @@ export default function SortSelectBox({ sortOptions, active, onChange }: SortSel
               role="option"
               aria-selected={value === active}
               className={clsx(
-                'cursor-pointer p-1 hover:bg-purple-50',
+                'body4 cursor-pointer p-1 hover:bg-purple-50',
                 value === active ? 'bg-purple-500 text-white hover:bg-purple-500' : 'bg-white',
                 index === 0 && 'rounded-t-sm',
                 index === sortOptions.length - 1 && 'rounded-b-sm',
