@@ -4,6 +4,7 @@ import IcoBicycle from '@/assets/ico-bicycle.svg'
 import IcoWalking from '@/assets/ico-walking.svg'
 import { StaticMap } from 'react-kakao-maps-sdk'
 import { getDistanceFromCompany, getWalkingTimeFromCompany } from '@/utils/calcDistance'
+import { useMemo } from 'react'
 
 export default function BicycleGrid({
   index,
@@ -18,13 +19,13 @@ export default function BicycleGrid({
     lat: Number(stationLatitude),
     lng: Number(stationLongitude),
   })
-  const walkingTime = () => {
+  const walkingTime = useMemo(() => {
     const time = getWalkingTimeFromCompany({
       lat: Number(stationLatitude),
       lng: Number(stationLongitude),
     })
     return time
-  }
+  }, [stationLatitude, stationLongitude])
 
   return (
     <div
@@ -72,7 +73,7 @@ export default function BicycleGrid({
           <div className="flex items-center gap-1">
             <IcoWalking />
             <div className="body4 text-gray-600">
-              도보 {walkingTime()}분 <span className="text-purple-300">({walkingDistance}m)</span>
+              도보 {walkingTime}분 <span className="text-purple-300">({walkingDistance}m)</span>
             </div>
           </div>
         </div>
