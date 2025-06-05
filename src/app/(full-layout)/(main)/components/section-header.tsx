@@ -1,6 +1,6 @@
 'use client'
 
-import ArrowRight from '@/assets/arrow-right.svg'
+import IcoMainArrowRight from '@/assets/ico-main-arrow-right.svg'
 
 interface SectionHeaderProps {
   time?: string
@@ -15,7 +15,7 @@ export default function SectionHeader({ time, title, onClick }: SectionHeaderPro
         {time && <span className="body2-sb text-purple-200">{time}</span>}
         <span className="head5 text-basic-black">{title}</span>
       </div>
-      <ArrowRight onClick={onClick} />
+      <IcoMainArrowRight onClick={onClick} />
     </div>
   )
 }

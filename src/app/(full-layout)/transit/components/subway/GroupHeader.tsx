@@ -1,5 +1,7 @@
 import clsx from 'clsx'
 import { SUBWAY_GROUP_HEADER } from '@/app/(full-layout)/transit/constants'
+import ArrowLeft from '@/assets/arrow-left.svg'
+import ArrowRight from '@/assets/arrow-right.svg'
 
 export default function GroupHeader({ number }: { number: number }) {
   return (
@@ -9,18 +11,22 @@ export default function GroupHeader({ number }: { number: number }) {
         number === 2 ? 'line-2-bg' : 'line-9-bg',
       )}
     >
-      <div className="flex items-center gap-2">
-        <div>{'<'}</div>
+      <div className="flex h-6 items-center gap-1">
+        <div className="opacity-80">
+          <ArrowLeft />
+        </div>
         <span className="body3">
           {SUBWAY_GROUP_HEADER[number as keyof typeof SUBWAY_GROUP_HEADER].from}
         </span>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex h-6 items-center gap-1">
         <span className="body3">
           {SUBWAY_GROUP_HEADER[number as keyof typeof SUBWAY_GROUP_HEADER].to}
         </span>
-        <div>{'>'}</div>
+        <div className="opacity-80">
+          <ArrowRight />
+        </div>
       </div>
 
       <div

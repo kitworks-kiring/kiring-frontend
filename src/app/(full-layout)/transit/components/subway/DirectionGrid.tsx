@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { SubwayArrivalType } from '@/app/(full-layout)/transit/types/subwayType'
+import IcoSubwayExpress from '@/assets/ico-subway-express.svg'
 
 type SubwayGroup = Record<string, SubwayArrivalType[]>
 
@@ -58,18 +59,14 @@ export default function DirectionGridClient({ grouped }: { grouped: SubwayGroup 
               key={korDirection}
               className="flex-1 rounded-xl border border-gray-200 bg-white p-3"
             >
-              <div className="mb-2 text-base font-bold text-gray-900">{korDirection}</div>
+              <div className="mb-2.5 text-base font-bold text-gray-900">{korDirection}</div>
               {trains.map((train, idx) => (
                 <div key={idx} className="mb-1 flex items-center justify-between">
-                  <div className="flex items-center gap-0.5 text-gray-600">
+                  <div className="gap-0.3 flex items-center gap-0.5 text-gray-600">
                     <span className="body3">{train.destination.replace('행', '')}</span>
-                    {isExpress(train.btrainSttus) && (
-                      <div className="flex-row-center h-4 w-4 rounded-full border border-red-400 text-center">
-                        <span className="body5 text-center text-orange-500">급</span>
-                      </div>
-                    )}
+                    {isExpress(train.btrainSttus) && <IcoSubwayExpress />}
                   </div>
-                  <span className="head5 min-w-[48px] text-right text-red-400">
+                  <span className="body3-sb min-w-[48px] text-right text-purple-500">
                     {idx === 0
                       ? formatTimeFull(timeMap[korDirection]?.[idx] ?? Number(train.barvlDt))
                       : formatTimeMin(timeMap[korDirection]?.[idx] ?? Number(train.barvlDt))}

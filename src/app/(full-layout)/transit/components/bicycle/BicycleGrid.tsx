@@ -19,6 +19,7 @@ export default function BicycleGrid({
     lat: Number(stationLatitude),
     lng: Number(stationLongitude),
   })
+
   const walkingTime = useMemo(() => {
     const time = getWalkingTimeFromCompany({
       lat: Number(stationLatitude),
