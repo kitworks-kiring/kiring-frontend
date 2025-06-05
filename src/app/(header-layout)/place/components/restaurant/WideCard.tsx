@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
+import { getDistanceFromCompany } from '@/utils/calcDistance'
 import Like from '@/assets/like.svg'
 import LikeButton from '@/assets/like-button.svg'
 import LikedButton from '@/assets/liked-button.svg'
@@ -23,6 +24,8 @@ export default function WideCard({ restaurantList }: { restaurantList: Restauran
           popular,
           menus,
           liked,
+          lat,
+          lng,
         }) => (
           <div key={id} className="grid gap-3 border-b border-gray-50 px-3 py-4">
             <Image
@@ -52,7 +55,9 @@ export default function WideCard({ restaurantList }: { restaurantList: Restauran
                 </div>
                 <span>{category}</span>
                 <span>/</span>
-                <span className="text-purple-300">{distance}m</span>
+                <span className="text-purple-300">
+                  {getDistanceFromCompany({ lat, lng }) ?? distance}m
+                </span>
                 <span>/</span>
                 <span>
                   평균 <b className="text-gray-700">{(+averagePrice).toLocaleString()}원</b>

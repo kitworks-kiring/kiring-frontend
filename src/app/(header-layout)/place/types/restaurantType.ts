@@ -1,7 +1,4 @@
-export interface LatLngType {
-  lat: number
-  lng: number
-}
+import { LatLngType } from '@/utils/calcDistance'
 
 export interface RestaurantType extends LatLngType {
   id: number

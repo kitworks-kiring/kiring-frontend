@@ -11,6 +11,7 @@ import WideCard from '@/app/(header-layout)/place/components/restaurant/WideCard
 import RestaurantMap from '@/app/(header-layout)/place/components/restaurant/RestaurantMap'
 import Navigation from '@/components/layout/Navigation'
 import { restaurantList as mockList } from '@/app/(header-layout)/place/mock/restaurant'
+import { COMPANY_COORD } from '@/utils/calcDistance'
 import { RestaurantListType } from '@/app/(header-layout)/place/types/restaurantType'
 import PlaceCalendar from '@/assets/place-calendar.svg'
 import IcoNarrow from '@/assets/ico-narrow.svg'
@@ -19,7 +20,10 @@ import IcoWide from '@/assets/ico-wide.svg'
 export default function RestaurantContents() {
   const [viewType, setViewType] = useState<'narrow' | 'wide'>('narrow')
   const [showMap, setShowMap] = useState(false)
-  const [center, setCenter] = useState({ lat: 37.53313, lng: 126.904091 })
+  const [center, setCenter] = useState({
+    lat: COMPANY_COORD.lat,
+    lng: COMPANY_COORD.lng,
+  })
   // const [restaurantList, setRestaurantList] = useState<RestaurantListType>([]) // TODO: API 연동되면 주석 해제
   const [restaurantList, setRestaurantList] = useState<RestaurantListType>(mockList)
 
