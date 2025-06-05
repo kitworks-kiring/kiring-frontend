@@ -62,7 +62,7 @@ export default function DirectionGridClient({ grouped }: { grouped: SubwayGroup 
               <div className="mb-2.5 text-base font-bold text-gray-900">{korDirection}</div>
               {trains.map((train, idx) => (
                 <div key={idx} className="mb-1 flex items-center justify-between">
-                  <div className="gap-0.3 flex items-center gap-0.5 text-gray-600">
+                  <div className="flex items-center gap-0.5 text-gray-600">
                     <span className="body3">{train.destination.replace('행', '')}</span>
                     {isExpress(train.btrainSttus) && <IcoSubwayExpress />}
                   </div>
