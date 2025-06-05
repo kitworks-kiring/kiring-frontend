@@ -48,7 +48,7 @@ export const getDistanceFromCompany = ({ lat, lng }: LatLngType) => {
   })
 }
 
-export const getWalkingTimeFromCompany = async ({ lat, lng }: LatLngType) => {
+export const getWalkingTimeFromCompany = ({ lat, lng }: LatLngType) => {
   const distance = getDistanceFromCompany({ lat, lng })
   const walkingSpeed = 1.4 // 평균 도보 속도 (m/s)
   const timeInSeconds = Math.round(distance / walkingSpeed) // 거리(m)를 속도(m/s)로 나누어 시간(초) 계산
