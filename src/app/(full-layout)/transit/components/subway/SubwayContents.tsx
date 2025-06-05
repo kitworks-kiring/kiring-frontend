@@ -31,12 +31,7 @@ export default function SubwayContents() {
 
   return (
     <>
-      <BubbleTab
-        bubbles={SUBWAY_BUBBLES}
-        active={selected}
-        onChange={onSelect}
-        propsClass="body4"
-      />
+      <BubbleTab bubbles={SUBWAY_BUBBLES} active={selected} onChange={onSelect} />
       {subwayData ? (
         <>
           <div className="flex items-center justify-between border-b-2 border-gray-50 px-4 py-3">

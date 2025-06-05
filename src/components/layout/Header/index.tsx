@@ -29,7 +29,7 @@ export default function Header({ isBackButton }: { isBackButton?: boolean }) {
               onClick={() => router.push('/')}
             />
           ) : (
-            <p className="font-body2-sb">{matchedNavItem?.title}</p>
+            <p className="body2-sb">{matchedNavItem?.title}</p>
           )}
         </div>
         <div className="flex gap-3">

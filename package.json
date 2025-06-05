@@ -23,6 +23,7 @@
     "next-auth": "^4.24.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-kakao-maps-sdk": "^1.1.27",
     "tailwind-merge": "^3.2.0",
     "zustand": "^5.0.3"
   },
@@ -40,6 +41,7 @@
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
     "husky": "^9.1.7",
+    "kakao.maps.d.ts": "^0.1.40",
     "lint-staged": "^15.5.1",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",

@@ -1,15 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import { useSingleSelect } from '@/components/tabs/BubbleTab/useSingleSelect'
 import { PLACE_SORT_DROPDOWN_LIST } from '@/app/(header-layout)/place/constants'
-import SortSelectBox, { SortItem } from '@/app/(header-layout)/place/components/SortSelectBox'
-import RestaurantCard from '@/app/(header-layout)/place/components/RestaurantCard'
-import RestaurantWideCard from '@/app/(header-layout)/place/components/RestaurantWideCard'
+import SvgButton from '@/components/ui/SvgButton'
+import SortSelectBox, {
+  SortItem,
+} from '@/app/(header-layout)/place/components/restaurant/SortSelectBox'
+import NarrowCard from '@/app/(header-layout)/place/components/restaurant/NarrowCard'
+import WideCard from '@/app/(header-layout)/place/components/restaurant/WideCard'
+import RestaurantMap from '@/app/(header-layout)/place/components/restaurant/RestaurantMap'
 import Navigation from '@/components/layout/Navigation'
-import { restaurantList } from '@/app/(header-layout)/place/mock/restaurant'
+import { restaurantList as mockList } from '@/app/(header-layout)/place/mock/restaurant'
+import { COMPANY_COORD } from '@/utils/calcDistance'
+import { RestaurantListType } from '@/app/(header-layout)/place/types/restaurantType'
 import PlaceCalendar from '@/assets/place-calendar.svg'
+import IcoNarrow from '@/assets/ico-narrow.svg'
+import IcoWide from '@/assets/ico-wide.svg'
 
 export default function RestaurantContents() {
+  const [viewType, setViewType] = useState<'narrow' | 'wide'>('narrow')
+  const [showMap, setShowMap] = useState(false)
+  const [center, setCenter] = useState({
+    lat: COMPANY_COORD.lat,
+    lng: COMPANY_COORD.lng,
+  })
+  // const [restaurantList, setRestaurantList] = useState<RestaurantListType>([]) // TODO: API 연동되면 주석 해제
+  const [restaurantList, setRestaurantList] = useState<RestaurantListType>(mockList)
+
   const initialActiveSort = PLACE_SORT_DROPDOWN_LIST[0].value
   const { selected: selectedSort, onSelect: onSelectSort } = useSingleSelect(initialActiveSort)
   const sortOptions: SortItem[] = PLACE_SORT_DROPDOWN_LIST.map(({ label, value }) => ({
@@ -17,16 +34,25 @@ export default function RestaurantContents() {
     value,
   }))
 
-  const [showMap, setShowMap] = useState(false)
+  useEffect(() => {
+    // 중심좌표(center)가 바뀔 때마다 API 호출
+    setRestaurantList(mockList)
+  }, [center])
 
   return (
     <div className="relative pt-9">
       {/* count section */}
       <section className="full-width sticky top-9 z-1 flex h-12 items-center justify-between border-b bg-white px-4">
-        <p className="font-body4 text-gray-500">
+        <p className="body4 text-gray-500">
           <b>{restaurantList?.length ?? 0}개</b>의 매장
         </p>
-        <SortSelectBox sortOptions={sortOptions} active={selectedSort} onChange={onSelectSort} />
+        <div className="flex-row-center">
+          <SvgButton
+            icon={viewType === 'narrow' ? <IcoNarrow /> : <IcoWide />}
+            onClick={() => setViewType((prev) => (prev === 'narrow' ? 'wide' : 'narrow'))}
+          />
+          <SortSelectBox sortOptions={sortOptions} active={selectedSort} onChange={onSelectSort} />
+        </div>
       </section>
 
       {/* restaurant list section */}
@@ -36,10 +62,10 @@ export default function RestaurantContents() {
           showMap ? 'invisible translate-y-full opacity-0' : 'visible translate-y-0 opacity-100',
         )}
       >
-        {selectedSort !== 'latest' ? (
-          <RestaurantCard restaurantList={restaurantList} />
+        {viewType === 'narrow' ? (
+          <NarrowCard restaurantList={restaurantList} />
         ) : (
-          <RestaurantWideCard restaurantList={restaurantList} />
+          <WideCard restaurantList={restaurantList} />
         )}
       </section>
       <section
@@ -48,7 +74,7 @@ export default function RestaurantContents() {
           showMap ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
         )}
       >
-        TODO: 카카오맵 구현
+        <RestaurantMap center={center} onCenterChange={setCenter} restaurantList={restaurantList} />
       </section>
 
       {/* footer section */}
