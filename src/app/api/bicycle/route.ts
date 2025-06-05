@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
-import { DdarungiStation } from '@/app/(full-layout)/transit/types/bicycleType'
+import { BicycleStationType } from '@/app/(full-layout)/transit/types/bicycleType'
 
 // 조회할 따릉이 거치대 ID 목록 (서울시 API의 stationId)
-const TARGET_STATION_IDS = ['3187', '426', '295', '422', '293']
+const TARGET_STATION_IDS = ['295', '3187', '426', '422', '293']
 
 export async function GET() {
   try {
@@ -42,7 +42,7 @@ export async function GET() {
           return null
         }
 
-        return data.rentBikeStatus.row[0] as DdarungiStation
+        return data.rentBikeStatus.row[0] as BicycleStationType
       } catch (error) {
         console.error(`${stationId}번 정류장 처리 중 오류:`, error)
         return null
@@ -50,7 +50,9 @@ export async function GET() {
     })
 
     // 모든 fetch가 끝날 때까지 대기
-    const stations = (await Promise.all(fetchStationPromises)).filter(Boolean) as DdarungiStation[]
+    const stations = (await Promise.all(fetchStationPromises)).filter(
+      Boolean,
+    ) as BicycleStationType[]
 
     if (stations.length === 0) {
       return NextResponse.json(
