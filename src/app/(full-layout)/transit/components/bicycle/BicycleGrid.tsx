@@ -56,7 +56,9 @@ export default function BicycleGrid({
       <div className="flex w-full flex-col gap-3">
         <div className="flex items-center justify-between">
           <div className="font-bold">{stationName.replace(/^\d+\.\s*/, '')}</div>
-          <div className="body4 text-gray-600">{shared}%</div>
+          <div className="body4 rounded-full bg-purple-50 px-2 py-[6px] text-purple-500">
+            {shared}%
+          </div>
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-1">

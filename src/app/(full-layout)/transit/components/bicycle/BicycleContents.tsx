@@ -39,7 +39,7 @@ export default function BicycleContents() {
       <div className="full-width fixed top-23 z-10 flex min-h-10 items-center justify-between border-b-2 border-gray-50 bg-white px-4 py-3">
         <div className="flex items-center gap-2">
           <IcoBicycleLogo />
-          <span className="body2-sb text-gray-600">당산역</span>
+          <span className="body2-sb text-gray-600">회사 근처</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="body4 text-gray-800">
