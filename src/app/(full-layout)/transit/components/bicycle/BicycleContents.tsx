@@ -30,6 +30,8 @@ export default function BicycleContents() {
 
   useEffect(() => {
     fetchStations()
+    const timer = setInterval(fetchStations, 60 * 1000) // 1분마다 새로고침
+    return () => clearInterval(timer)
   }, [])
 
   return (

@@ -38,6 +38,8 @@ export default function SubwayContents() {
 
   useEffect(() => {
     fetchData()
+    const timer = setInterval(fetchData, 30 * 1000) // 30초마다 새로고침
+    return () => clearInterval(timer)
   }, [])
 
   const { groupedNum2 = {}, groupedNum9 = {}, receptnDt } = subwayData || {}
