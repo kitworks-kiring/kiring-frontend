@@ -27,7 +27,7 @@ export default function LoginCallbackPage() {
       localStorage.setItem('refreshToken', refreshToken)
       router.push('/') // ✅ 메인 페이지로 이동
     } else {
-      alert('로그인 실패')
+      // alert('로그인 실패')
       router.push('/login')
     }
   }, [searchParams, router])

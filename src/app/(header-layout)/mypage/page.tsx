@@ -14,7 +14,6 @@ export default function MyPage() {
   } | null>(null)
   const [isAuthChecked, setIsAuthChecked] = useState(false)
 
-  // ✅ accessToken 기반 로그인 여부 확인
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken')
     if (!accessToken) {
@@ -44,7 +43,7 @@ export default function MyPage() {
   const handleLogout = () => {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
-    router.push('/login')
+    router.push(`${process.env.NEXT_PUBLIC_API_URL}auth/logout`)
   }
 
   if (!isAuthChecked) return null
