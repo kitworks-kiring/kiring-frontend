@@ -17,7 +17,7 @@ export default function DefaultTab({ tabs, active, onChange }: DefaultTabProps) 
   return (
     <nav
       aria-label="페이지 분류 탭"
-      className="position-centered-x full-width fixed top-14 z-1 h-9 border-b border-gray-100 bg-white px-4"
+      className="position-centered-x full-width fixed top-14 z-10 h-9 border-b border-gray-100 bg-white px-4"
     >
       <ul role="tablist" className="flex">
         {tabs.map(({ label, value }) => (
