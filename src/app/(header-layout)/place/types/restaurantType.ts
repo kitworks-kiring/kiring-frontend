@@ -20,10 +20,3 @@ export interface RestaurantMapProps {
   onCenterChange: (center: LatLngType) => void
   restaurantList: RestaurantListType
 }
-
-export interface CalcDistanceType {
-  oldLat: number
-  oldLng: number
-  newLat: number
-  newLng: number
-}

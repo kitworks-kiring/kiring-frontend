@@ -11,6 +11,8 @@ export default function RestaurantMap({
   const mapRef = useRef<kakao.maps.Map>(null)
   const isProgrammaticMove = useRef(false) // 프로그램 이동(↔ 사용자 이동) 여부를 판단하기 위한 ref
   const THRESHOLD = 30 // 중심 좌표 변화 감지 임계값(m)
+  const MARKER_IMG_URL =
+    'https://pub-cf3b9667253a490495a16433a99bd7ca.r2.dev/ico/ico-place-map-pin.svg'
 
   const getMapCenterPoint = () => {
     if (isProgrammaticMove.current) {
@@ -55,7 +57,7 @@ export default function RestaurantMap({
           position={{ lat: restaurant.lat, lng: restaurant.lng }}
           title={restaurant.name}
           image={{
-            src: 'https://pub-cf3b9667253a490495a16433a99bd7ca.r2.dev/%E1%84%80%E1%85%AD%E1%84%90%E1%85%A9%E1%86%BC/ico-place-map-pin.svg', // 마커 이미지 URL
+            src: MARKER_IMG_URL, // 마커 이미지 URL
             size: { width: 24, height: 35 }, // 마커 이미지 크기
             options: {
               offset: { x: 5, y: 40 }, // 마커 이미지의 기준점 위치

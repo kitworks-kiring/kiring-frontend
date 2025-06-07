@@ -15,6 +15,9 @@ export default function BicycleGrid({
   stationLatitude,
   stationLongitude,
 }: Omit<BicycleStationType, 'stationId'> & { index: number }) {
+  const MARKER_IMG_URL =
+    'https://pub-cf3b9667253a490495a16433a99bd7ca.r2.dev/ico/ico-bicycle-map-pin.svg'
+
   const walkingDistance = getDistanceFromCompany({
     lat: Number(stationLatitude),
     lng: Number(stationLongitude),
@@ -46,7 +49,7 @@ export default function BicycleGrid({
         />
         {/* 마커 */}
         <Image
-          src="https://pub-cf3b9667253a490495a16433a99bd7ca.r2.dev/%E1%84%80%E1%85%AD%E1%84%90%E1%85%A9%E1%86%BC/ico-bicycle-map-pin.svg"
+          src={MARKER_IMG_URL}
           alt="bicycle-map-pin"
           width={16}
           height={20}
