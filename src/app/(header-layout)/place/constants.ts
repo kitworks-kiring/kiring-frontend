@@ -43,3 +43,11 @@ export const PLACE_SORT_DROPDOWN_LIST = [
     value: 'latest',
   },
 ] as const
+
+export const MARKER_IMG_URL =
+  'https://pub-cf3b9667253a490495a16433a99bd7ca.r2.dev/ico/ico-place-map-pin.svg'
+export const LIKE_IMG_URL = 'https://pub-cf3b9667253a490495a16433a99bd7ca.r2.dev/ico/ico-like.svg'
+export const NOT_LIKE_BTN_IMG_URL =
+  'https://pub-cf3b9667253a490495a16433a99bd7ca.r2.dev/ico/ico-like-button.svg'
+export const LIKED_BTN_IMG_URL =
+  'https://pub-cf3b9667253a490495a16433a99bd7ca.r2.dev/ico/ico-liked-button.svg'

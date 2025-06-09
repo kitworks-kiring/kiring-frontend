@@ -19,4 +19,6 @@ export interface RestaurantMapProps {
   center: LatLngType
   onCenterChange: (center: LatLngType) => void
   restaurantList: RestaurantListType
+  focusedRestaurant: RestaurantType | null
+  onFocusChange: (restaurant: RestaurantType | null) => void
 }

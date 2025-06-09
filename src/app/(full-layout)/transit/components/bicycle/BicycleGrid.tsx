@@ -4,6 +4,7 @@ import IcoBicycle from '@/assets/ico-bicycle.svg'
 import IcoWalking from '@/assets/ico-walking.svg'
 import { StaticMap } from 'react-kakao-maps-sdk'
 import { getDistanceFromCompany, getWalkingTimeFromCompany } from '@/utils/calcDistance'
+import { MARKER_IMG_URL } from '@/app/(header-layout)/place/constants'
 import { useMemo } from 'react'
 
 export default function BicycleGrid({
@@ -15,9 +16,6 @@ export default function BicycleGrid({
   stationLatitude,
   stationLongitude,
 }: Omit<BicycleStationType, 'stationId'> & { index: number }) {
-  const MARKER_IMG_URL =
-    'https://pub-cf3b9667253a490495a16433a99bd7ca.r2.dev/ico/ico-bicycle-map-pin.svg'
-
   const walkingDistance = getDistanceFromCompany({
     lat: Number(stationLatitude),
     lng: Number(stationLongitude),
