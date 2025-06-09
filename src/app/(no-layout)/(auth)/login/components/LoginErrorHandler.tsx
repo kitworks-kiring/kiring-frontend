@@ -1,23 +1,23 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { LOGIN_ERROR_MESSAGES } from '@/app/(no-layout)/(auth)/login/constants'
 import { signIn } from 'next-auth/react'
 
 export default function LoginErrorHandler() {
   const searchParams = useSearchParams()
-  const error = searchParams.get('error')
+  const errorCode = searchParams.get('errorCode')
+  const hasShown = useRef(false)
 
   useEffect(() => {
-    if (!error || error === 'callback') return
-
+    if (!errorCode || hasShown.current) return
+    hasShown.current = true
     // 에러 메시지
-    showLoginErrorMessage(error)
-
-    // 메시지 확인 후 ?error= 파라미터 제거
-    removeErrorParam()
-  }, [error])
+    showLoginErrorMessage(errorCode)
+    // 메시지 확인 후 ?errorCode= 파라미터 제거
+    removeErrorParams()
+  }, [errorCode])
 
   const showLoginErrorMessage = (type?: string): void => {
     const errorItem =
@@ -36,9 +36,9 @@ export default function LoginErrorHandler() {
     alert(message)
   }
 
-  const removeErrorParam = () => {
+  const removeErrorParams = () => {
     const url = new URL(window.location.href)
-    url.searchParams.delete('error')
+    url.searchParams.delete('errorCode')
     window.history.replaceState({}, '', url.toString())
   }
 
