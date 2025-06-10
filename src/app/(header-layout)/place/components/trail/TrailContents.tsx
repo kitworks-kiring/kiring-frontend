@@ -1,10 +1,10 @@
 import Navigation from '@/components/layout/Navigation'
-import CommingSoon from '@/components/status/CommingSoon'
+import ComingSoon from '@/components/status/ComingSoon'
 
 export default function TrailContents() {
   return (
     <section className="nav-pd h-full pt-9">
-      <CommingSoon />
+      <ComingSoon />
       <Navigation />
     </section>
   )
