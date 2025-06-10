@@ -1,0 +1,79 @@
+/* 등장 시 스케일 + 페이드 인 */
+@keyframes fadeScaleIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.fade-scale-profile {
+  animation: fadeScaleIn 0.5s ease-out forwards;
+}
+
+.fade-scale-effect {
+  animation: fadeScaleIn 0.5s ease-out forwards;
+  animation-delay: 0.2s;
+}
+
+/* 둥둥 뜨기 */
+@keyframes floatStar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes floatSquare {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+}
+
+@keyframes floatTwinkle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* 각각 초기 등장 + float 반복 */
+.float-star {
+  animation:
+    fadeScaleIn 0.2s ease-out forwards,
+    floatStar 4s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+
+.float-square {
+  animation:
+    fadeScaleIn 0.2s ease-out forwards,
+    floatSquare 5s ease-in-out infinite;
+  animation-delay: 0.7s;
+}
+
+.float-twinkle {
+  animation:
+    fadeScaleIn 0.2s ease-out forwards,
+    floatTwinkle 6s ease-in-out infinite;
+  animation-delay: 0.8s;
+}
+
+/* 공통 초기 상태 */
+.effect-icon,
+.effect-effect {
+  opacity: 0;
+}

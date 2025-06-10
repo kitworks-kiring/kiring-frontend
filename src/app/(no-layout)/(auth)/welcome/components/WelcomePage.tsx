@@ -4,17 +4,12 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
-
-const EMOJIS = ['🎉', '✨', '🎈', '🥳', '💫', '🎊']
+import WelcomeEffect from '@/app/(no-layout)/(auth)/welcome/components/WelcomeEffect'
 
 export default function WelcomePage() {
   const router = useRouter()
   const [user, setUser] = useState<{
     name?: string
-    nickname?: string
-    email?: string
-    team?: { name: string }
-    profileImageUrl?: string
     kiringImageUrl?: string
   } | null>(null)
   const [isAuthChecked, setIsAuthChecked] = useState(false)
@@ -24,6 +19,12 @@ export default function WelcomePage() {
     const accessToken = localStorage.getItem('accessToken')
     if (!accessToken) {
       router.push('/login')
+      return
+    }
+
+    const isWelcomeShown = localStorage.getItem('welcomeShown')
+    if (isWelcomeShown) {
+      router.replace('/')
       return
     }
     setIsAuthChecked(true)
@@ -42,20 +43,14 @@ export default function WelcomePage() {
       .then((data) => {
         const member = data?.data?.member
         setUser(member)
-
-        // 애니메이션 실행 트리거
+        // 웰컴 페이지 노출 여부 저장
+        localStorage.setItem('welcomeShown', 'true')
+        // 애니메이션 효과
         setTimeout(() => setShowAnimation(true))
       })
       .catch((err) => {
         console.error('사용자 정보 조회 실패:', err)
       })
-
-    localStorage.setItem('welcomeShown', 'true')
-    const isWelcomeShown = localStorage.getItem('welcomeShown')
-    if (isWelcomeShown) {
-      router.replace('/')
-      return
-    }
   }, [])
 
   const handleMypage = () => {
@@ -70,13 +65,14 @@ export default function WelcomePage() {
         <div className="head5 text-white">키링에 오신걸 환영해요, 당신과 함께할 키링이에요!</div>
       </div>
 
-      <div className={clsx('relative z-10', showAnimation && 'animate-pop')}>
+      {/* 키링 이미지 */}
+      <div className={clsx('relative z-10', showAnimation && 'fade-scale-profile')}>
         <Image
           src={user?.kiringImageUrl ?? '/default-kiring.png'}
           alt="사용자 프로필"
           width={320}
           height={320}
-          className="mx-auto rounded-full"
+          className="mx-auto rotate-10 rounded-full"
           priority
         />
       </div>
@@ -99,39 +95,8 @@ export default function WelcomePage() {
         </button>
       </div>
 
-      {showAnimation && <EmojiBurst emojis={EMOJIS} />}
+      {/* 애니메이션 효과 */}
+      {showAnimation && <WelcomeEffect />}
     </div>
   )
 }
-
-// 🎇 이모티콘 팡팡 컴포넌트
-function EmojiBurst({ emojis }: { emojis: string[] }) {
-  return (
-    <div className="pointer-events-none absolute inset-0 z-0">
-      {Array.from({ length: 12 }).map((_, i) => {
-        const emoji = emojis[i % emojis.length]
-        const left = Math.random() * 100
-        const top = Math.random() * 100
-        const delay = Math.random() * 0.5
-        const rotate = Math.random() * 360
-
-        return (
-          <div
-            key={i}
-            className="animate-burst absolute text-2xl"
-            style={{
-              left: `${left}%`,
-              top: `${top}%`,
-              animationDelay: `${delay}s`,
-              transform: `rotate(${rotate}deg)`,
-            }}
-          >
-            {emoji}
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-;<style></style>

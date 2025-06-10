@@ -13,6 +13,7 @@ export default function LoginCallbackPage() {
     const refreshToken = searchParams.get('refreshToken')
     const errorCode = searchParams.get('errorCode')
 
+    // 에러 처리
     if (errorCode) {
       const loginUrl = new URL('/login', window.location.origin)
       loginUrl.searchParams.set('errorCode', errorCode)
@@ -20,21 +21,24 @@ export default function LoginCallbackPage() {
       return
     }
 
+    // 토큰 없으면 로그인 페이지
     if (!accessToken || !refreshToken) {
       router.replace('/login')
       return
     }
 
+    // 토큰 저장
     localStorage.setItem('accessToken', accessToken)
     localStorage.setItem('refreshToken', refreshToken)
 
+    // 첫 로그인시 환영 페이지로 리다이렉트
     const isWelcomeShown = localStorage.getItem('welcomeShown')
     if (!isWelcomeShown) {
-      localStorage.setItem('welcomeShown', 'true')
       router.replace('/welcome')
       return
     }
 
+    // 로그인 성공시 홈으로 리다이렉트
     router.replace('/')
   }, [searchParams, router])
 
