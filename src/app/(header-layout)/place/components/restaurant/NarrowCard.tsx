@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
-import { getDistanceFromCompany, getWalkingTimeFromCompany } from '@/utils/calcDistance'
+import { getDistanceFromCompany } from '@/utils/calcDistance'
 import {
   LIKE_IMG_URL,
   NOT_LIKE_BTN_IMG_URL,
@@ -79,11 +79,8 @@ export default function NarrowCard({
               </span>
               <span className="text-gray-300">/</span>
               <span className="text-gray-600">
-                {/* 평균 <b className="text-gray-700">{(+averagePrice).toLocaleString()}원</b> */}
                 평균{' '}
-                <b className="text-gray-700">
-                  {getWalkingTimeFromCompany({ lat: restaurant.lat, lng: restaurant.lng })}분
-                </b>
+                <b className="text-gray-700">{(+restaurant.averagePrice).toLocaleString()}원</b>
               </span>
             </li>
             <li>

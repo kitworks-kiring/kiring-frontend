@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { Map, ZoomControl, MapMarker, CustomOverlayMap } from 'react-kakao-maps-sdk'
+import { Map as KakaoMap, ZoomControl, MapMarker, CustomOverlayMap } from 'react-kakao-maps-sdk'
 import clsx from 'clsx'
 import { getCalcDistance } from '@/utils/calcDistance'
 import NarrowCard from '@/app/(header-layout)/place/components/restaurant/NarrowCard'
@@ -49,7 +49,7 @@ export default function RestaurantMap({
 
   return (
     <>
-      <Map
+      <KakaoMap
         ref={mapRef}
         center={center}
         style={{
@@ -102,7 +102,7 @@ export default function RestaurantMap({
           </div>
         ))}
         <ZoomControl position={'RIGHT'} />
-      </Map>
+      </KakaoMap>
       <div className="position-centered-x absolute bottom-10 z-50 w-9/10 rounded-l-2xl rounded-r-2xl bg-white px-2 shadow-lg">
         {focusedRestaurant && <NarrowCard restaurantList={[focusedRestaurant]} />}
       </div>
