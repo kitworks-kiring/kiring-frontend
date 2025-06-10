@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import clsx from 'clsx'
+import IcoToggle from '@/assets/ico-toggle.svg'
 
 export interface SortItem {
   label: string
@@ -57,7 +58,10 @@ export default function SortSelectBox({ sortOptions, active, onChange }: SortSel
         onClick={() => setIsOpen((prev: boolean) => !prev)}
       >
         <span>{currentActive?.label}</span>
-        <span aria-hidden="true">{isOpen ? '▴' : '▾'}</span>
+        <div aria-hidden="true" className={clsx('flex items-center', isOpen ? 'rotate-180' : '')}>
+          <IcoToggle />
+        </div>
+        {/* <span aria-hidden="true">{isOpen ? '▴' : '▾'}</span> */}
       </button>
       {isOpen && (
         <ul
