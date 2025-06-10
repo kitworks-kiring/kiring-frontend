@@ -1,12 +1,21 @@
 import { useRef } from 'react'
-import { Map, ZoomControl, MapMarker } from 'react-kakao-maps-sdk'
+import { Map as KakaoMap, ZoomControl, MapMarker, CustomOverlayMap } from 'react-kakao-maps-sdk'
+import clsx from 'clsx'
 import { getCalcDistance } from '@/utils/calcDistance'
-import { RestaurantMapProps } from '@/app/(header-layout)/place/types/restaurantType'
+import NarrowCard from '@/app/(header-layout)/place/components/restaurant/NarrowCard'
+import { MARKER_IMG_URL, LIKE_IMG_URL } from '@/app/(header-layout)/place/constants'
+import {
+  RestaurantMapProps,
+  RestaurantType,
+} from '@/app/(header-layout)/place/types/restaurantType'
+import Image from 'next/image'
 
 export default function RestaurantMap({
   center,
   onCenterChange,
   restaurantList,
+  focusedRestaurant,
+  onFocusChange,
 }: RestaurantMapProps) {
   const mapRef = useRef<kakao.maps.Map>(null)
   const isProgrammaticMove = useRef(false) // 프로그램 이동(↔ 사용자 이동) 여부를 판단하기 위한 ref
@@ -29,42 +38,74 @@ export default function RestaurantMap({
     })
     if (distance > THRESHOLD) {
       onCenterChange({ lat: newLat, lng: newLng })
-      // console.log('restaurantList', restaurantList)
     }
   }
 
-  const onMarkerClick = (marker: kakao.maps.Marker) => {
+  const onMarkerClick = (marker: kakao.maps.Marker, restaurant: RestaurantType) => {
     isProgrammaticMove.current = true
     mapRef.current?.panTo(marker.getPosition())
+    onFocusChange(restaurant)
   }
 
   return (
-    <Map
-      ref={mapRef}
-      center={center}
-      style={{
-        width: '100%',
-        height: '100%',
-      }}
-      level={3}
-      onIdle={getMapCenterPoint}
-    >
-      {restaurantList.map((restaurant) => (
-        <MapMarker
-          key={restaurant.id}
-          position={{ lat: restaurant.lat, lng: restaurant.lng }}
-          title={restaurant.name}
-          image={{
-            src: 'https://pub-cf3b9667253a490495a16433a99bd7ca.r2.dev/%E1%84%80%E1%85%AD%E1%84%90%E1%85%A9%E1%86%BC/ico-place-map-pin.svg', // 마커 이미지 URL
-            size: { width: 24, height: 35 }, // 마커 이미지 크기
-            options: {
-              offset: { x: 5, y: 40 }, // 마커 이미지의 기준점 위치
-            },
-          }}
-          onClick={onMarkerClick} // 마커 클릭 시 해당 위치로 이동
-        ></MapMarker>
-      ))}
-      <ZoomControl position={'RIGHT'} />
-    </Map>
+    <>
+      <KakaoMap
+        ref={mapRef}
+        center={center}
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
+        level={3}
+        onIdle={getMapCenterPoint}
+      >
+        {restaurantList.map((restaurant) => (
+          <div key={restaurant.id} className="relative">
+            <MapMarker
+              key={`marker-${restaurant.id}`}
+              position={{ lat: restaurant.lat, lng: restaurant.lng }}
+              title={restaurant.name}
+              image={{
+                src: MARKER_IMG_URL,
+                size: { width: 24, height: 35 },
+              }}
+              onClick={(marker) => onMarkerClick(marker, restaurant)}
+            />
+            <CustomOverlayMap
+              key={`overlay-${restaurant.id}`}
+              position={{ lat: restaurant.lat, lng: restaurant.lng }}
+              zIndex={5}
+              xAnchor={0}
+              yAnchor={1.15}
+            >
+              <div
+                className={clsx(
+                  'position-centered-x',
+                  focusedRestaurant?.id === restaurant.id ? 'visible' : 'invisible',
+                )}
+              >
+                <div className="flex-col-center gap-0.5 rounded-3xl border-2 border-purple-500 bg-white px-4 py-2">
+                  <span className="body3">{restaurant.name}</span>
+                  <div className="flex-row-center gap-0.5">
+                    <Image
+                      src={LIKE_IMG_URL}
+                      alt="좋아요 수 아이콘"
+                      width={14}
+                      height={14}
+                      className="object-contain"
+                    />
+                    <span className="body4-sb text-purple-500">{restaurant.likes}</span>
+                  </div>
+                </div>
+              </div>
+            </CustomOverlayMap>
+          </div>
+        ))}
+        <ZoomControl position={'RIGHT'} />
+      </KakaoMap>
+      <div className="position-centered-x absolute bottom-10 z-50 w-9/10 rounded-l-2xl rounded-r-2xl bg-white px-2 shadow-lg">
+        {focusedRestaurant && <NarrowCard restaurantList={[focusedRestaurant]} />}
+      </div>
+    </>
   )
 }

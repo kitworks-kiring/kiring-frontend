@@ -19,11 +19,6 @@ export interface RestaurantMapProps {
   center: LatLngType
   onCenterChange: (center: LatLngType) => void
   restaurantList: RestaurantListType
-}
-
-export interface CalcDistanceType {
-  oldLat: number
-  oldLng: number
-  newLat: number
-  newLng: number
+  focusedRestaurant: RestaurantType | null
+  onFocusChange: (restaurant: RestaurantType | null) => void
 }

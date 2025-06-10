@@ -12,7 +12,10 @@ import RestaurantMap from '@/app/(header-layout)/place/components/restaurant/Res
 import Navigation from '@/components/layout/Navigation'
 import { restaurantList as mockList } from '@/app/(header-layout)/place/mock/restaurant'
 import { COMPANY_COORD } from '@/utils/calcDistance'
-import { RestaurantListType } from '@/app/(header-layout)/place/types/restaurantType'
+import {
+  RestaurantType,
+  RestaurantListType,
+} from '@/app/(header-layout)/place/types/restaurantType'
 import PlaceCalendar from '@/assets/place-calendar.svg'
 import IcoNarrow from '@/assets/ico-narrow.svg'
 import IcoWide from '@/assets/ico-wide.svg'
@@ -24,8 +27,8 @@ export default function RestaurantContents() {
     lat: COMPANY_COORD.lat,
     lng: COMPANY_COORD.lng,
   })
-  // const [restaurantList, setRestaurantList] = useState<RestaurantListType>([]) // TODO: API 연동되면 주석 해제
   const [restaurantList, setRestaurantList] = useState<RestaurantListType>(mockList)
+  const [focusedRestaurant, setFocusedRestaurant] = useState<RestaurantType | null>(null)
 
   const initialActiveSort = PLACE_SORT_DROPDOWN_LIST[0].value
   const { selected: selectedSort, onSelect: onSelectSort } = useSingleSelect(initialActiveSort)
@@ -34,10 +37,21 @@ export default function RestaurantContents() {
     value,
   }))
 
+  const showMapTrue = () => setShowMap(true)
+
   useEffect(() => {
     // 중심좌표(center)가 바뀔 때마다 API 호출
     setRestaurantList(mockList)
   }, [center])
+
+  useEffect(() => {
+    // 초기값 설정
+    if (mockList?.[0]?.id) {
+      const { lat, lng } = mockList[0]
+      setCenter({ lat, lng })
+      setFocusedRestaurant(mockList[0])
+    }
+  }, [])
 
   return (
     <div className="relative pt-9">
@@ -63,7 +77,12 @@ export default function RestaurantContents() {
         )}
       >
         {viewType === 'narrow' ? (
-          <NarrowCard restaurantList={restaurantList} />
+          <NarrowCard
+            restaurantList={restaurantList}
+            onFocusChange={setFocusedRestaurant}
+            onCenterChange={setCenter}
+            showMapTrue={showMapTrue}
+          />
         ) : (
           <WideCard restaurantList={restaurantList} />
         )}
@@ -74,7 +93,13 @@ export default function RestaurantContents() {
           showMap ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
         )}
       >
-        <RestaurantMap center={center} onCenterChange={setCenter} restaurantList={restaurantList} />
+        <RestaurantMap
+          center={center}
+          onCenterChange={setCenter}
+          restaurantList={restaurantList}
+          focusedRestaurant={focusedRestaurant}
+          onFocusChange={setFocusedRestaurant}
+        />
       </section>
 
       {/* footer section */}
@@ -83,7 +108,7 @@ export default function RestaurantContents() {
           <button
             type="button"
             className="flex-row-center position-centered-x fixed bottom-25 z-1 rounded-3xl bg-black px-3 py-2 text-white"
-            onClick={() => setShowMap(true)}
+            onClick={showMapTrue}
           >
             <span className="body4-sb">지도 보기</span>
             <PlaceCalendar className="h-5 w-5" />
@@ -97,7 +122,8 @@ export default function RestaurantContents() {
             className="relative h-18 w-full min-w-80"
             onClick={() => setShowMap(false)}
           >
-            <div className="position-centered-x absolute top-4 h-2 w-20 rounded-sm bg-gray-200" />
+            <div className="position-centered-x absolute top-4 h-1 w-20 rounded-sm bg-gray-200" />
+            <span className="body4-sb text-gray-800">목록보기</span>
           </button>
         </div>
       )}
