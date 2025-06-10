@@ -45,3 +45,33 @@
 .line-9-border {
   @apply border-[#D1A62C];
 }
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-pop {
+  animation: popIn 0.6s ease-out forwards;
+}
+
+@keyframes burst {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x, 50px), var(--y, -80px)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.animate-burst {
+  animation: burst 5s ease-out forwards;
+}
