@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { LOGIN_ERROR_MESSAGES } from '@/app/(no-layout)/(auth)/login/constants'
-import { signIn } from 'next-auth/react'
 
 export default function LoginErrorHandler() {
   const searchParams = useSearchParams()
@@ -22,14 +21,14 @@ export default function LoginErrorHandler() {
   const showLoginErrorMessage = (type?: string): void => {
     const errorItem =
       LOGIN_ERROR_MESSAGES.find((err) => err.type === type) ??
-      LOGIN_ERROR_MESSAGES.find((err) => err.type === 'Default')!
+      LOGIN_ERROR_MESSAGES.find((err) => err.type === 'ERR_Default')!
 
     const { message, confirmable } = errorItem
 
     if (confirmable) {
       const shouldRetry = confirm(message)
       if (shouldRetry) {
-        signIn('kakao', { callbackUrl: '/', prompt: 'login' })
+        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/kakao'`
       }
       return
     }
