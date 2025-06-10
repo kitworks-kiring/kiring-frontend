@@ -1,9 +1,10 @@
 import Navigation from '@/components/layout/Navigation'
+import CommingSoon from '@/components/status/CommingSoon'
 
 export default function TrailContents() {
   return (
-    <section className="h-[calc(100%-4.5rem)]">
-      <p className="flex-row-center h-full">준비 중입니다.</p>
+    <section className="nav-pd h-full pt-9">
+      <CommingSoon />
       <Navigation />
     </section>
   )
