@@ -73,9 +73,7 @@ export default function NarrowCard({
             </li>
             <li className={clsx(flexItemsCenter, 'body5 gap-1')}>
               <span className="text-purple-300">
-                {getDistanceFromCompany({ lat: restaurant.lat, lng: restaurant.lng }) ??
-                  restaurant.distance}
-                m
+                {getDistanceFromCompany({ lat: restaurant.lat, lng: restaurant.lng })}m
               </span>
               <span className="text-gray-300">/</span>
               <span className="text-gray-600">
