@@ -11,6 +11,8 @@ export const restaurantList = [
     popular: true,
     menus: ['감자탕', '볶음밥', '해장'],
     liked: true,
+    lat: 37.53221,
+    lng: 126.905847,
   },
   {
     id: 2,
@@ -24,6 +26,8 @@ export const restaurantList = [
     popular: true,
     menus: ['돈까스', '라멘', '모밀'],
     liked: false,
+    lat: 37.535357,
+    lng: 126.899492,
   },
   {
     id: 3,
@@ -37,6 +41,8 @@ export const restaurantList = [
     popular: false,
     menus: ['순대국밥', '순대', '보쌈'],
     liked: true,
+    lat: 37.535376,
+    lng: 126.899277,
   },
   {
     id: 4,
@@ -50,6 +56,8 @@ export const restaurantList = [
     popular: true,
     menus: ['미나리', '소고기', '칼국수'],
     liked: false,
+    lat: 37.535768,
+    lng: 126.900539,
   },
   {
     id: 5,
@@ -63,6 +71,8 @@ export const restaurantList = [
     popular: false,
     menus: ['파스타', '리조또', '피자'],
     liked: false,
+    lat: 37.532482,
+    lng: 126.905167,
   },
   {
     id: 6,
@@ -76,6 +86,8 @@ export const restaurantList = [
     popular: true,
     menus: ['쌀국수', '껌승', '짜조'],
     liked: true,
+    lat: 37.53503,
+    lng: 126.903847,
   },
   {
     id: 7,
@@ -89,5 +101,7 @@ export const restaurantList = [
     popular: false,
     menus: ['히츠마부시', '부타동', '사케동'],
     liked: false,
+    lat: 37.532226,
+    lng: 126.904647,
   },
 ]
