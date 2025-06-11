@@ -91,7 +91,7 @@ export default function WelcomePage() {
           onClick={() => router.push('/')}
           className="w-full text-white/90 underline"
         >
-          나중에 하기
+          나중에
         </button>
       </div>
 
