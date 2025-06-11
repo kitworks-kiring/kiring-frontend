@@ -1,3 +1,15 @@
+/* 초기 이름, 환영 메세지 */
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* 등장 시 스케일 + 페이드 인 */
 @keyframes fadeScaleIn {
   0% {
@@ -10,16 +22,17 @@
   }
 }
 
-.fade-scale-profile {
-  animation: fadeScaleIn 0.5s ease-out forwards;
-}
-
-.fade-scale-effect {
-  animation: fadeScaleIn 0.5s ease-out forwards;
-  animation-delay: 0.2s;
-}
-
 /* 둥둥 뜨기 */
+@keyframes floatProfile {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+}
+
 @keyframes floatStar {
   0%,
   100% {
@@ -50,30 +63,54 @@
   }
 }
 
-/* 각각 초기 등장 + float 반복 */
+/* 공통 초기 상태 */
+.effect-name,
+.effect-welcome,
+.effect-profile,
+.effect-icon,
+.effect-effect {
+  opacity: 0;
+}
+
+.fade-name {
+  animation: fadeUp 0.4s ease-out forwards;
+  animation-delay: 0.2s;
+}
+
+.fade-welcome {
+  animation: fadeUp 0.4s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+.fade-scale-profile {
+  animation:
+    fadeScaleIn 0.4s ease-out forwards,
+    floatProfile 4s ease-in-out infinite;
+  animation-delay: 1s, 1.5s;
+}
+
+.fade-scale-effect {
+  animation: fadeScaleIn 0.4s ease-out forwards;
+  animation-delay: 1.2s;
+}
+
 .float-star {
   animation:
-    fadeScaleIn 0.2s ease-out forwards,
+    fadeScaleIn 0.3s ease-out forwards,
     floatStar 4s ease-in-out infinite;
-  animation-delay: 0.6s;
+  animation-delay: 1.3s;
 }
 
 .float-square {
   animation:
-    fadeScaleIn 0.2s ease-out forwards,
+    fadeScaleIn 0.3s ease-out forwards,
     floatSquare 5s ease-in-out infinite;
-  animation-delay: 0.7s;
+  animation-delay: 1.4s;
 }
 
 .float-twinkle {
   animation:
-    fadeScaleIn 0.2s ease-out forwards,
+    fadeScaleIn 0.3s ease-out forwards,
     floatTwinkle 6s ease-in-out infinite;
-  animation-delay: 0.8s;
-}
-
-/* 공통 초기 상태 */
-.effect-icon,
-.effect-effect {
-  opacity: 0;
+  animation-delay: 1.5s;
 }

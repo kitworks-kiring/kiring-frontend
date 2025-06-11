@@ -49,12 +49,21 @@ export default function WelcomePage() {
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-between overflow-hidden bg-gradient-to-b from-purple-300 to-purple-600 px-4 py-10 text-white">
       <div className="flex-col-center z-10 mt-22 flex w-full max-w-md gap-6">
-        <div className="head2">{user?.name}님</div>
-        <div className="head5 text-white">키링에 오신걸 환영해요, 당신과 함께할 키링이에요!</div>
+        <div className={clsx('head2 effect-name', showAnimation && 'fade-name')}>
+          {user?.name}님
+        </div>
+        <div className={clsx('head5 effect-welcome text-white', showAnimation && 'fade-welcome')}>
+          키링에 오신걸 환영해요, 당신과 함께할 키링이에요!
+        </div>
       </div>
 
       {/* 키링 이미지 */}
-      <div className={clsx('relative z-10', showAnimation && 'effect-profile fade-scale-profile')}>
+      <div
+        className={clsx(
+          'effect-profile relative z-10',
+          showAnimation && 'fade-scale-profile float-profile',
+        )}
+      >
         <Image
           src={user?.kiringImageUrl ?? '/default-kiring.png'}
           alt="사용자 프로필"
