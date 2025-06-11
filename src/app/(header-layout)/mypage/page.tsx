@@ -1,43 +1,51 @@
 'use client'
 
-import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { axiosInstance } from '@/lib/api/axios'
+import Cookies from 'js-cookie'
+
 export default function MyPage() {
-  const { data: session, status } = useSession()
   const router = useRouter()
+  const [user, setUser] = useState<{
+    nickname?: string
+    email?: string
+    team?: { name: string }
+    profileImageUrl?: string
+  } | null>(null)
 
   useEffect(() => {
-    if (status === 'unauthenticated') router.push('/login')
-  }, [status, router])
+    axiosInstance
+      .get('/members/me')
+      .then((res) => setUser(res.data?.data?.member))
+      .catch((err) => {
+        console.error('사용자 정보 조회 실패:', err)
+      })
+  }, [])
 
+  // ✅ 로그아웃 시 토큰 삭제
   const handleLogout = () => {
-    signOut({ callbackUrl: '/login' })
-  }
-
-  const isLoading = status === 'loading'
-  const isLoggedIn = status === 'authenticated' && session
-
-  if (isLoading || !isLoggedIn) {
-    return null
+    Cookies.remove('accessToken')
+    Cookies.remove('refreshToken')
+    router.push(`${process.env.NEXT_PUBLIC_API_URL}auth/logout`)
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-md space-y-8">
         <div className="text-center">
-          {session.user?.image && (
-            <Image
-              src={session.user.image}
-              alt={session.user.name || '프로필'}
-              width={96}
-              height={96}
-              className="mx-auto rounded-full"
-              priority
-            />
-          )}
-          <h2 className="head3 mt-4">{session.user?.name || '사용자'}</h2>
+          <Image
+            src={user?.profileImageUrl ?? '/default-avatar.png'}
+            alt="사용자 프로필"
+            width={96}
+            height={96}
+            className="mx-auto rounded-full"
+            priority
+          />
+          <h2 className="head3 mt-4">{user?.nickname ?? '사용자'}</h2>
+          <div className="mt-2 text-gray-600">{user?.email}</div>
+          <div className="mt-1 text-gray-500">{user?.team?.name}</div>
         </div>
 
         <div className="space-y-4">
