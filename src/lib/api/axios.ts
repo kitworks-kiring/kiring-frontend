@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+import Cookies from 'js-cookie'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || ''
 
@@ -23,7 +24,10 @@ export const axiosInstance = axios.create({
 // 요청 인터셉터
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // TODO: 인증 토큰 등의 헤더 추가
+    const accessToken = Cookies.get('accessToken')
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`
+    }
     return config
   },
   (error) => Promise.reject(error),

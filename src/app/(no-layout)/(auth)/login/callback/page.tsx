@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import Cookies from 'js-cookie'
 
 export default function LoginCallbackPage() {
   const router = useRouter()
@@ -27,9 +28,9 @@ export default function LoginCallbackPage() {
       return
     }
 
-    // 토큰 저장
-    localStorage.setItem('accessToken', accessToken)
-    localStorage.setItem('refreshToken', refreshToken)
+    // 로그인 성공 시 쿠키 저장
+    Cookies.set('accessToken', accessToken, { path: '/', expires: 0.02 }) // 약 30분
+    Cookies.set('refreshToken', refreshToken, { path: '/', expires: 7 }) // 7일 유효
 
     // 첫 로그인시 환영 페이지로 리다이렉트
     const isWelcomeShown = localStorage.getItem('welcomeShown')

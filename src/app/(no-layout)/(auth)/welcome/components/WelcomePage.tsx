@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
 import WelcomeEffect from '@/app/(no-layout)/(auth)/welcome/components/WelcomeEffect'
+import { axiosInstance } from '@/lib/api/axios'
 
 export default function WelcomePage() {
   const router = useRouter()
@@ -16,33 +17,20 @@ export default function WelcomePage() {
   const [showAnimation, setShowAnimation] = useState(false)
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken')
-    if (!accessToken) {
-      router.push('/login')
-      return
-    }
-
     const isWelcomeShown = localStorage.getItem('welcomeShown')
     if (isWelcomeShown) {
       router.replace('/')
       return
     }
+
     setIsAuthChecked(true)
   }, [router])
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken')
-    if (!accessToken) return
-
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}members/me`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const member = data?.data?.member
-        setUser(member)
+    axiosInstance
+      .get('/members/me')
+      .then((res) => {
+        setUser(res.data?.data?.member)
         // 웰컴 페이지 노출 여부 저장
         localStorage.setItem('welcomeShown', 'true')
         // 애니메이션 효과
@@ -66,7 +54,7 @@ export default function WelcomePage() {
       </div>
 
       {/* 키링 이미지 */}
-      <div className={clsx('relative z-10', showAnimation && 'fade-scale-profile')}>
+      <div className={clsx('relative z-10', showAnimation && 'effect-profile fade-scale-profile')}>
         <Image
           src={user?.kiringImageUrl ?? '/default-kiring.png'}
           alt="사용자 프로필"
