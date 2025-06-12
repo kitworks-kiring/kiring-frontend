@@ -63,7 +63,7 @@ export default function BicycleGrid({
             <IcoBicycleLogo />
             <div className="font-bold">{stationName.replace(/^\d+\.\s*/, '')}</div>
           </div>
-          <div className="body4 border-system-purple text-system-purple rounded-full border px-2 py-1">
+          <div className="body5 border-system-purple text-system-purple rounded-full border px-2 py-1">
             {shared}%
           </div>
         </div>
