@@ -57,6 +57,8 @@ jobs:
           tags: |
             100hailey/nextjs-app:latest
             100hailey/nextjs-app:${{ github.sha }}
+          cache-from: type=registry,ref=100hailey/nextjs-app:buildcache
+          cache-to: type=registry,ref=100hailey/nextjs-app:buildcache,mode=max
 
   # EC2 배포
   deploy-to-ec2:
