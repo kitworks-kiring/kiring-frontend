@@ -1,6 +1,7 @@
 name: Deploy Next.js to EC2
 
 on:
+  # develop 브랜치 push 이벤트 발생 시 빌드 및 배포
   push:
     branches:
       - develop
