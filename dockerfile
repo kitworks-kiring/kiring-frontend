@@ -10,7 +10,6 @@ RUN yarn build
 FROM node:22-alpine
 WORKDIR /app
 COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
 COPY --from=builder /app/package*.json ./
 RUN npm ci --production
 
