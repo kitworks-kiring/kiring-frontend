@@ -85,5 +85,20 @@ jobs:
               -p 3000:3000 \
               --name nextjs-app \
               -e NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
+              -e NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} \
+              -e NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} \
+              -e KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }} \
+              -e KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }} \
+              -e TEST_KAKAO_ID=${{ secrets.TEST_KAKAO_ID }} \
+              -e TEST_KAKAO_PHONE=${{ secrets.TEST_KAKAO_PHONE }} \
+              -e SUBWAY_API_KEY_0=${{ secrets.SUBWAY_API_KEY_0 }} \
+              -e SUBWAY_API_KEY_1=${{ secrets.SUBWAY_API_KEY_1 }} \
+              -e SUBWAY_API_KEY_2=${{ secrets.SUBWAY_API_KEY_2 }} \
+              -e SEOUL_API_KEY=${{ secrets.SEOUL_API_KEY }} \
+              -e NEXT_PUBLIC_KAKAO_MAP_KEY=${{ secrets.NEXT_PUBLIC_KAKAO_MAP_KEY }} \
+              -e NEXT_PUBLIC_TMAP_KEY=${{ secrets.NEXT_PUBLIC_TMAP_KEY }} \
+              -e DATA_GO_KR_API_KEY_0=${{ secrets.DATA_GO_KR_API_KEY_0 }} \
+              -e DATA_GO_KR_API_KEY_1=${{ secrets.DATA_GO_KR_API_KEY_1 }} \
+              -e DATA_GO_KR_API_KEY_2=${{ secrets.DATA_GO_KR_API_KEY_2 }} \
               --restart unless-stopped \
               100hailey/nextjs-app:latest
