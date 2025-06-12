@@ -38,9 +38,27 @@ export default function BusGrid({ stationName, buses, showAll, setShowAll }: Bus
         case '5':
           return <BusCongestionBox color="red" text="혼잡" />
         default:
-          return <BusCongestionBox color="gray" text="-" />
+          return <span className="body3 mr-[1px] text-gray-600">-</span>
       }
     }
+    return <span className="body3 mr-[1px] text-gray-600">-</span>
+  }
+
+  // 도착 메시지 반환
+  function arrivalMessage(arrmsg1: string, exps1: string) {
+    if (arrmsg1.includes('곧') || (Number(exps1) && Number(exps1) < 80))
+      return <span className="text-system-red body3">곧 도착</span>
+    if (Number(exps1) >= 80)
+      return (
+        <span
+          className={clsx(
+            'text-base-black body3',
+            Number(exps1) < 300 ? 'text-system-red' : 'text-basic-black',
+          )}
+        >{`${Math.floor(Number(exps1) / 60)}분 후 도착`}</span>
+      )
+
+    if (!Number(exps1)) return <span className="text-basic-black body3">{arrmsg1}</span>
     return null
   }
 
@@ -69,27 +87,14 @@ export default function BusGrid({ stationName, buses, showAll, setShowAll }: Bus
               {/* 버스 번호 + 색상 */}
               <span
                 className={clsx(
-                  'body4-sb flex items-center justify-center rounded-full px-2 py-1 text-white',
+                  'body4-sb flex min-w-[54px] items-center justify-center rounded-full p-1 text-white',
                   getBusTypeColor(bus.routeType),
                 )}
               >
                 {bus.busRouteAbrv}
               </span>
               {/* 도착 메시지 */}
-              <span
-                className={clsx(
-                  'body3-sb',
-                  bus.arrmsg1.includes('곧') ||
-                    bus.arrmsg1.includes('도착') ||
-                    (Number(bus.traTime1) > 0 && Number(bus.traTime1) < 300)
-                    ? 'text-red-500'
-                    : 'text-base-black',
-                )}
-              >
-                {Number(bus.exps1) < 80
-                  ? '곧 도착'
-                  : `${Math.floor(Number(bus.exps1) / 60)}분 후 도착`}
-              </span>
+              {arrivalMessage(bus.arrmsg1, bus.exps1)}
             </div>
             {/* 혼잡도/좌석 등 */}
             <div>{busCongestion(bus.rerdie_Div1, bus.reride_Num1)}</div>

@@ -12,7 +12,7 @@ import { BUS_TYPE_NAME } from '@/app/(full-layout)/transit/constants'
 export default function BusContents() {
   const [stations, setStations] = useState<BusResponseType[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [showAll, setShowAll] = useState(false)
+  const [showAllMap, setShowAllMap] = useState<{ [stationName: string]: boolean }>({})
 
   async function fetchBusData() {
     setIsLoading(true)
@@ -39,6 +39,10 @@ export default function BusContents() {
     console.log(stations)
   }, [stations])
 
+  const handleShowAll = (stationName: string, value: boolean) => {
+    setShowAllMap((prev) => ({ ...prev, [stationName]: value }))
+  }
+
   return (
     <>
       {/* 버스 정보 헤더 */}
@@ -53,7 +57,9 @@ export default function BusContents() {
           <span className="body2-sb text-gray-600">회사 근처</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="body4 text-gray-800">{isLoading ? '' : dayjs().format('A h:mm:ss')}</div>
+          <div className="body4 text-gray-800">
+            {stations.length > 0 && stations[0].mkTm && dayjs(stations[0].mkTm).format('A h:mm:ss')}
+          </div>
           <button onClick={fetchBusData} disabled={isLoading}>
             <IcoRefresh />
           </button>
@@ -61,7 +67,7 @@ export default function BusContents() {
       </div>
 
       {/* 버스 정보 컨테이너 */}
-      <div className="flex h-full flex-col gap-6 px-4 pt-17">
+      <div className="flex h-full flex-col gap-5 px-4 pt-17">
         <div className="flex items-center gap-3">
           {Object.values(BUS_TYPE_NAME).map(({ name, color }) => (
             <div className="flex items-center gap-1" key={name}>
@@ -84,15 +90,15 @@ export default function BusContents() {
         )}
         {/* 버스 정보 있음 */}
         {stations.length > 0 && !isLoading && (
-          <div>
+          <div className="flex flex-col gap-5 pb-5">
             {stations.map(({ stationName, buses }) => {
               return (
                 <BusGrid
                   key={stationName}
                   stationName={stationName}
-                  showAll={showAll}
+                  showAll={!!showAllMap[stationName]}
                   buses={buses}
-                  setShowAll={setShowAll}
+                  setShowAll={(value) => handleShowAll(stationName, value)}
                 />
               )
             })}

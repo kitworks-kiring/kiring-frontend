@@ -18,5 +18,6 @@ export interface BusArrivalRaw {
 
 export interface BusResponseType {
   stationName: string
+  mkTm: string
   buses: BusArrivalRaw[]
 }
