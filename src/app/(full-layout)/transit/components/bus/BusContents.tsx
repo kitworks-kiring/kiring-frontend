@@ -21,6 +21,7 @@ export default function BusContents() {
       const data = await res.json()
       setStations(data)
     } catch (e) {
+      console.error(e)
       setStations([])
     } finally {
       setTimeout(() => {
