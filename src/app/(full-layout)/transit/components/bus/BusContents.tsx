@@ -21,6 +21,7 @@ export default function BusContents() {
       const data = await res.json()
       setStations(data)
     } catch (e) {
+      console.error(e)
       setStations([])
     } finally {
       setTimeout(() => {
@@ -34,10 +35,6 @@ export default function BusContents() {
     const timer = setInterval(fetchBusData, 60 * 1000)
     return () => clearInterval(timer)
   }, [])
-
-  useEffect(() => {
-    console.log(stations)
-  }, [stations])
 
   const handleShowAll = (stationName: string, value: boolean) => {
     setShowAllMap((prev) => ({ ...prev, [stationName]: value }))
