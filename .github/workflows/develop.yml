@@ -55,8 +55,8 @@ jobs:
           context: .
           push: true
           tags: |
-            xoals6536/nextjs-app:latest
-            xoals6536/nextjs-app:${{ github.sha }}
+            100hailey/nextjs-app:latest
+            100hailey/nextjs-app:${{ github.sha }}
 
   # EC2 배포
   deploy-to-ec2:
@@ -70,7 +70,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
-            docker pull xoals6536/nextjs-app:latest
+            docker pull 100hailey/nextjs-app:latest
             docker stop nextjs-app || true
             docker rm nextjs-app || true
             docker run -d \
@@ -78,4 +78,4 @@ jobs:
               --name nextjs-app \
               -e NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
               --restart unless-stopped \
-              xoals6536/nextjs-app:latest
+              100hailey/nextjs-app:latest
