@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import clsx from 'clsx'
+import { useQuery } from '@tanstack/react-query'
+import { getRestaurantList } from '@/services/restaurant'
 import { useSingleSelect } from '@/components/tabs/BubbleTab/useSingleSelect'
 import { PLACE_SORT_DROPDOWN_LIST } from '@/app/(header-layout)/place/constants'
 import SvgButton from '@/components/ui/SvgButton'
@@ -19,6 +22,7 @@ import {
 import PlaceCalendar from '@/assets/place-calendar.svg'
 import IcoNarrow from '@/assets/ico-narrow.svg'
 import IcoWide from '@/assets/ico-wide.svg'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export default function RestaurantContents() {
   const [viewType, setViewType] = useState<'narrow' | 'wide'>('narrow')
@@ -30,6 +34,8 @@ export default function RestaurantContents() {
   const [restaurantList, setRestaurantList] = useState<RestaurantListType>(mockList)
   const [focusedRestaurant, setFocusedRestaurant] = useState<RestaurantType | null>(null)
 
+  const router = useRouter()
+
   const initialActiveSort = PLACE_SORT_DROPDOWN_LIST[0].value
   const { selected: selectedSort, onSelect: onSelectSort } = useSingleSelect(initialActiveSort)
   const sortOptions: SortItem[] = PLACE_SORT_DROPDOWN_LIST.map(({ label, value }) => ({
@@ -38,6 +44,19 @@ export default function RestaurantContents() {
   }))
 
   const showMapTrue = () => setShowMap(true)
+
+  const { data, isLoading, isError } = useQuery<object>({
+    queryKey: ['restaurantList', center],
+    queryFn: getRestaurantList,
+    refetchOnWindowFocus: false,
+  })
+  if (isError) {
+    router.push('/error')
+  }
+
+  useEffect(() => {
+    console.log('api test', data)
+  }, [data])
 
   useEffect(() => {
     // 중심좌표(center)가 바뀔 때마다 API 호출
@@ -54,7 +73,7 @@ export default function RestaurantContents() {
   }, [])
 
   return (
-    <div className="relative pt-9">
+    <div className="relative h-full pt-9">
       {/* count section */}
       <section className="full-width sticky top-9 z-1 flex h-12 items-center justify-between border-b bg-white px-4">
         <p className="body4 text-gray-500">
@@ -70,40 +89,60 @@ export default function RestaurantContents() {
       </section>
 
       {/* restaurant list section */}
-      <section
-        className={clsx(
-          'nav-pd transition-all duration-600',
-          showMap ? 'invisible translate-y-full opacity-0' : 'visible translate-y-0 opacity-100',
-        )}
-      >
-        {viewType === 'narrow' ? (
-          <NarrowCard
-            restaurantList={restaurantList}
-            onFocusChange={setFocusedRestaurant}
-            onCenterChange={setCenter}
-            showMapTrue={showMapTrue}
-          />
-        ) : (
-          <WideCard restaurantList={restaurantList} />
-        )}
-      </section>
-      <section
-        className={clsx(
-          'full-width position-centered-x fixed top-35 left-0 h-[calc(100dvh-13rem)] bg-blue-50 transition-opacity duration-600',
-          showMap ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
-        )}
-      >
-        <RestaurantMap
-          center={center}
-          onCenterChange={setCenter}
-          restaurantList={restaurantList}
-          focusedRestaurant={focusedRestaurant}
-          onFocusChange={setFocusedRestaurant}
-        />
-      </section>
+      {(isLoading || !data) && (
+        <>
+          <section className="nav-pd h-full">
+            {isLoading ? (
+              <LoadingSpinner />
+            ) : (
+              <p className="flex-row-center body3 h-full text-gray-800">
+                데이터가 존재하지 않습니다.
+              </p>
+            )}
+          </section>
+          <Navigation />
+        </>
+      )}
+      {data && (
+        <>
+          <section
+            className={clsx(
+              'nav-pd transition-all duration-600',
+              showMap
+                ? 'invisible translate-y-full opacity-0'
+                : 'visible translate-y-0 opacity-100',
+            )}
+          >
+            {viewType === 'narrow' ? (
+              <NarrowCard
+                restaurantList={restaurantList}
+                onFocusChange={setFocusedRestaurant}
+                onCenterChange={setCenter}
+                showMapTrue={showMapTrue}
+              />
+            ) : (
+              <WideCard restaurantList={restaurantList} />
+            )}
+          </section>
+          <section
+            className={clsx(
+              'full-width position-centered-x fixed top-35 left-0 h-[calc(100dvh-13rem)] bg-blue-50 transition-opacity duration-600',
+              showMap ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
+            )}
+          >
+            <RestaurantMap
+              center={center}
+              onCenterChange={setCenter}
+              restaurantList={restaurantList}
+              focusedRestaurant={focusedRestaurant}
+              onFocusChange={setFocusedRestaurant}
+            />
+          </section>
+        </>
+      )}
 
       {/* footer section */}
-      {!showMap ? (
+      {data && !showMap && (
         <>
           <button
             type="button"
@@ -115,7 +154,8 @@ export default function RestaurantContents() {
           </button>
           <Navigation />
         </>
-      ) : (
+      )}
+      {data && showMap && (
         <div className="nav-shadow full-width fixed bottom-0 h-18">
           <button
             type="button"

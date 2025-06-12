@@ -14,7 +14,7 @@ const ERROR_MESSAGES = {
 
 // axios 인스턴스 생성
 export const axiosInstance = axios.create({
-  baseURL: API_URL,
+  baseURL: API_URL + '/api/v1',
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
@@ -35,7 +35,12 @@ axiosInstance.interceptors.request.use(
 
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
-  (response: AxiosResponse) => response,
+  (response: AxiosResponse) => {
+    if (!response || response.data?.result !== 'SUCCESS') {
+      return Promise.reject()
+    }
+    return response.data
+  },
   (error: AxiosError) => {
     // TODO: 토스트 UI 적용
     if (error.response) {
