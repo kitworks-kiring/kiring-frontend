@@ -10,8 +10,8 @@ RUN yarn build
 FROM node:22-alpine
 WORKDIR /app
 COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/package*.json ./
-RUN npm ci --production
+COPY --from=builder /app/package.json yarn.lock ./
+RUN yarn install --production
 
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
