@@ -37,7 +37,7 @@ export async function GET() {
   for (const [idx, apiKey] of apiKeys.entries()) {
     if (!apiKey) continue
     try {
-      console.log(`[BUS API] 시도 중인 키 인덱스: ${idx}, 값: ${apiKey.slice(0, 8)}...`)
+      console.log(`[BUS API] 시도 중인 키 인덱스: ${idx}`)
       const results = await Promise.all(
         STATIONS.map(async (station) => {
           // 버스 도착정보 API 호출
