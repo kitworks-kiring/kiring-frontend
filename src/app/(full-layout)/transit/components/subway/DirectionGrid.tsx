@@ -59,14 +59,14 @@ export default function DirectionGridClient({ grouped }: { grouped: SubwayGroup 
               key={korDirection}
               className="flex-1 rounded-xl border border-gray-200 bg-white p-3"
             >
-              <div className="mb-2.5 text-base font-bold text-gray-900">{korDirection}</div>
+              <div className="body2-sb mb-2.5 text-gray-900">{korDirection}</div>
               {trains.map((train, idx) => (
                 <div key={idx} className="mb-1 flex items-center justify-between">
                   <div className="flex items-center gap-0.5 text-gray-600">
                     <span className="body3">{train.destination.replace('행', '')}</span>
                     {isExpress(train.btrainSttus) && <IcoSubwayExpress />}
                   </div>
-                  <span className="body3-sb min-w-[48px] text-right text-purple-500">
+                  <span className="body3 min-w-[48px] text-right text-purple-500">
                     {idx === 0
                       ? formatTimeFull(timeMap[korDirection]?.[idx] ?? Number(train.barvlDt))
                       : formatTimeMin(timeMap[korDirection]?.[idx] ?? Number(train.barvlDt))}
