@@ -35,7 +35,12 @@ axiosInstance.interceptors.request.use(
 
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
-  (response: AxiosResponse) => response.data,
+  (response: AxiosResponse) => {
+    if (!response || response.data?.result !== 'SUCCESS') {
+      return Promise.reject()
+    }
+    return response.data
+  },
   (error: AxiosError) => {
     // TODO: 토스트 UI 적용
     if (error.response) {
