@@ -36,10 +36,6 @@ export default function BusContents() {
     return () => clearInterval(timer)
   }, [])
 
-  useEffect(() => {
-    console.log(stations)
-  }, [stations])
-
   const handleShowAll = (stationName: string, value: boolean) => {
     setShowAllMap((prev) => ({ ...prev, [stationName]: value }))
   }
