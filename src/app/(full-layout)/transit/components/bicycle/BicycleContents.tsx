@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import dayjs from '@/lib/dayjs'
 import IcoRefresh from '@/assets/ico-refresh.svg'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import { BicycleStationType } from '@/app/(full-layout)/transit/types/bicycleType'
 import BicycleGrid from '@/app/(full-layout)/transit/components/bicycle/BicycleGrid'
-import IcoBicycleLogo from '@/assets/ico-bicycle-logo.svg'
 
 export default function BicycleContents() {
   const [stations, setStations] = useState<BicycleStationType[]>([])
@@ -38,7 +38,12 @@ export default function BicycleContents() {
     <>
       <div className="full-width fixed top-23 z-10 flex min-h-10 items-center justify-between border-b-2 border-gray-50 bg-white px-4 py-3">
         <div className="flex items-center gap-2">
-          <IcoBicycleLogo />
+          <Image
+            src="https://pub-cf3b9667253a490495a16433a99bd7ca.r2.dev/ico/ico-place-map-pin.svg"
+            alt=""
+            width={16}
+            height={20}
+          />
           <span className="body2-sb text-gray-600">회사 근처</span>
         </div>
         <div className="flex items-center gap-2">

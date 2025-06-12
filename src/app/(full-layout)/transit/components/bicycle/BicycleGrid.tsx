@@ -6,6 +6,7 @@ import { StaticMap } from 'react-kakao-maps-sdk'
 import { getDistanceFromCompany, getWalkingTimeFromCompany } from '@/utils/calcDistance'
 import { MARKER_IMG_URL } from '@/app/(header-layout)/place/constants'
 import { useMemo } from 'react'
+import IcoBicycleLogo from '@/assets/ico-bicycle-logo.svg'
 
 export default function BicycleGrid({
   index,
@@ -58,8 +59,11 @@ export default function BicycleGrid({
       {/* 자전거 정보 */}
       <div className="flex w-full flex-col gap-3">
         <div className="flex items-center justify-between">
-          <div className="font-bold">{stationName.replace(/^\d+\.\s*/, '')}</div>
-          <div className="body4 rounded-full bg-purple-50 px-2 py-[6px] text-purple-500">
+          <div className="flex items-center gap-2">
+            <IcoBicycleLogo />
+            <div className="font-bold">{stationName.replace(/^\d+\.\s*/, '')}</div>
+          </div>
+          <div className="body4 border-system-purple text-system-purple rounded-full border px-2 py-1">
             {shared}%
           </div>
         </div>
