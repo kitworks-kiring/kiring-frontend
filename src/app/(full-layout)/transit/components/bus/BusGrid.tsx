@@ -66,7 +66,7 @@ export default function BusGrid({ stationName, buses, showAll, setShowAll }: Bus
   const visibleBuses = showAll ? buses : buses.slice(0, 6)
 
   return (
-    <div key={stationName} className="rounded-xl border bg-white p-4 shadow">
+    <div key={stationName} className="rounded-xl border border-gray-100 bg-white p-4">
       {/* 정류소 이름 및 도보 거리 */}
       <div className="mb-2 flex items-center gap-3">
         <IcoBusLogo />

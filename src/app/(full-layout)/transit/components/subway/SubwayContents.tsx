@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import dayjs from '@/lib/dayjs'
-import IcoPin from '@/assets/ico-pin.svg'
 import BubbleTab from '@/components/tabs/BubbleTab'
 import { useSingleSelect } from '@/components/tabs/BubbleTab/useSingleSelect'
 import { SUBWAY_BUBBLES } from '@/app/(full-layout)/transit/constants'
@@ -55,9 +55,14 @@ export default function SubwayContents() {
         />
 
         <div className="flex items-center justify-between border-b-2 border-gray-50 px-4 py-3">
-          <div className="body2-sb flex items-center gap-2 text-gray-600">
-            <IcoPin />
-            당산역
+          <div className="flex items-center gap-2">
+            <Image
+              src="https://pub-cf3b9667253a490495a16433a99bd7ca.r2.dev/ico/ico-place-map-pin.svg"
+              alt=""
+              width={16}
+              height={20}
+            />
+            <span className="body2-sb text-gray-600">당산역</span>
           </div>
           <div className="flex items-center gap-2">
             {subwayData && (
