@@ -61,10 +61,10 @@ jobs:
           context: .
           push: true
           tags: |
-            100hailey/kiring-frontend:latest
-            100hailey/kiring-frontend:${{ github.sha }}
-          cache-from: type=registry,ref=100hailey/kiring-frontend:buildcache
-          cache-to: type=registry,ref=100hailey/kiring-frontend:buildcache,mode=max
+            100hailey/nextjs-app:latest
+            100hailey/nextjs-app:${{ github.sha }}
+          cache-from: type=registry,ref=100hailey/nextjs-app:buildcache
+          cache-to: type=registry,ref=100hailey/nextjs-app:buildcache,mode=max
 
   # EC2 배포
   deploy-to-ec2:
@@ -78,12 +78,12 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
-            docker pull 100hailey/kiring-frontend:latest
-            docker stop kiring-frontend || true
-            docker rm kiring-frontend || true
+            docker pull 100hailey/nextjs-app:latest
+            docker stop nextjs-app || true
+            docker rm nextjs-app || true
             docker run -d \
               -p 3000:3000 \
-              --name kiring-frontend \
+              --name nextjs-app \
               -e NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
               --restart unless-stopped \
-              100hailey/kiring-frontend:latest
+              100hailey/nextjs-app:latest
