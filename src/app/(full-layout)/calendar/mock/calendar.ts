@@ -17,7 +17,7 @@ export const TMP_CALENDAR_SCHEDULES = [
     id: 2,
     date: '2025-06-03',
     event_category: 'study',
-    title: '백엔드,김성호,프론트,김한솔',
+    title: '김성호,김한솔',
   },
   {
     id: 3,
@@ -33,42 +33,6 @@ export const TMP_CALENDAR_SCHEDULES = [
   },
   {
     id: 5,
-    date: '2025-06-03',
-    event_category: 'notice',
-    title: '공지가 있다고 하네요',
-  },
-  {
-    id: 6,
-    date: '2025-06-04',
-    event_category: 'notice',
-    title: '공지가 있다고 하네요',
-  },
-  {
-    id: 7,
-    date: '2025-06-04',
-    event_category: 'study',
-    title: '김성호,김한솔',
-  },
-  {
-    id: 8,
-    date: '2025-06-04',
-    event_category: 'dinner',
-    title: '백엔드',
-  },
-  {
-    id: 9,
-    date: '2025-06-03',
-    event_category: 'dinner',
-    title: '백엔드',
-  },
-  {
-    id: 10,
-    date: '2025-06-03',
-    event_category: 'holiday',
-    title: '',
-  },
-  {
-    id: 11,
     date: '2025-06-03',
     event_category: 'notice',
     title: '공지가 있다고 하네요',

@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { Calendar } from 'react-calendar'
+import { useQuery } from '@tanstack/react-query'
 import dayjs from '@/lib/dayjs'
 import clsx from 'clsx'
+import { getCalendarSchedules } from '@/services/calendar'
 import IcoBirthday from '@/assets/ico-birthday.svg'
 import IcoStudy from '@/assets/ico-study.svg'
 import IcoDinner from '@/assets/ico-dinner.svg'
@@ -11,22 +13,38 @@ import IcoHoliday from '@/assets/ico-holiday.svg'
 import IcoNotice from '@/assets/ico-notice.svg'
 import IcoEmpty from '@/assets/ico-empty.svg'
 import IcoToggle from '@/assets/ico-toggle.svg'
-import { SCHEDULE_TYPE_KO, TMP_CALENDAR_SCHEDULES } from '../mock/calendar'
+import { CalendarResponseType } from '@/app/(full-layout)/calendar/types/calendarType'
+import { SCHEDULE_TYPE_KO } from '../mock/calendar'
 import './react-calendar.css'
 
 export default function CalendarContents() {
   const [clickedDate, setClickedDate] = useState(dayjs().format('YYYY-MM-DD'))
-  const [todayScheduleList, setTodayScheduleList] = useState<typeof TMP_CALENDAR_SCHEDULES>([])
+  const [clickedYearMonth, setClickedYearMonth] = useState(dayjs().format('YYYY-MM'))
+  const [todayScheduleList, setTodayScheduleList] = useState<CalendarResponseType | undefined>([])
+
+  const { data: monthlyScheduleList } = useQuery({
+    queryKey: ['calendar-schedules', clickedYearMonth],
+    queryFn: () =>
+      getCalendarSchedules({
+        year: dayjs(clickedYearMonth).format('YYYY'),
+        month: dayjs(clickedYearMonth).format('MM'),
+      }),
+    refetchOnWindowFocus: false,
+  })
 
   useEffect(() => {
-    const list = TMP_CALENDAR_SCHEDULES.reduce<typeof TMP_CALENDAR_SCHEDULES>((acc, schedule) => {
-      if (dayjs(schedule.date).isSame(dayjs(clickedDate), 'day')) acc.push(schedule)
+    const list = monthlyScheduleList?.reduce<CalendarResponseType>((acc, schedule) => {
+      console.log(dayjs(schedule.start).format('YYYY-MM-DD') === clickedDate)
+      if (dayjs(schedule.start).format('YYYY-MM-DD') === clickedDate) {
+        acc.push(schedule)
+      }
       return acc
     }, [])
     setTodayScheduleList(list)
-  }, [clickedDate])
+  }, [clickedDate, monthlyScheduleList])
 
   const renderElementByType = ({ type, title }: { type: string; title: string }) => {
+    console.log('🚀 ~ renderElementByType ~ type:', type, title)
     const getStudyText = (title: string) => {
       const [beName, feName] = title.split(',')
       const beText = beName ? `백엔드팀 ${beName}님, ` : ''
@@ -116,18 +134,10 @@ export default function CalendarContents() {
           next2Label={null}
           onClickDay={(value) => {
             setClickedDate(dayjs(value).format('YYYY-MM-DD'))
+            setClickedYearMonth(dayjs(value).format('YYYY-MM'))
           }}
           tileContent={({ date }) => {
             const isToday = dayjs(date).isSame(dayjs(), 'day')
-            const todayScheduleList = TMP_CALENDAR_SCHEDULES.reduce<typeof TMP_CALENDAR_SCHEDULES>(
-              (acc, schedule) => {
-                if (dayjs(schedule.date).isSame(dayjs(date), 'day')) {
-                  acc.push(schedule)
-                }
-                return acc
-              },
-              [],
-            )
             return (
               <>
                 {isToday && (
@@ -139,19 +149,20 @@ export default function CalendarContents() {
                   </>
                 )}
                 <div className="flex-row-center absolute bottom-1 h-2 w-full gap-1">
-                  {todayScheduleList.length > 0 &&
+                  {todayScheduleList &&
+                    todayScheduleList?.length > 0 &&
                     todayScheduleList
                       .slice(0, 3)
-                      ?.map((schedule) => (
+                      ?.map(({ eventId, eventType }, idx) => (
                         <div
-                          key={schedule.id}
+                          key={`${eventId}-${eventType}-${idx}`}
                           className={clsx(
                             'h-1 w-1 rounded-full',
-                            schedule.event_category === 'birthday' && 'bg-system-yellow',
-                            schedule.event_category === 'study' && 'bg-system-green',
-                            schedule.event_category === 'dinner' && 'bg-system-blue',
-                            schedule.event_category === 'holiday' && 'bg-system-red',
-                            schedule.event_category === 'notice' && 'bg-system-purple',
+                            eventType === 'birthday' && 'bg-system-yellow',
+                            eventType === 'study' && 'bg-system-green',
+                            eventType === 'dinner' && 'bg-system-blue',
+                            eventType === 'holiday' && 'bg-system-red',
+                            eventType === 'notice' && 'bg-system-purple',
                           )}
                         />
                       ))}
@@ -169,7 +180,7 @@ export default function CalendarContents() {
             ? renderElementByType({ type: 'empty', title: '' })
             : todayScheduleList.map((schedule) =>
                 renderElementByType({
-                  type: schedule.event_category,
+                  type: schedule.eventType,
                   title: schedule.title,
                 }),
               )}
