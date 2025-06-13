@@ -116,7 +116,7 @@ export default function CalendarContents() {
       </section>
       <div className="h-3 bg-gray-50" />
       <section className="p-4">
-        <p className="body3-sb mb-4">{clickedDate}</p>
+        <p className="body3-sb mb-4">{dayjs(clickedDate).format('YYYY년 M월 D일 dddd')}</p>
         <DayScheduleList scheduleList={clickedScheduleList} />
       </section>
     </div>
