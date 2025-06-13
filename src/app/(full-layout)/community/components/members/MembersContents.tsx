@@ -1,5 +1,7 @@
+'use client'
+
 import { MEMBERS_BUBBLES } from '@/app/(full-layout)/constants'
-import BubbleTab, { BubbleItem } from '@/components/tabs/BubbleTab'
+import BubbleTab from '@/components/tabs/BubbleTab'
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getMemberAll } from '@/services/members'
@@ -8,16 +10,23 @@ import Image from 'next/image'
 
 const MemberItem = ({ member }: { member: Member }) => {
   return (
-    <div className="flex items-center gap-2 rounded-lg bg-gray-50 p-3">
-      <Image
-        src={member.profileImageUrl}
-        alt={member.name}
-        width={40}
-        height={40}
-        className="rounded-full"
-      />
-      <div className="body2-sb text-gray-800">{member.name}</div>
-      <div className="body4 text-gray-600">{member.team.name}</div>
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-3 p-2">
+        <Image
+          src={member.profileImageUrl}
+          alt={member.name}
+          width={52}
+          height={52}
+          className="rounded-full border border-gray-300"
+        />
+        <div className="body2-sb text-basic-black">{member.name}</div>
+      </div>
+      <button
+        className="body4 text-basic-black rounded-full border border-gray-200 px-4 py-2"
+        onClick={() => console.log('paper plane to ', member.name)}
+      >
+        <span className="mb-[-2px] block">종이 비행기</span>
+      </button>
     </div>
   )
 }
@@ -42,7 +51,7 @@ export default function MembersContents() {
           onChange={handleBubbleSelect}
           propsClass="body4"
         />
-        <section className="flex flex-col bg-red-300 px-4 py-5">
+        <section className="flex h-[calc(100vh-224px)] flex-col overflow-y-auto px-4 py-5 [&::-webkit-scrollbar]:hidden">
           {selectedBubble === 'all'
             ? members?.members.map((member) => <MemberItem key={member.id} member={member} />)
             : members?.members
