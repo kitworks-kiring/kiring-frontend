@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getMemberMe } from '@/services/member'
 import { MemberMeType } from '@/app/types/memberType'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import { getElapsedPeriodFromJoinDate } from '@/utils/date'
 
 export default function MyPage() {
   const router = useRouter()
@@ -35,6 +36,15 @@ export default function MyPage() {
     router.push(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`)
   }
 
+  function MemberInfoItem({ label, value }: { label: string; value: React.ReactNode }) {
+    return (
+      <li className="body4 flex items-center">
+        <span className="w-20 text-gray-500">{label}</span>
+        <span className="text-gray-900">{value}</span>
+      </li>
+    )
+  }
+
   return (
     <>
       {(isLoading || !user) && (
@@ -51,23 +61,78 @@ export default function MyPage() {
         </>
       )}
       {user && (
-        <>
-          <div className="container mx-auto px-4 py-8">
-            <div className="mx-auto max-w-md space-y-8">
-              <div className="text-center">
+        <div className="flex flex-col gap-6">
+          {/* profile */}
+          <section className="mx-aut container px-4 py-3">
+            <div className="flex-row-center min-h-53 w-full gap-12 rounded-xl bg-white py-8 shadow-[0px_1px_10px_rgba(0,0,0,0.15)]">
+              <div className="flex-col-center">
                 <Image
                   src={user?.profileImageUrl ?? '/default-avatar.png'}
                   alt="사용자 프로필"
-                  width={96}
-                  height={96}
+                  width={100}
+                  height={100}
                   className="mx-auto rounded-full"
                   priority
                 />
-                <h2 className="head3 mt-4">{user?.nickname ?? '사용자'}</h2>
-                <div className="mt-2 text-gray-600">{user?.email}</div>
-                <div className="mt-1 text-gray-500">{user?.team?.name}</div>
+                <h2 className="head5 mt-2 text-black">{user?.name}</h2>
               </div>
-
+              <div className="flex flex-col gap-2 text-left">
+                <p className="body5 text-gray-900">팀 구성</p>
+                <div className="body3-sb text-black">{user?.team?.name}</div>
+                <hr className="my-1"></hr>
+                <p className="body5 text-gray-900">함께 한 시간</p>
+                <div className="body3-sb text-black">
+                  {' '}
+                  {user?.joinedAt && getElapsedPeriodFromJoinDate(user.joinedAt)}
+                </div>
+              </div>
+            </div>
+          </section>
+          {/* memberInfo */}
+          <section className="container px-4">
+            <div className="head5">
+              <p className="text-balck">나의 정보</p>
+            </div>
+            <div className="mt-3 w-full">
+              <ul className="space-y-4">
+                <MemberInfoItem label="입사일" value={user?.joinedAt} />
+                <MemberInfoItem label="생일" value={user?.birthday} />
+                <MemberInfoItem
+                  label="전화번호"
+                  value={
+                    <a className="text-purple-300" href={`tel:${user?.phone}`}>
+                      {user?.phone}
+                    </a>
+                  }
+                />
+                <MemberInfoItem
+                  label="이메일"
+                  value={
+                    <a className="text-purple-300" href={`mailto:${user?.email}`}>
+                      {user?.email}
+                    </a>
+                  }
+                />
+                <MemberInfoItem label="깃허브" value={user?.githubId} />
+              </ul>
+            </div>
+          </section>
+          <hr></hr>
+          {/* plane */}
+          <section className="container px-4">
+            <div className="head5">
+              <p className="text-balck">내가 받은 종이 비행기</p>
+            </div>
+            <div className="mt-4"></div>
+            <button
+              type="button"
+              className="flex-row-center body4 w-full gap-3 rounded-xl border border-black px-4 py-4 text-black"
+            >
+              종이비행기 모두 보기
+            </button>
+          </section>
+          <section className="container px-4">
+            <div className="mx-auto max-w-md space-y-8">
               <div className="space-y-4">
                 <button
                   type="button"
@@ -78,8 +143,8 @@ export default function MyPage() {
                 </button>
               </div>
             </div>
-          </div>
-        </>
+          </section>
+        </div>
       )}
     </>
   )

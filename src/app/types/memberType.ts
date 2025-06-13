@@ -3,7 +3,11 @@ export interface MemberMeType {
   name: string
   nickname?: string
   email?: string
+  joinedAt?: string
   profileImageUrl?: string
   kiringImageUrl?: string
+  birthday?: string
+  phone?: string
+  githubId?: string
   team?: { name: string }
 }
