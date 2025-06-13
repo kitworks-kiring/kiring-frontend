@@ -28,18 +28,17 @@
 /* 본문 하단 한 주 */
 .react-calendar__month-view__weekdays {
   height: 21px;
+}
+/* 본문 내 폰트 사이즈 통일 */
+.react-calendar__month-view__weekdays div {
+  font-size: var(--font-size-body4);
+  line-height: var(--line-height-body4);
+  text-align: center;
+}
 
-  /* 본문 내 폰트 사이즈 통일 */
-  div {
-    font-size: var(--font-size-body4);
-    line-height: var(--line-height-body4);
-    text-align: center;
-  }
-
-  abbr {
-    color: var(--color-gray-900);
-    text-decoration: none;
-  }
+.react-calendar__month-view__weekdays abbr {
+  color: var(--color-gray-900);
+  text-decoration: none;
 }
 
 /* 본문 하단 1~31일 영역 */
@@ -54,15 +53,15 @@
   height: 40px;
   border: 1.5px solid transparent;
   border-radius: 12px;
+}
 
-  abbr {
-    position: absolute;
-    top: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--color-gray-900);
-    font-weight: 300;
-  }
+.react-calendar__tile abbr {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-gray-900);
+  font-weight: 300;
 }
 
 /* 일요일 컬러 커스텀 */
@@ -96,33 +95,33 @@
 /* 오늘 날짜 */
 .react-calendar__tile--now {
   position: relative;
+}
 
-  /* 오늘 날짜 커스텀을 위해 기존에 있는 요소 화면 안보이게 처리 */
-  abbr {
-    color: transparent;
-  }
+/* 오늘 날짜 커스텀을 위해 기존에 있는 요소 화면 안보이게 처리 */
+.react-calendar__tile--now abbr {
+  color: transparent;
+}
 
-  /* 오늘 날짜 디자인 커스텀 */
-  .today-background {
-    position: absolute;
-    top: 3px;
-    left: 50%;
-    width: 24px;
-    height: 24px;
-    background-color: var(--color-purple-500);
-    border-radius: 100%;
-    transform: translateX(-50%);
-  }
+/* 오늘 날짜 디자인 커스텀 */
+.react-calendar__tile--now .today-background {
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  background-color: var(--color-purple-500);
+  border-radius: 100%;
+  transform: translateX(-50%);
+}
 
-  .today-text {
-    position: absolute;
-    top: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--color-white);
-    font-size: var(--font-size-body4);
-    line-height: var(--line-height-body4);
-    font-weight: 300;
-    text-decoration: none;
-  }
+.react-calendar__tile--now .today-text {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-white);
+  font-size: var(--font-size-body4);
+  line-height: var(--line-height-body4);
+  font-weight: 300;
+  text-decoration: none;
 }
