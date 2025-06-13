@@ -27,6 +27,24 @@ export default function LoginPage() {
           <br />
           회사생활에 필요한 모든 서비스를 한번에
         </div>
+
+        <p className="body4-sb mt-8 text-gray-200">
+          <a
+            href="https://kitworks.notion.site/kiring-privacy-policy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            개인정보처리방침
+          </a>
+          <span className="px-2 text-gray-200">|</span>
+          <a
+            href="https://kitworks.notion.site/kiring-terms-of-service"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            서비스 이용약관
+          </a>
+        </p>
       </div>
 
       <div className="body2 w-full space-y-6">
