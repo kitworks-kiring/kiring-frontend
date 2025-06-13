@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Calendar } from 'react-calendar'
+import Calendar from 'react-calendar'
 import { useQuery } from '@tanstack/react-query'
 import dayjs from '@/lib/dayjs'
 import clsx from 'clsx'

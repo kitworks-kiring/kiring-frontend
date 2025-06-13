@@ -26,7 +26,7 @@ export default function DayScheduleList({
     const day = dayjs(schedule?.start).format('D')
 
     const getStudyText = (title: string) => {
-      const [beName, feName] = title.split(',')
+      const [beName, feName] = title.split(',') ?? ','
       const beText = beName ? `백엔드팀 ${beName}님, ` : ''
       const feText = feName ? `프론트팀 ${feName}님` : ''
       return `${beText}${feText} 팀스터디에요`
@@ -68,7 +68,7 @@ export default function DayScheduleList({
     const { icon, title: itemTitle, desc } = typeMap[type]
 
     return (
-      <li key={type} className="flex items-center gap-3">
+      <li key={`${schedule?.eventId}-${type}`} className="flex items-center gap-3">
         {icon}
         <p className="flex flex-col justify-center gap-1.5">
           <span className="body4-sb text-gray-800">{itemTitle}</span>
