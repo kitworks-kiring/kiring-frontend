@@ -142,7 +142,7 @@ export default function WeeklyScheduleSection() {
             )
           })}
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 px-[3px]">
           <span className="body3-sb text-basic-black">{dayjs().format('YYYY년 M월 D일')}</span>
           {isLogin ? (
             <div className="flex w-full flex-col gap-2">
