@@ -61,7 +61,6 @@ export default function SortSelectBox({ sortOptions, active, onChange }: SortSel
         <div aria-hidden="true" className={clsx('flex items-center', isOpen ? 'rotate-180' : '')}>
           <IcoToggle />
         </div>
-        {/* <span aria-hidden="true">{isOpen ? '▴' : '▾'}</span> */}
       </button>
       {isOpen && (
         <ul
