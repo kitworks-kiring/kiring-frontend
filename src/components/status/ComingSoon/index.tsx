@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import ComingSoonImage from '@/assets/coming-soon.png'
+import ComingSoonImage from '@/assets/status/coming-soon.png'
 
 export default function ComingSoon() {
   return (
