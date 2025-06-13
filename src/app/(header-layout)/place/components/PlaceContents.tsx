@@ -6,7 +6,7 @@ import { PLACE_DEFAULT_TAB_LIST } from '@/app/(header-layout)/place/constants'
 import RestaurantContents from '@/app/(header-layout)/place/components/restaurant/RestaurantContents'
 import TrailContents from '@/app/(header-layout)/place/components/trail/TrailContents'
 
-export default function PlaceContent() {
+export default function PlaceContents() {
   const initialActiveTab = PLACE_DEFAULT_TAB_LIST[0].value
   const { activeTab, onTabClick } = useTab(initialActiveTab)
   const tabs: TabItem[] = PLACE_DEFAULT_TAB_LIST.map(({ label, value }) => ({ label, value }))
