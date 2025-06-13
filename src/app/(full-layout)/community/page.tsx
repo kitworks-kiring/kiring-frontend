@@ -1,3 +1,11 @@
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import { Suspense } from 'react'
+import CommunityContents from '@/app/(full-layout)/community/components/CommunityContents'
+
 export default function Community() {
-  return <div className="text-system-purple head4">Community</div>
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <CommunityContents />
+    </Suspense>
+  )
 }
