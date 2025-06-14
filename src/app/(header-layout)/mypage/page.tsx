@@ -9,7 +9,8 @@ import { getMemberMe } from '@/services/member'
 import { MemberMeType } from '@/app/types/memberType'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import { getElapsedPeriodFromJoinDate } from '@/utils/date'
-
+import { planeMessages } from '@/app/(header-layout)/mypage/constants'
+import PlaneMessageCard from '@/app/(header-layout)/mypage/components/PlaneMessageCard'
 export default function MyPage() {
   const router = useRouter()
   const { data, isLoading, isError } = useQuery<{ member: MemberMeType }>({
@@ -117,18 +118,28 @@ export default function MyPage() {
               </ul>
             </div>
           </section>
-          <hr></hr>
+          <div className="container px-4">
+            <hr></hr>
+          </div>
           {/* plane */}
-          <section className="container px-4">
+          <section className="container pl-4">
             <div className="head5">
-              <p className="text-balck">내가 받은 종이 비행기</p>
+              <p className="text-black">내가 받은 종이비행기</p>
             </div>
-            <div className="mt-4"></div>
+
+            <div className="mt-4 overflow-x-auto">
+              <ul className="flex gap-4">
+                {planeMessages.map((plane) => (
+                  <PlaneMessageCard key={plane.id} plane={plane} />
+                ))}
+              </ul>
+            </div>
+
             <button
               type="button"
-              className="flex-row-center body4 w-full gap-3 rounded-xl border border-black px-4 py-4 text-black"
+              className="flex-row-center body4 mt-6 w-full gap-3 rounded-xl border border-black px-4 py-4 text-black"
             >
-              종이비행기 모두 보기
+              종이비행기 {planeMessages.length}개 모두 보기
             </button>
           </section>
           <section className="container px-4">
