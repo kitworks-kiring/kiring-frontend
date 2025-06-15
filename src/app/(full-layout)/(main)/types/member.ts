@@ -23,6 +23,6 @@ export interface Member {
   employed: boolean
 }
 
-export interface TeamMembersResponse {
+export interface MembersResponse {
   members: Member[]
 }

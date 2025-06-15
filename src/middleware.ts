@@ -21,5 +21,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/login', '/login/callback', '/mypage/:path*', '/community/:path*'],
+  matcher: ['/login', '/login/callback', '/mypage/:path*'],
 }

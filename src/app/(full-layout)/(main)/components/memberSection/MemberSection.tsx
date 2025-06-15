@@ -7,7 +7,7 @@ import Image from 'next/image'
 import SectionHeader from '@/app/(full-layout)/(main)/components/SectionHeader'
 import { getTeamMembers } from '@/services/members'
 import TeamSelector from '@/app/(full-layout)/(main)/components/memberSection/TeamSelector'
-import { TEAMS } from '@/app/(full-layout)/(main)/constants'
+import { TEAMS } from '@/app/(full-layout)/constants'
 
 export default function MemberSection() {
   const [selectedTeam, setSelectedTeam] = useState<number>(TEAMS[0].id)
