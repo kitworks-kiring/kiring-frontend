@@ -2,13 +2,10 @@
 
 import Image from 'next/image'
 import IcoPlane from '@/assets/ico-plane.svg'
-import { PlaneMessage } from '@/app/(header-layout)/mypage/constants'
+import { PlaneMessage } from '@/app/(header-layout)/mypage/types/plane'
 import { formatRelativeTime } from '@/utils/date'
-interface PlaneMessageCardProps {
-  plane: PlaneMessage
-}
 
-export default function PlaneMessageCard({ plane }: PlaneMessageCardProps) {
+export default function PlaneMessageCard({ plane }: { plane: PlaneMessage }) {
   return (
     <li className="flex h-56 w-80 flex-col justify-between rounded-xl border bg-white p-5">
       <p className="body2 line-clamp-4 text-gray-800">{plane?.message}</p>
