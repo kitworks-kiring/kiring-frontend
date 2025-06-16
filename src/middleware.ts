@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { isLikelyValidToken } from '@/lib/jwt'
 
 export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken')?.value
@@ -6,7 +7,9 @@ export function middleware(request: NextRequest) {
 
   const isLoginPage = new Set(['/login', '/login/callback']).has(pathname)
   const isProtectedPage = ['/mypage', '/community'].some((prefix) => pathname.startsWith(prefix))
-  const isAuthenticated = Boolean(accessToken)
+
+  // 토큰 존재 여부와 유효성 모두 검증
+  const isAuthenticated = accessToken ? isLikelyValidToken(accessToken) : false
 
   // 1. 로그인 완료 후 로그인/콜백 페이지 접근 시 → 홈으로
   if (isAuthenticated && isLoginPage) {
