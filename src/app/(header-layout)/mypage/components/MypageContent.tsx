@@ -52,7 +52,7 @@ export default function MyPageContent() {
         <div className="flex flex-col gap-6">
           <ProfileSection user={user} />
           <MemberInfoSection user={user} />
-          <div className="h-3 bg-gray-50 px-4"></div>
+          <div className="h-3 bg-gray-50"></div>
           <PlaneSection />
           {/* logout */}
           <section className="container border-y-12 border-gray-50">

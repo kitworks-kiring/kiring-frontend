@@ -2,11 +2,7 @@ import Image from 'next/image'
 import { MemberMeType } from '@/app/types/memberType'
 import { formatElapsedDate } from '@/utils/date'
 
-interface ProfileSectionProps {
-  user: MemberMeType
-}
-
-export default function ProfileSection({ user }: ProfileSectionProps) {
+export default function ProfileSection({ user }: { user: MemberMeType }) {
   return (
     <section className="mx-aut container px-4 py-3">
       <div className="flex-row-center min-h-53 w-full gap-12 rounded-xl bg-white py-8 shadow-[0px_1px_10px_rgba(0,0,0,0.15)]">
