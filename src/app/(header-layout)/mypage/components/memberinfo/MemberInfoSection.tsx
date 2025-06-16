@@ -1,5 +1,5 @@
 import { MemberMeType } from '@/app/types/memberType'
-import { formatKoreanDate } from '@/utils/date'
+import dayjs from 'dayjs'
 import MemberInfoItem from '@/app/(header-layout)/mypage/components/memberinfo/MemberInfoItem'
 
 interface MemberInfoSectionProps {
@@ -16,9 +16,12 @@ export default function MemberInfoSection({ user }: MemberInfoSectionProps) {
         <ul className="space-y-4">
           <MemberInfoItem
             label="입사일"
-            value={user?.joinedAt && formatKoreanDate(user?.joinedAt)}
+            value={user?.joinedAt ? dayjs(user.joinedAt).format('YYYY년 M월 D일') : '-'}
           />
-          <MemberInfoItem label="생일" value={user?.birthday && formatKoreanDate(user?.birthday)} />
+          <MemberInfoItem
+            label="생일"
+            value={user?.birthday ? dayjs(user.birthday).format('M월 D일') : '-'}
+          />
           <MemberInfoItem
             label="전화번호"
             value={

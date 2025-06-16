@@ -1,22 +1,3 @@
-// 날짜 YY년 MM월 DD일 형식
-export function formatKoreanDate(dateString: string): string {
-  if (!dateString) return ''
-
-  // MM-DD 형식
-  if (dateString.length === 5) {
-    const [month, day] = dateString.split('-')
-    return `${month}월 ${day}일`
-  }
-
-  // YYYY-MM-DD 형식
-  const date = new Date(dateString)
-  const year = date.getFullYear().toString().slice(-2)
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-
-  return `${year}년 ${month}월 ${day}일`
-}
-
 // 현재 시점으로 상대적 시간 (ex: 방금전, 2시간 전, 3일 전, 2개월 전, 2년 전)
 export function formatRelativeTime(dateString: string): string {
   if (!dateString) return ''
