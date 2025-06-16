@@ -10,7 +10,7 @@ interface PlaneMessageCardProps {
 
 export default function PlaneMessageCard({ plane }: PlaneMessageCardProps) {
   return (
-    <div className="flex h-56 w-80 flex-col justify-between rounded-xl border bg-white p-5">
+    <li className="flex h-56 w-80 flex-col justify-between rounded-xl border bg-white p-5">
       <p className="body2 line-clamp-4 text-gray-800">{plane?.message}</p>
       <div className="flex items-end justify-between">
         <div className="flex items-center gap-3">
@@ -28,10 +28,14 @@ export default function PlaneMessageCard({ plane }: PlaneMessageCardProps) {
             </p>
           </div>
         </div>
-        <button type="button" className="flex-row-center h-10 w-10 rounded-full bg-purple-500">
+        <button
+          type="button"
+          aria-label="비행기 답장 보내기"
+          className="flex-row-center h-10 w-10 rounded-full bg-purple-500"
+        >
           <IcoPlane />
         </button>
       </div>
-    </div>
+    </li>
   )
 }

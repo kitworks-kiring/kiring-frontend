@@ -25,17 +25,26 @@ export default function MemberInfoSection({ user }: MemberInfoSectionProps) {
           <MemberInfoItem
             label="전화번호"
             value={
-              <a className="text-purple-300" href={`tel:${user?.phone}`}>
-                {user?.phone}
-              </a>
+              user?.phone ? (
+                <a className="text-purple-300" href={`tel:${user.phone}`}>
+                  {user.phone}
+                </a>
+              ) : (
+                '-'
+              )
             }
           />
+
           <MemberInfoItem
             label="이메일"
             value={
-              <a className="text-purple-300" href={`mailto:${user?.email}`}>
-                {user?.email}
-              </a>
+              user?.email ? (
+                <a className="text-purple-300" href={`mailto:${user.email}`}>
+                  {user.email}
+                </a>
+              ) : (
+                '-'
+              )
             }
           />
           <MemberInfoItem label="깃허브" value={user?.githubId} />

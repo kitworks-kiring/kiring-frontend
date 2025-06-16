@@ -37,16 +37,6 @@ export const useAuthStore = create<AuthState>()(
       partialize: (state) => ({
         isLogin: state.isLogin,
       }),
-      onRehydrateStorage: () => (state) => {
-        const token = Cookies.get('accessToken')
-        const isValid = token ? isLikelyValidToken(token) : false
-        if (!state) return
-        if (isValid) {
-          state.setLogin?.(token as string, Cookies.get('refreshToken') || '')
-          return
-        }
-        state.setLogout()
-      },
     },
   ),
 )
