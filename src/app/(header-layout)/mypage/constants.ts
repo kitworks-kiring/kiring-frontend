@@ -30,7 +30,7 @@ export const planeMessages: PlaneMessage[] = [
       profileImageUrl: 'https://cdn.kiring.app/profile/123.jpg',
     },
     message: '정말 킹 받네용 킹받',
-    sentAt: '2025-06-14T1:12:00',
+    sentAt: '2025-06-14T01:12:00Z',
   },
   {
     messageId: 1003,
