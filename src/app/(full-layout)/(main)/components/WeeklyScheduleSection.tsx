@@ -4,6 +4,7 @@ import SectionHeader from '@/app/(full-layout)/(main)/components/SectionHeader'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import { useState } from 'react'
+import { useAuthStore } from '@/stores/login'
 
 interface Event {
   eventId: number | null
@@ -34,7 +35,7 @@ function EventList({ events }: EventListProps) {
 }
 
 export default function WeeklyScheduleSection() {
-  const isLogin = true
+  const { isLogin } = useAuthStore()
   const today = dayjs().format('ddd')
   const [selectedDate, setSelectedDate] = useState<string>(today)
 

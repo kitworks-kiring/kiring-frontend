@@ -26,3 +26,12 @@ export interface Member {
 export interface MembersResponse {
   members: Member[]
 }
+
+export interface MemberImage {
+  profileImageUrl: string
+  kiringImageUrl: string
+}
+
+export interface MembersImagesResponse {
+  members: MemberImage[]
+}
