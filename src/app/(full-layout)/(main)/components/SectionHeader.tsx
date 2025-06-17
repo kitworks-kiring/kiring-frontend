@@ -15,7 +15,9 @@ export default function SectionHeader({ time, title, onClick }: SectionHeaderPro
         {time && <span className="body2-sb text-purple-200">{time}</span>}
         <span className="head5 text-basic-black">{title}</span>
       </div>
-      <IcoMainArrowRight onClick={onClick} />
+      <button onClick={onClick}>
+        <IcoMainArrowRight />
+      </button>
     </div>
   )
 }

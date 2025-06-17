@@ -9,11 +9,12 @@ import { getTeamMembers, getMemberImages } from '@/services/members'
 import TeamSelector from '@/app/(full-layout)/(main)/components/memberSection/TeamSelector'
 import { TEAMS } from '@/app/(full-layout)/constants'
 import { useAuthStore } from '@/stores/login'
+import { useRouter } from 'next/navigation'
 
 export default function MemberSection() {
   const [selectedTeam, setSelectedTeam] = useState<number>(TEAMS[0].id)
   const { isLogin } = useAuthStore()
-
+  const router = useRouter()
   // 팀 멤버 데이터를 가져오는 쿼리
   const { data, isLoading, error } = useQuery({
     queryKey: ['teamMembers', selectedTeam, isLogin],
@@ -24,7 +25,12 @@ export default function MemberSection() {
 
   return (
     <section className="w-full bg-white pb-6">
-      <SectionHeader title="팀 구성원" onClick={() => {}} />
+      <SectionHeader
+        title="팀 구성원"
+        onClick={() => {
+          router.push('/community')
+        }}
+      />
       <div className={clsx('mx-4 flex flex-col justify-center', isLogin && 'gap-[18px]')}>
         {isLogin && (
           <TeamSelector teams={TEAMS} selectedTeam={selectedTeam} onTeamSelect={setSelectedTeam} />
