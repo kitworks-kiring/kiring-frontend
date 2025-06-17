@@ -19,14 +19,13 @@ export default function CommunityContents() {
       <DefaultTab tabs={COMMUNITY_TABS} active={activeTab} onChange={onTabClick} />
       <section className="mt-9">
         {activeTab === 'members' && <MembersContents />}
-      <section className="relative mt-9">
-        {activeTab === 'feed' && (
-          <div className="absolute inset-0">
-            <ComingSoon />
-          </div>
-        )}
-      </section>
-        )}
+        <section className="relative mt-9">
+          {activeTab === 'feed' && (
+            <div className="absolute inset-0">
+              <ComingSoon />
+            </div>
+          )}
+        </section>
       </section>
     </>
   )
