@@ -21,8 +21,6 @@ export default function MemberSection() {
     queryFn: () => (isLogin ? getTeamMembers(selectedTeam) : getMemberImages()),
   })
 
-  console.log(data)
-
   return (
     <section className="w-full bg-white pb-6">
       <SectionHeader
