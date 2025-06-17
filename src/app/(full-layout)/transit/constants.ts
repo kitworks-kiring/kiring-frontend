@@ -1,4 +1,3 @@
-import { BubbleItem } from '@/components/tabs/BubbleTab'
 import { TabItem } from '@/components/tabs/DefaultTab'
 
 // 탭 목록
@@ -19,13 +18,6 @@ export const SUBWAY_GROUP_HEADER = {
     to: '국회의사당',
   },
 } as const
-
-// 지하철 호선 필터 목록
-export const SUBWAY_BUBBLES: BubbleItem[] = [
-  { label: '전체', value: 'all' },
-  { label: '2호선', value: '2' },
-  { label: '9호선', value: '9' },
-]
 
 // 버스 타입 헤더
 export const BUS_TYPE_NAME: Record<string, { name: string; color: string }> = {
