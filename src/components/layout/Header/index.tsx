@@ -19,7 +19,6 @@ export default function Header() {
     PAGES.find(({ endpoint }) => endpoint === pathname) ??
     PAGES.find(({ endpoint }) => endpoint === '/')
 
-  console.log(matchedNavItem)
 
   return (
     <nav aria-label="헤더 네비게이션" className="full-width fixed top-0 z-10 h-14 bg-white p-4">
