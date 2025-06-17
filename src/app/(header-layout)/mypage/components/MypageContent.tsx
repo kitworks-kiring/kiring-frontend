@@ -2,31 +2,21 @@
 
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/stores/login'
-import { useQuery } from '@tanstack/react-query'
-import { getMemberMe } from '@/services/member'
-import { MemberMeType } from '@/app/types/memberType'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import PlaneSection from '@/app/(header-layout)/mypage/components/plane/PlaneSection'
 import MemberInfoSection from '@/app/(header-layout)/mypage/components/memberinfo/MemberInfoSection'
 import ProfileSection from '@/app/(header-layout)/mypage/components/profile/ProfileSection'
 import { useEffect } from 'react'
+import { useUser } from '@/stores/user'
 
 export default function MyPageContent() {
   const router = useRouter()
   const { isLogin, setLogout } = useAuthStore()
-
-  const { data, isLoading, isError } = useQuery<{ member: MemberMeType }>({
-    queryKey: ['memberMe'],
-    queryFn: getMemberMe,
-    refetchOnWindowFocus: false,
-    enabled: isLogin,
-  })
+  const { user, isLoading, isError } = useUser()
 
   useEffect(() => {
     if (isError) router.push('/error')
   }, [isError, router])
-
-  const user = data?.member
 
   // ✅ 로그아웃 시 토큰 삭제
   const handleLogout = () => {

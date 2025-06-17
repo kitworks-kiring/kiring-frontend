@@ -1,4 +1,3 @@
-import { planeMessages } from '@/app/(header-layout)/mypage/constants'
 import PlaneMessageCard from '@/app/(header-layout)/mypage/components/plane/PlaneMessageCard'
 
 export default function PlaneSection() {
