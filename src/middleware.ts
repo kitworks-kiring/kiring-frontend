@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
   let isAuthenticated = false
   let shouldRemoveCookies = false
 
-  // 인증 검사
+  // 내 정보 API 호출로 accessToken 유효성 확인
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/member/me`, {
       headers: {
@@ -20,37 +20,32 @@ export async function middleware(request: NextRequest) {
 
     if (result.result === 'SUCCESS') {
       isAuthenticated = true
-      console.log('✅ 인증 성공:', result.data)
     } else {
-      console.log('❌ 인증 실패:', result.message)
       shouldRemoveCookies = true
     }
   } catch (error) {
-    console.error('❌ 인증 fetch 에러:', error)
     shouldRemoveCookies = true
   }
 
-  const isLoginPage = new Set(['/login', '/login/callback']).has(pathname)
+  const isLoginPage = ['/login', '/login/callback'].includes(pathname)
   const isProtectedPage = ['/mypage', '/community'].some((prefix) => pathname.startsWith(prefix))
 
-  // 리다이렉트 응답 생성
+  // 1. 로그인된 사용자가 로그인 페이지 접근 → 홈으로 리디렉트
   if (isAuthenticated && isLoginPage) {
-    const res = NextResponse.redirect(new URL('/', request.url))
-    if (shouldRemoveCookies) {
-      res.cookies.delete('accessToken')
-      res.cookies.delete('refreshToken')
-      console.log('🧹 쿠키 삭제됨 (홈 리디렉트)')
-    }
-    return res
+    return NextResponse.redirect(new URL('/', request.url))
   }
 
+  // 2. 비로그인 사용자가 보호 페이지 접근 → 로그인 페이지로 리디렉트
   if (!isAuthenticated && isProtectedPage) {
-    const res = NextResponse.redirect(new URL('/login', request.url))
-    if (shouldRemoveCookies) {
-      res.cookies.delete('accessToken')
-      res.cookies.delete('refreshToken')
-      console.log('🧹 쿠키 삭제됨 (로그인 리디렉트)')
-    }
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+
+  // 3. 유효성 검사 실패 시 → 토큰 삭제 및 상태 정리 (CSR에서 checkToken 실행)
+  if (shouldRemoveCookies) {
+    const res = NextResponse.next()
+    res.cookies.delete('accessToken')
+    res.cookies.delete('refreshToken')
+    // 응답 브라우저에 전달
     return res
   }
 }

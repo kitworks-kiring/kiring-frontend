@@ -28,7 +28,6 @@ export const useAuthStore = create<AuthState>()(
 
       checkToken: () => {
         const token = Cookies.get('accessToken')
-        console.log('🚀 ~ token:', token)
         set({ isLogin: token ? true : false })
       },
     }),
