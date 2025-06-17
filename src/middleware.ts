@@ -1,28 +1,60 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { isLikelyValidToken } from '@/lib/jwt'
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken')?.value
   const { pathname } = request.nextUrl
+
+  let isAuthenticated = false
+  let shouldRemoveCookies = false
+
+  // 인증 검사
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/member/me`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+
+    const result = await res.json()
+
+    if (result.result === 'SUCCESS') {
+      isAuthenticated = true
+      console.log('✅ 인증 성공:', result.data)
+    } else {
+      console.log('❌ 인증 실패:', result.message)
+      shouldRemoveCookies = true
+    }
+  } catch (error) {
+    console.error('❌ 인증 fetch 에러:', error)
+    shouldRemoveCookies = true
+  }
 
   const isLoginPage = new Set(['/login', '/login/callback']).has(pathname)
   const isProtectedPage = ['/mypage', '/community'].some((prefix) => pathname.startsWith(prefix))
 
-  // 토큰 존재 여부와 유효성 모두 검증
-  const isAuthenticated = accessToken ? isLikelyValidToken(accessToken) : false
-
-  // 1. 로그인 완료 후 로그인/콜백 페이지 접근 시 → 홈으로
+  // 리다이렉트 응답 생성
   if (isAuthenticated && isLoginPage) {
-    return NextResponse.redirect(new URL('/', request.url))
+    const res = NextResponse.redirect(new URL('/', request.url))
+    if (shouldRemoveCookies) {
+      res.cookies.delete('accessToken')
+      res.cookies.delete('refreshToken')
+      console.log('🧹 쿠키 삭제됨 (홈 리디렉트)')
+    }
+    return res
   }
 
-  // 2. 로그인 전 보호 페이지 접근 시 → 로그인으로
   if (!isAuthenticated && isProtectedPage) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    const res = NextResponse.redirect(new URL('/login', request.url))
+    if (shouldRemoveCookies) {
+      res.cookies.delete('accessToken')
+      res.cookies.delete('refreshToken')
+      console.log('🧹 쿠키 삭제됨 (로그인 리디렉트)')
+    }
+    return res
   }
-  return NextResponse.next()
 }
 
 export const config = {
-  matcher: ['/login', '/login/callback', '/mypage/:path*'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }

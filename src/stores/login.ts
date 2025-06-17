@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import Cookies from 'js-cookie'
-import { isLikelyValidToken } from '@/lib/jwt'
 
 interface AuthState {
   isLogin: boolean
@@ -29,7 +28,8 @@ export const useAuthStore = create<AuthState>()(
 
       checkToken: () => {
         const token = Cookies.get('accessToken')
-        set({ isLogin: token ? isLikelyValidToken(token) : false })
+        console.log('🚀 ~ token:', token)
+        set({ isLogin: token ? true : false })
       },
     }),
     {
