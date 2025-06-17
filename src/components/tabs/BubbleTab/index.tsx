@@ -17,9 +17,9 @@ interface BubbleTabProps {
 export default function BubbleTab({ bubbles, active, onChange, propsClass }: BubbleTabProps) {
   return (
     <section>
-      <ul className="top-21 flex items-center gap-2 border-b-4 border-gray-50 px-4 py-3">
+      <ul className="top-21 flex items-center gap-2 overflow-x-scroll border-b-4 border-gray-50 px-4 py-3 [&::-webkit-scrollbar]:hidden">
         {bubbles.map(({ label, value }) => (
-          <li key={value} className="flex-row-center">
+          <li key={value} className="flex-row-center flex-shrink-0">
             <button
               type="button"
               aria-pressed={value === active}
