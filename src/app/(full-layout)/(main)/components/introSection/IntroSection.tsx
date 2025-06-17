@@ -6,10 +6,11 @@ import DefaultKiring from '@/assets/intro-kiring.svg'
 import IcoPaperAirplane from '@/assets/ico-paper-airplane.svg'
 import Popup from '@/app/(full-layout)/(main)/components/introSection/Popup'
 import IntroKiringRing from '@/assets/intro-kiring-ring.svg'
+import { useAuthStore } from '@/stores/login'
 
 export default function IntroSection() {
   const [isPopup, setIsPopup] = useState(false)
-  const isLogin = true
+  const { isLogin } = useAuthStore()
 
   const today = dayjs().format('YYYY-MM-DD')
 
@@ -29,7 +30,7 @@ export default function IntroSection() {
 
   return (
     <section className="full-width relative bg-gradient-to-b from-white from-[-10%] to-purple-100 py-3">
-      {isPopup && (
+      {isPopup && isLogin && (
         <div className="px-4">
           <Popup
             Ico={<IcoPaperAirplane />}

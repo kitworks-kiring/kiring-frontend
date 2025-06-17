@@ -49,3 +49,10 @@
 .line-9-border {
   @apply border-[#D1A62C];
 }
+.scroll-hidden {
+  /* Firefox */
+  scrollbar-width: none;
+  /* IE 10+ */
+  -ms-overflow-style: none;
+  @apply [&::-webkit-scrollbar]:hidden;
+}

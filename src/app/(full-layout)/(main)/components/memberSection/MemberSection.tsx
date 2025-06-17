@@ -5,25 +5,34 @@ import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import Image from 'next/image'
 import SectionHeader from '@/app/(full-layout)/(main)/components/SectionHeader'
-import { getTeamMembers } from '@/services/members'
+import { getTeamMembers, getMemberImages } from '@/services/members'
 import TeamSelector from '@/app/(full-layout)/(main)/components/memberSection/TeamSelector'
 import { TEAMS } from '@/app/(full-layout)/constants'
+import { useAuthStore } from '@/stores/login'
+import { useRouter } from 'next/navigation'
 
 export default function MemberSection() {
   const [selectedTeam, setSelectedTeam] = useState<number>(TEAMS[0].id)
-  const isLogin = true
-
+  const { isLogin } = useAuthStore()
+  const router = useRouter()
   // 팀 멤버 데이터를 가져오는 쿼리
   const { data, isLoading, error } = useQuery({
-    queryKey: ['teamMembers', selectedTeam],
-    queryFn: () => getTeamMembers(selectedTeam),
+    queryKey: ['teamMembers', selectedTeam, isLogin],
+    queryFn: () => (isLogin ? getTeamMembers(selectedTeam) : getMemberImages()),
   })
 
   return (
     <section className="w-full bg-white pb-6">
-      <SectionHeader title="팀 구성원" onClick={() => {}} />
+      <SectionHeader
+        title="팀 구성원"
+        onClick={() => {
+          router.push('/community')
+        }}
+      />
       <div className={clsx('mx-4 flex flex-col justify-center', isLogin && 'gap-[18px]')}>
-        <TeamSelector teams={TEAMS} selectedTeam={selectedTeam} onTeamSelect={setSelectedTeam} />
+        {isLogin && (
+          <TeamSelector teams={TEAMS} selectedTeam={selectedTeam} onTeamSelect={setSelectedTeam} />
+        )}
 
         {isLoading && (
           <div className="flex-row-center mx-4 h-19">
@@ -37,32 +46,47 @@ export default function MemberSection() {
           </div>
         )}
 
-        {data?.members && (
+        {isLogin && data && 'members' in data && Array.isArray(data.members) && (
           <div
             className={clsx(
               'flex items-center gap-[7%]',
-              data?.members.length <= 4 && 'justify-start',
-              data?.members.length === 5 && 'justify-between',
-              data?.members.length > 5 &&
-                'justify-between overflow-x-scroll [&::-webkit-scrollbar]:hidden',
+              data.members.length <= 4 && 'justify-start',
+              data.members.length === 5 && 'justify-between',
+              data.members.length > 5 && 'scroll-hidden justify-between overflow-x-scroll',
             )}
           >
-            {data?.members.map(({ id, name, profileImageUrl }) => (
+            {data.members.map(({ id, name, profileImageUrl }) => (
               <div
                 key={id}
                 className={clsx(
                   'flex flex-col gap-[10px] text-center',
-                  data?.members.length === 5 ? 'flex-1' : 'flex-shrink-0',
+                  data.members.length === 5 ? 'flex-1' : 'flex-shrink-0',
                 )}
               >
                 <Image
                   src={profileImageUrl}
-                  alt={name}
+                  alt={name || 'profile'}
                   width={52}
                   height={52}
-                  className="aspect-square h-11/12 rounded-full object-cover"
+                  className="aspect-square h-13 w-13 rounded-full border border-gray-300 object-cover"
                 />
                 <span className="body4 text-gray-800">{name}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {!isLogin && Array.isArray(data) && (
+          <div className="mx-4 flex h-19 items-center justify-between">
+            {data.slice(0, 5).map(({ profileImageUrl }, index) => (
+              <div key={profileImageUrl + index}>
+                <Image
+                  src={profileImageUrl}
+                  alt="profile"
+                  width={52}
+                  height={52}
+                  className="aspect-square h-13 w-13 rounded-full border border-gray-300 object-cover"
+                />
               </div>
             ))}
           </div>

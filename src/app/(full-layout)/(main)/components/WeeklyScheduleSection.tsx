@@ -4,6 +4,8 @@ import SectionHeader from '@/app/(full-layout)/(main)/components/SectionHeader'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import { useState } from 'react'
+import { useAuthStore } from '@/stores/login'
+import { useRouter } from 'next/navigation'
 
 interface Event {
   eventId: number | null
@@ -34,7 +36,7 @@ function EventList({ events }: EventListProps) {
 }
 
 export default function WeeklyScheduleSection() {
-  const isLogin = true
+  const { isLogin } = useAuthStore()
   const today = dayjs().format('ddd')
   const [selectedDate, setSelectedDate] = useState<string>(today)
 
@@ -93,10 +95,16 @@ export default function WeeklyScheduleSection() {
   ]
 
   const selectedDayEvents = DAY_OF_WEEK.find((day) => day.value === selectedDate)?.events || []
+  const router = useRouter()
 
   return (
     <section className="w-full bg-white pb-5">
-      <SectionHeader title="주간 일정" onClick={() => {}} />
+      <SectionHeader
+        title="주간 일정"
+        onClick={() => {
+          router.push('/calendar')
+        }}
+      />
       <div className="flex flex-col gap-4 px-[13px]">
         <div className="flex h-15 justify-between">
           {DAY_OF_WEEK.map((day) => {
