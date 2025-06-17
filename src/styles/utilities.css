@@ -49,3 +49,7 @@
 .line-9-border {
   @apply border-[#D1A62C];
 }
+
+.scroll-hidden {
+  @apply [&::-webkit-scrollbar]:hidden;
+}

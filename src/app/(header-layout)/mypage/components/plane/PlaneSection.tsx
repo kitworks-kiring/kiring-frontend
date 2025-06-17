@@ -8,7 +8,7 @@ export default function PlaneSection() {
         <p className="text-black">내가 받은 종이비행기</p>
       </div>
 
-      <div className="mt-4 flex gap-4 overflow-x-scroll px-4 [&::-webkit-scrollbar]:hidden">
+      <div className="scroll-hidden mt-4 flex gap-4 overflow-x-scroll px-4">
         <ul className="flex gap-4">
           {planeMessages.map((plane) => (
             <PlaneMessageCard key={plane?.messageId} plane={plane} />

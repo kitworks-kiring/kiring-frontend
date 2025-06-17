@@ -11,7 +11,7 @@ export default function RecommendSection() {
         title="오늘 점심은 여기 어때요?"
         onClick={() => console.log('click')}
       />
-      <div className="flex gap-4 overflow-x-scroll px-4 [&::-webkit-scrollbar]:hidden">
+      <div className="scroll-hidden flex gap-4 overflow-x-scroll px-4">
         {[1, 1, 1, 1, 1, 1, 1].map((_, index) => (
           <PlaceCard key={index} index={index} />
         ))}

@@ -43,8 +43,7 @@ export default function MemberSection() {
               'flex items-center gap-[7%]',
               data?.members.length <= 4 && 'justify-start',
               data?.members.length === 5 && 'justify-between',
-              data?.members.length > 5 &&
-                'justify-between overflow-x-scroll [&::-webkit-scrollbar]:hidden',
+              data?.members.length > 5 && 'scroll-hidden justify-between overflow-x-scroll',
             )}
           >
             {data?.members.map(({ id, name, profileImageUrl }) => (
