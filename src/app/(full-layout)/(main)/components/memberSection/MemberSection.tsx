@@ -64,7 +64,7 @@ export default function MemberSection() {
                   alt={name}
                   width={52}
                   height={52}
-                  className="aspect-square h-11/12 rounded-full object-cover"
+                  className="aspect-square h-11/12 rounded-full border border-gray-300 object-cover"
                 />
                 <span className="body4 text-gray-800">{name}</span>
               </div>
@@ -81,7 +81,7 @@ export default function MemberSection() {
                 alt="profile"
                 width={52}
                 height={52}
-                className="aspect-square h-13 w-13 rounded-full object-cover"
+                className="aspect-square h-13 w-13 rounded-full border border-gray-300 object-cover"
               />
             ))}
           </div>
