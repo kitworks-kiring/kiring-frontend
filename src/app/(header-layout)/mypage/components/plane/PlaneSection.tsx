@@ -1,4 +1,3 @@
-import { planeMessages } from '@/app/(header-layout)/mypage/constants'
 import PlaneMessageCard from '@/app/(header-layout)/mypage/components/plane/PlaneMessageCard'
 import { useQuery } from '@tanstack/react-query'
 import { getPlaneRead } from '@/services/plane'
@@ -15,7 +14,6 @@ export default function PlaneSection() {
     enabled: isLogin,
   })
   const planeMessages = data ?? []
-  const debugEmpty = false
 
   return (
     <section className="container">

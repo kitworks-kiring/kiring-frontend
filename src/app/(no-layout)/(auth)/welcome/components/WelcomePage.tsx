@@ -5,13 +5,13 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
 import WelcomeEffect from '@/app/(no-layout)/(auth)/welcome/components/WelcomeEffect'
-import { useQuery } from '@tanstack/react-query'
-import { getMemberMe } from '@/services/member'
-import { MemberMeType } from '@/app/types/memberType'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import { useUser } from '@/stores/user'
 
 export default function WelcomePage() {
   const router = useRouter()
+  const { user, isLoading, isError } = useUser()
+
   const [isAuthChecked, setIsAuthChecked] = useState(false)
   const [showAnimation, setShowAnimation] = useState(false)
 
@@ -25,18 +25,11 @@ export default function WelcomePage() {
     setIsAuthChecked(true)
   }, [router])
 
-  const { data, isLoading, isError } = useQuery<{ member: MemberMeType }>({
-    queryKey: ['memberMe'],
-    queryFn: getMemberMe,
-    refetchOnWindowFocus: false,
-  })
-
-  const debugEmpty = false // 디버그용, 실제 배포 시에는 false로 설정
-  const user = !debugEmpty ? data?.member : null
-
-  if (isError) {
-    router.push('/error')
-  }
+  useEffect(() => {
+    if (isError) {
+      router.push('/error')
+    }
+  }, [isError, router])
 
   useEffect(() => {
     if (user && !localStorage.getItem('welcomeShown')) {
