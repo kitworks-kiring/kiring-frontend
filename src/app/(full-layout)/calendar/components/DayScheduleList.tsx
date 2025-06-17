@@ -1,4 +1,7 @@
+'use client'
+
 import dayjs from '@/lib/dayjs'
+import { useAuthStore } from '@/stores/login'
 import IcoBirthday from '@/assets/ico-birthday.svg'
 import IcoStudy from '@/assets/ico-study.svg'
 import IcoDinner from '@/assets/ico-dinner.svg'
@@ -17,8 +20,7 @@ export default function DayScheduleList({
   scheduleList: CalendarResponseType
   maxLength?: number
 }) {
-  // TODO: isLogin 전역 상태 설정되면 값 가져와서 사용
-  const tempIsLogin = true
+  const { isLogin } = useAuthStore()
 
   const renderSchedule = (schedule?: CalendarResponseItem) => {
     const type = schedule?.eventType || 'EMPTY'
@@ -81,12 +83,12 @@ export default function DayScheduleList({
   return (
     <>
       {/* 로그인 N */}
-      {!tempIsLogin && (
+      {!isLogin && (
         <p className="body4 flex-row-center h-17 w-full rounded-2xl bg-gray-50 text-gray-400">
           로그인 후 확인할 수 있어요
         </p>
       )}
-      {tempIsLogin && !scheduleList?.length ? (
+      {isLogin && !scheduleList?.length ? (
         // 로그인 Y + 스케줄 N
         <ul className="flex flex-col gap-4">{renderSchedule()}</ul>
       ) : (

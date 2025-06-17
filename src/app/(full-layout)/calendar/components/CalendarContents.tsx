@@ -5,11 +5,12 @@ import Calendar from 'react-calendar'
 import { useQuery } from '@tanstack/react-query'
 import dayjs from '@/lib/dayjs'
 import clsx from 'clsx'
+import { useAuthStore } from '@/stores/login'
 import { getCalendarSchedules } from '@/services/calendar'
-import IcoToggle from '@/assets/ico-toggle.svg'
 import DayScheduleList from '@/app/(full-layout)/calendar/components/DayScheduleList'
-import { CalendarResponseType } from '@/app/(full-layout)/calendar/types/calendarType'
+import IcoToggle from '@/assets/ico-toggle.svg'
 import { SCHEDULE_TYPE_KO } from '@/app/(full-layout)/calendar/constants'
+import { CalendarResponseType } from '@/app/(full-layout)/calendar/types/calendarType'
 import './react-calendar.css'
 
 export default function CalendarContents() {
@@ -17,8 +18,8 @@ export default function CalendarContents() {
   const [clickedYearMonth, setClickedYearMonth] = useState(dayjs().format('YYYY-MM'))
   const [clickedScheduleList, setClickedScheduleList] = useState<CalendarResponseType>([])
 
-  // TODO: isLogin 전역 상태 설정되면 값 가져와서 사용
-  const tempIsLogin = true
+  const { isLogin } = useAuthStore()
+
   const { data: monthlyScheduleList } = useQuery({
     queryKey: ['calendar-schedules', clickedYearMonth],
     queryFn: () =>
@@ -27,7 +28,7 @@ export default function CalendarContents() {
         month: dayjs(clickedYearMonth).format('MM'),
       }),
     refetchOnWindowFocus: false,
-    enabled: tempIsLogin,
+    enabled: isLogin,
   })
 
   useEffect(() => {
