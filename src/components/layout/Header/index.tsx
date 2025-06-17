@@ -6,20 +6,26 @@ import DefaultProfile from '@/assets/default-profile.svg'
 import SvgButton from '@/components/ui/SvgButton'
 import { NAV_BUTTONS } from '@/components/layout/Navigation/constants'
 import { useRouter, usePathname } from 'next/navigation'
+import { useAuthStore } from '@/stores/login'
 
-export default function Header({ isBackButton }: { isBackButton?: boolean }) {
+export default function Header() {
   const router = useRouter()
   const pathname = usePathname()
+  const { isLogin } = useAuthStore()
+
+  const PAGES = [...NAV_BUTTONS, { title: '프로필', endpoint: '/profile' }]
 
   const matchedNavItem =
-    NAV_BUTTONS.find(({ endpoint }) => endpoint === pathname) ??
-    NAV_BUTTONS.find(({ endpoint }) => endpoint === '/')
+    PAGES.find(({ endpoint }) => endpoint === pathname) ??
+    PAGES.find(({ endpoint }) => endpoint === '/')
+
+  console.log(matchedNavItem)
 
   return (
     <nav aria-label="헤더 네비게이션" className="full-width fixed top-0 z-10 h-14 bg-white p-4">
       <div className="flex h-full w-full justify-between">
         <div className="flex items-center gap-4">
-          {isBackButton && (
+          {matchedNavItem?.endpoint === '/profile' && (
             <SvgButton ariaLabel="뒤로가기" icon={<ArrowHeader />} onClick={() => router.back()} />
           )}
           {matchedNavItem?.endpoint === '/' ? (
@@ -34,11 +40,18 @@ export default function Header({ isBackButton }: { isBackButton?: boolean }) {
         </div>
         <div className="flex gap-3">
           {/* TODO: 2차 알림 버튼 추가 */}
-          <SvgButton
-            ariaLabel="마이페이지로 이동"
-            icon={<DefaultProfile />}
-            onClick={() => router.push('/mypage')}
-          />
+          {isLogin ? (
+            // TODO: 프로필 사진 변경 필요
+            <SvgButton
+              ariaLabel="마이페이지로 이동"
+              icon={<DefaultProfile />}
+              onClick={() => router.push('/mypage')}
+            />
+          ) : (
+            <button onClick={() => router.push('/login')}>
+              <span className="body2-sb mt-0.5 text-purple-500">로그인</span>
+            </button>
+          )}
         </div>
       </div>
     </nav>
