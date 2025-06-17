@@ -48,7 +48,7 @@ export default function MemberSection() {
           </div>
         )}
 
-        {data?.members && isLogin && (
+        {isLogin && data && 'members' in data && Array.isArray(data.members) && (
           <div
             className={clsx(
               'flex items-center gap-[7%]',
@@ -67,7 +67,7 @@ export default function MemberSection() {
               >
                 <Image
                   src={profileImageUrl}
-                  alt={name}
+                  alt={name || 'profile'}
                   width={52}
                   height={52}
                   className="aspect-square h-11/12 rounded-full border border-gray-300 object-cover"
@@ -79,16 +79,17 @@ export default function MemberSection() {
         )}
 
         {!isLogin && Array.isArray(data) && (
-          <div className="flex items-center justify-between">
+          <div className="flex-row-center mx-4 h-19">
             {data.slice(0, 5).map(({ profileImageUrl }, index) => (
-              <Image
-                key={index}
-                src={profileImageUrl}
-                alt="profile"
-                width={52}
-                height={52}
-                className="aspect-square h-13 w-13 rounded-full border border-gray-300 object-cover"
-              />
+              <div key={profileImageUrl + index}>
+                <Image
+                  src={profileImageUrl}
+                  alt="profile"
+                  width={52}
+                  height={52}
+                  className="aspect-square h-11/12 rounded-full object-cover"
+                />
+              </div>
             ))}
           </div>
         )}

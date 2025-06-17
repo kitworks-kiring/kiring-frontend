@@ -28,6 +28,8 @@ export interface MembersResponse {
 }
 
 export interface MemberImage {
+  id?: number
+  name?: string
   profileImageUrl: string
   kiringImageUrl: string
 }
