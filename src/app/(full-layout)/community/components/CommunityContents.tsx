@@ -3,6 +3,7 @@
 import DefaultTab from '@/components/tabs/DefaultTab'
 import { useTab } from '@/components/tabs/DefaultTab/useTab'
 import MembersContents from '@/app/(full-layout)/community/components/members/MembersContents'
+import ComingSoon from '@/components/status/ComingSoon'
 
 const COMMUNITY_TABS = [
   { label: '팀 구성원', value: 'members' },
@@ -18,7 +19,11 @@ export default function CommunityContents() {
       <DefaultTab tabs={COMMUNITY_TABS} active={activeTab} onChange={onTabClick} />
       <section className="mt-9">
         {activeTab === 'members' && <MembersContents />}
-        {activeTab === 'feed' && <div>피드</div>}
+        {activeTab === 'feed' && (
+          <div className="absolute inset-0">
+            <ComingSoon />
+          </div>
+        )}
       </section>
     </>
   )
