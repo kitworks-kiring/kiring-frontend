@@ -70,7 +70,7 @@ export default function MemberSection() {
                   alt={name || 'profile'}
                   width={52}
                   height={52}
-                  className="aspect-square h-11/12 rounded-full border border-gray-300 object-cover"
+                  className="aspect-square h-13 w-13 rounded-full border border-gray-300 object-cover"
                 />
                 <span className="body4 text-gray-800">{name}</span>
               </div>
@@ -79,7 +79,7 @@ export default function MemberSection() {
         )}
 
         {!isLogin && Array.isArray(data) && (
-          <div className="flex-row-center mx-4 h-19">
+          <div className="mx-4 flex h-19 items-center justify-between">
             {data.slice(0, 5).map(({ profileImageUrl }, index) => (
               <div key={profileImageUrl + index}>
                 <Image
@@ -87,7 +87,7 @@ export default function MemberSection() {
                   alt="profile"
                   width={52}
                   height={52}
-                  className="aspect-square h-11/12 rounded-full object-cover"
+                  className="aspect-square h-13 w-13 rounded-full border border-gray-300 object-cover"
                 />
               </div>
             ))}
