@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import Cookies from 'js-cookie'
-
+import { useUserStore } from '@/stores/user'
 interface AuthState {
   isLogin: boolean
   setLogin: (accessToken: string, refreshToken: string) => void
@@ -28,7 +28,7 @@ export const useAuthStore = create<AuthState>()(
 
       checkToken: () => {
         const token = Cookies.get('accessToken')
-        set({ isLogin: token ? true : false })
+        set({ isLogin: !!token })
       },
     }),
     {
