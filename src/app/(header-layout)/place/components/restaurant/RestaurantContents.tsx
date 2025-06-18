@@ -69,10 +69,12 @@ export default function RestaurantContents() {
     }
   }, [])
 
-  if (error) {
-    console.error('getRestaurantList() error:', error)
-    return router.push('/error')
-  }
+  useEffect(() => {
+    if (error) {
+      console.error('getRestaurantList() error:', error)
+      router.replace('/error')
+    }
+  }, [error, router])
 
   return (
     <div className="relative h-full pt-9">
