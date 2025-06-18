@@ -45,14 +45,11 @@ export default function RestaurantContents() {
 
   const showMapTrue = () => setShowMap(true)
 
-  const { data, isLoading, isError } = useQuery<object>({
+  const { data, isLoading, error } = useQuery<object>({
     queryKey: ['restaurantList', center],
     queryFn: getRestaurantList,
     refetchOnWindowFocus: false,
   })
-  if (isError) {
-    router.push('/error')
-  }
 
   useEffect(() => {
     console.log('api test', data)
@@ -72,6 +69,11 @@ export default function RestaurantContents() {
     }
   }, [])
 
+  if (error) {
+    console.error('getRestaurantList() error:', error)
+    return router.push('/error')
+  }
+
   return (
     <div className="relative h-full pt-9">
       {/* count section */}
@@ -88,7 +90,7 @@ export default function RestaurantContents() {
         </div>
       </section>
 
-      {/* restaurant list section */}
+      {/* 데이터 없을 경우 예외 처리 */}
       {(isLoading || !data) && (
         <>
           <section className="nav-pd h-full">
@@ -103,6 +105,8 @@ export default function RestaurantContents() {
           <Navigation />
         </>
       )}
+
+      {/* restaurant list section */}
       {data && (
         <>
           <section

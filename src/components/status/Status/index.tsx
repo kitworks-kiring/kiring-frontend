@@ -8,20 +8,20 @@ interface StatusProps {
 }
 
 export default function Status({ statusCode }: StatusProps) {
-  const statusStyle = 'position-centered-x position-centered-y absolute z-1'
-  const textStyle = 'head3 text-center leading-8 -mt-5'
+  const statusStyle = 'float-down-and-up position-centered-x position-centered-y absolute z-1'
+  const textStyle = 'effect-name fade-name head3 text-center leading-8 -mt-5'
 
   return (
     <section>
       <div className="border-gray-10 relative h-100">
-        <Cloud className="absolute -left-20 z-0" />
+        <Cloud className="float-up-and-down absolute -left-20 z-0" />
         {statusCode === 'not-found' ? (
           <Status404 className={statusStyle} />
         ) : (
           <Status500 className={statusStyle} />
         )}
-        <SmallPlane className="absolute top-10 right-5 z-1" />
-        <Cloud className="absolute -right-20 bottom-5 z-2" />
+        <SmallPlane className="float-up-and-down absolute top-10 right-5 z-1" />
+        <Cloud className="float-up-and-down absolute -right-20 bottom-5 z-2" />
       </div>
       {statusCode === 'not-found' ? (
         <p className={textStyle}>
