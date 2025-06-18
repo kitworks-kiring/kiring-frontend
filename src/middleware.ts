@@ -24,6 +24,7 @@ export async function middleware(request: NextRequest) {
       shouldRemoveCookies = true
     }
   } catch (error) {
+    console.log('❌ Token 유효성 error:', error)
     shouldRemoveCookies = true
   }
 

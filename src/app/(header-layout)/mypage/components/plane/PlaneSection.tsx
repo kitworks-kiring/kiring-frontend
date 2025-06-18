@@ -27,7 +27,7 @@ export default function PlaneSection() {
         </section>
       )}
 
-      {isLoading && isLogin && planeMessages.length === 0 && (
+      {!isLoading && isLogin && planeMessages.length === 0 && (
         <section className="nav-pd h-full">
           <p className="flex-row-center body3 h-full text-gray-800">
             종이 비행기를 조회할 수 없습니다.
