@@ -1,24 +1,25 @@
 'use client'
 
+import Image from 'next/image'
 import HeaderLogo from '@/assets/header-logo.svg'
 import ArrowHeader from '@/assets/arrow-header.svg'
-import DefaultProfile from '@/assets/default-profile.svg'
 import SvgButton from '@/components/ui/SvgButton'
 import { NAV_BUTTONS } from '@/components/layout/Navigation/constants'
 import { useRouter, usePathname } from 'next/navigation'
 import { useAuthStore } from '@/stores/login'
+import { useUserStore } from '@/stores/user'
 
 export default function Header() {
   const router = useRouter()
   const pathname = usePathname()
   const { isLogin } = useAuthStore()
+  const { user } = useUserStore()
 
   const PAGES = [...NAV_BUTTONS, { title: '프로필', endpoint: '/profile' }]
 
   const matchedNavItem =
     PAGES.find(({ endpoint }) => endpoint === pathname) ??
     PAGES.find(({ endpoint }) => endpoint === '/')
-
 
   return (
     <nav aria-label="헤더 네비게이션" className="full-width fixed top-0 z-10 h-14 bg-white p-4">
@@ -39,13 +40,19 @@ export default function Header() {
         </div>
         <div className="flex gap-3">
           {/* TODO: 2차 알림 버튼 추가 */}
-          {isLogin ? (
-            // TODO: 프로필 사진 변경 필요
-            <SvgButton
-              ariaLabel="마이페이지로 이동"
-              icon={<DefaultProfile />}
-              onClick={() => router.push('/mypage')}
-            />
+          {isLogin && user?.profileImageUrl ? (
+            <button
+              className="h-6 w-6 overflow-hidden rounded-full"
+              onClick={() => router.push('/profile')}
+            >
+              <Image
+                src={user?.profileImageUrl}
+                alt="profile"
+                width={24}
+                height={24}
+                className="aspect-square h-6 w-6 scale-140 object-contain"
+              />
+            </button>
           ) : (
             <button onClick={() => router.push('/login')}>
               <span className="body2-sb mt-0.5 text-purple-500">로그인</span>
