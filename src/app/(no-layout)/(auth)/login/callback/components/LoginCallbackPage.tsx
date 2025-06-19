@@ -8,6 +8,7 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import { useAuthStore } from '@/stores/login'
 import { getMemberMe } from '@/services/member'
 import { useUserStore } from '@/stores/user'
+import Cookies from 'js-cookie'
 
 export default function LoginCallbackPage() {
   const router = useRouter()
@@ -15,9 +16,12 @@ export default function LoginCallbackPage() {
   const { setUser } = useUserStore()
   const searchParams = useSearchParams()
 
-  const accessToken = searchParams.get('accessToken')
-  const refreshToken = searchParams.get('refreshToken')
+  const accessTokenParam = searchParams.get('accessToken')
+  const refreshTokenParam = searchParams.get('refreshToken')
   const errorCode = searchParams.get('errorCode')
+
+  const accessToken = Cookies.get('accessToken')
+  const refreshToken = Cookies.get('refreshToken')
 
   useEffect(() => {
     // 에러 처리
@@ -29,14 +33,14 @@ export default function LoginCallbackPage() {
     }
 
     // 토큰 없으면 로그인 페이지
-    if (!accessToken || !refreshToken) {
+    if (!accessTokenParam || !refreshTokenParam) {
       router.replace('/login')
       return
     }
 
     // 로그인 성공 시 쿠키 저장
-    setLogin(accessToken, refreshToken)
-  }, [accessToken, refreshToken, errorCode, router, setLogin])
+    setLogin(accessTokenParam, refreshTokenParam)
+  }, [accessTokenParam, refreshTokenParam, errorCode, router, setLogin])
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -49,8 +53,7 @@ export default function LoginCallbackPage() {
         router.replace('/login')
       }
     }
-
-    fetchUser()
+    if (accessToken && refreshToken) fetchUser()
   }, [accessToken, refreshToken, router, setUser])
 
   return (

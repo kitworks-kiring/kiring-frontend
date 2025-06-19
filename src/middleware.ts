@@ -8,25 +8,29 @@ export async function middleware(request: NextRequest) {
   let shouldRemoveCookies = false
 
   // 내 정보 API 호출로 accessToken 유효성 확인
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/member/me`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
+  const checkValidToken = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/member/me`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
 
-    const result = await res.json()
+      const result = await res.json()
 
-    if (result.result === 'SUCCESS') {
-      isAuthenticated = true
-    } else {
+      if (result.result === 'SUCCESS') {
+        isAuthenticated = true
+      } else {
+        shouldRemoveCookies = true
+      }
+    } catch (error) {
+      console.log('❌ Token 유효성 error:', error)
       shouldRemoveCookies = true
     }
-  } catch (error) {
-    console.log('❌ Token 유효성 error:', error)
-    shouldRemoveCookies = true
   }
+
+  if (accessToken) await checkValidToken()
 
   const isLoginPage = ['/login', '/login/callback'].includes(pathname)
   const isProtectedPage = ['/mypage', '/community'].some((prefix) => pathname.startsWith(prefix))
