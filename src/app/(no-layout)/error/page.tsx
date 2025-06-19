@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import Status from '@/components/status/Status'
 
-export default function NotFound() {
+export default function ErrorPage() {
   return (
-    <main className="default-layout flex flex-col justify-around py-10">
-      <Status statusCode="not-found" />
+    <div className="flex h-full flex-col justify-around py-10">
+      <Status statusCode="error" />
       <Link
         href="/"
         replace={true}
@@ -12,6 +12,6 @@ export default function NotFound() {
       >
         홈으로 가기
       </Link>
-    </main>
+    </div>
   )
 }

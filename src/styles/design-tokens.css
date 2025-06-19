@@ -1,6 +1,6 @@
 @theme {
   /* 컬러 */
- --color-basic-white: #ffffff;
+  --color-basic-white: #ffffff;
   --color-basic-black: #2d2d2d;
   --color-gray-50: #f6f8fa;
   --color-gray-100: #e8e8e8;
@@ -30,7 +30,7 @@
   --color-sns-kakao: #fee500;
 
   /* 타이포그래피 */
-    --font-family-head1: Pretendard;
+  --font-family-head1: Pretendard;
   --font-size-head1: 48px;
   --font-weight-head1: 600;
   --line-height-head1: 120%;
@@ -48,7 +48,7 @@
   --font-family-head4: Pretendard;
   --font-size-head4: 20px;
   --font-weight-head4: 600;
-  --line-height-head4: 120px;
+  --line-height-head4: 120%;
 
   --font-family-head5: Pretendard;
   --font-size-head5: 16px;
@@ -108,7 +108,7 @@
 
 @layer components {
   /* 타이포그래피 컴포넌트 */
-   .head1 {
+  .head1 {
     font-family: var(--font-family-head1);
     font-size: var(--font-size-head1);
     font-weight: var(--font-weight-head1);
