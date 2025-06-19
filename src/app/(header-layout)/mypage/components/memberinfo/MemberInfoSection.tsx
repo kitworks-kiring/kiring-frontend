@@ -2,11 +2,7 @@ import { MemberMeType } from '@/app/types/memberType'
 import dayjs from 'dayjs'
 import MemberInfoItem from '@/app/(header-layout)/mypage/components/memberinfo/MemberInfoItem'
 
-interface MemberInfoSectionProps {
-  user: MemberMeType
-}
-
-export default function MemberInfoSection({ user }: MemberInfoSectionProps) {
+export default function MemberInfoSection({ user }: { user: MemberMeType }) {
   return (
     <section className="container px-4">
       <div className="head5">

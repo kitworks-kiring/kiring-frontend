@@ -1,28 +1,56 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { isLikelyValidToken } from '@/lib/jwt'
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken')?.value
   const { pathname } = request.nextUrl
 
-  const isLoginPage = new Set(['/login', '/login/callback']).has(pathname)
+  let isAuthenticated = false
+  let shouldRemoveCookies = false
+
+  // 내 정보 API 호출로 accessToken 유효성 확인
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/member/me`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+
+    const result = await res.json()
+
+    if (result.result === 'SUCCESS') {
+      isAuthenticated = true
+    } else {
+      shouldRemoveCookies = true
+    }
+  } catch (error) {
+    console.log('❌ Token 유효성 error:', error)
+    shouldRemoveCookies = true
+  }
+
+  const isLoginPage = ['/login', '/login/callback'].includes(pathname)
   const isProtectedPage = ['/mypage', '/community'].some((prefix) => pathname.startsWith(prefix))
 
-  // 토큰 존재 여부와 유효성 모두 검증
-  const isAuthenticated = accessToken ? isLikelyValidToken(accessToken) : false
-
-  // 1. 로그인 완료 후 로그인/콜백 페이지 접근 시 → 홈으로
+  // 1. 로그인된 사용자가 로그인 페이지 접근 → 홈으로 리디렉트
   if (isAuthenticated && isLoginPage) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
-  // 2. 로그인 전 보호 페이지 접근 시 → 로그인으로
+  // 2. 비로그인 사용자가 보호 페이지 접근 → 로그인 페이지로 리디렉트
   if (!isAuthenticated && isProtectedPage) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
-  return NextResponse.next()
+
+  // 3. 유효성 검사 실패 시 → 토큰 삭제 및 상태 정리 (CSR에서 checkToken 실행)
+  if (shouldRemoveCookies) {
+    const res = NextResponse.next()
+    res.cookies.delete('accessToken')
+    res.cookies.delete('refreshToken')
+    // 응답 브라우저에 전달
+    return res
+  }
 }
 
 export const config = {
-  matcher: ['/login', '/login/callback', '/mypage/:path*', '/community/:path*'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }
