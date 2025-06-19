@@ -11,9 +11,15 @@ import '@/styles/animations/intro.css'
 import { useUserStore } from '@/stores/user'
 import Image from 'next/image'
 
-export default function IntroSection() {
+interface IntroSectionProps {
+  visible?: boolean
+  onClose?: () => void
+}
+
+export default function IntroSection({ visible = true, onClose }: IntroSectionProps) {
   const [isPopup, setIsPopup] = useState(false)
   const [isShaking, setIsShaking] = useState(false)
+  const [closing, setClosing] = useState(false)
   const { user } = useUserStore()
   const { isLogin } = useAuthStore()
 
@@ -33,13 +39,24 @@ export default function IntroSection() {
     setTimeout(() => setIsShaking(false), 500)
   }, [])
 
+  useEffect(() => {
+    if (!visible) {
+      setClosing(true)
+      setTimeout(() => {
+        onClose?.()
+      }, 300)
+    }
+  }, [visible, onClose])
+
   const handleClosePopup = () => {
     localStorage.setItem('popupLastClosedDate', today)
     setIsPopup(false)
   }
 
   return (
-    <section className="full-width relative bg-gradient-to-b from-white from-[-10%] to-purple-100 py-3">
+    <section
+      className={`full-width relative bg-gradient-to-b from-white from-[-10%] to-purple-100 py-3 transition-all duration-300 ease-in-out ${closing ? 'pointer-events-none -translate-y-6 opacity-0' : 'translate-y-0 opacity-100'}`}
+    >
       {isPopup && isLogin && (
         <div className="px-4">
           <Popup
