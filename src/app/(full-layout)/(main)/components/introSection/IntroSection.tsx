@@ -10,6 +10,7 @@ import { useAuthStore } from '@/stores/login'
 import '@/styles/animations/intro.css'
 import { useUserStore } from '@/stores/user'
 import Image from 'next/image'
+import { formatElapsedDate } from '@/utils/date'
 
 interface IntroSectionProps {
   visible?: boolean
@@ -81,9 +82,23 @@ export default function IntroSection({ visible = true, onClose }: IntroSectionPr
             <br />
             함께한지
             <br />
-            <span className="text-system-purple">{'1'}</span>년{' '}
-            <span className="text-system-purple">{'1'}</span>개월{' '}
-            <span className="text-system-purple">{'1'}</span>일이 <br /> 되었어요!
+            {Array.isArray(formatElapsedDate(user?.joinedAt ?? '', true)) ? (
+              (formatElapsedDate(user?.joinedAt ?? '', true) as string[]).map((part, index) => (
+                <span key={index} className="text-system-purple">
+                  {part}
+                  <span className="text-basic-black">
+                    {index == 0 && '년 '}
+                    {index == 1 && '개월 '}
+                    {index == 2 && '일'}
+                  </span>
+                </span>
+              ))
+            ) : (
+              <span className="text-system-purple">
+                {formatElapsedDate(user?.joinedAt ?? '', true)}
+              </span>
+            )}
+            <br /> 되었어요!
           </span>
         ) : (
           <span className="head3 text-basic-black">
