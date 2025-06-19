@@ -7,9 +7,14 @@ import IcoPaperAirplane from '@/assets/ico-paper-airplane.svg'
 import Popup from '@/app/(full-layout)/(main)/components/introSection/Popup'
 import IntroKiringRing from '@/assets/intro-kiring-ring.svg'
 import { useAuthStore } from '@/stores/login'
+import '@/styles/animations/intro.css'
+import { useUserStore } from '@/stores/user'
+import Image from 'next/image'
 
 export default function IntroSection() {
   const [isPopup, setIsPopup] = useState(false)
+  const [isShaking, setIsShaking] = useState(false)
+  const { user } = useUserStore()
   const { isLogin } = useAuthStore()
 
   const today = dayjs().format('YYYY-MM-DD')
@@ -21,6 +26,11 @@ export default function IntroSection() {
       setIsPopup(true)
       localStorage.removeItem('popupLastClosedDate')
     }
+  }, [])
+
+  useEffect(() => {
+    setIsShaking(true)
+    setTimeout(() => setIsShaking(false), 500)
   }, [])
 
   const handleClosePopup = () => {
@@ -71,10 +81,17 @@ export default function IntroSection() {
         <div className="relative flex max-w-[190px] flex-col items-center">
           <IntroKiringRing className="absolute top-1 left-12" />
           {isLogin ? (
-            // 로그인 후: 개인 Kiring Img
-            <DefaultKiring className="mt-5 w-full" />
+            user?.kiringImageUrl && (
+              <Image
+                src={user?.kiringImageUrl}
+                alt="intro-kiring"
+                width={190}
+                height={190}
+                className={`mt-5 w-full ${isShaking && 'custom-shake'}`}
+              />
+            )
           ) : (
-            <DefaultKiring className="mt-5 w-full" />
+            <DefaultKiring className={`mt-5 w-full ${isShaking && 'custom-shake'}`} />
           )}
         </div>
       </div>
