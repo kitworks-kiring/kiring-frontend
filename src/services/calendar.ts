@@ -10,3 +10,7 @@ export const getCalendarSchedules = ({
 }): Promise<CalendarResponseType> => {
   return ApiClient.get(`/event/monthly?year=${year}&month=${month}`)
 }
+
+export const getWeeklySchedule = (): Promise<any> => {
+  return ApiClient.get(`/event/weekly`)
+}
