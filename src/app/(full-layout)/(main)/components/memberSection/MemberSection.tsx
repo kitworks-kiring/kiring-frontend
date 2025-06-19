@@ -29,7 +29,7 @@ export default function MemberSection() {
           router.push('/community')
         }}
       />
-      <div className={clsx('mx-4 flex flex-col justify-center', isLogin && 'gap-[18px]')}>
+      <div className={clsx('flex flex-col justify-center', isLogin && 'gap-[18px]')}>
         {isLogin && (
           <TeamSelector teams={TEAMS} selectedTeam={selectedTeam} onTeamSelect={setSelectedTeam} />
         )}
@@ -49,7 +49,7 @@ export default function MemberSection() {
         {isLogin && data && 'members' in data && Array.isArray(data.members) && (
           <div
             className={clsx(
-              'flex items-center gap-[7%]',
+              'flex items-center gap-[7%] px-4',
               data.members.length <= 4 && 'justify-start',
               data.members.length === 5 && 'justify-between',
               data.members.length > 5 && 'scroll-hidden justify-between overflow-x-scroll',
