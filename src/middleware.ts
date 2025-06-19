@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
   if (accessToken) await checkValidToken()
 
   const isLoginPage = ['/login', '/login/callback'].includes(pathname)
-  const isProtectedPage = ['/mypage', '/community'].some((prefix) => pathname.startsWith(prefix))
+  const isProtectedPage = ['/profile', '/community'].some((prefix) => pathname.startsWith(prefix))
 
   // 1. 로그인된 사용자가 로그인 페이지 접근 → 홈으로 리디렉트
   if (isAuthenticated && isLoginPage) {
