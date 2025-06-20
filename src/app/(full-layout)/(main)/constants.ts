@@ -1,10 +1,13 @@
+import { TimeBlockType } from '@/app/(full-layout)/(main)/types/timeBlock'
+
 // 시간대별 추천 문구 및 타입 정의
-export const TIME_BLOCKS = [
+export const TIME_BLOCKS: TimeBlockType[] = [
   {
     // 04:00~12:00 점심 시간대
     start: 4,
     end: 12,
     type: 'Lunch',
+    value: '점심  ',
     messages: [
       '오늘 점심은 여기 어때요? 🍱',
       '오늘은 이 집 어때요? 점심 고민 끝!',
@@ -18,6 +21,7 @@ export const TIME_BLOCKS = [
     start: 12,
     end: 16,
     type: 'Cafe',
+    value: '카페',
     messages: [
       '지금은 커피 타임! 근처 카페 추천드려요 🍰',
       '점심 먹었으면, 커피 한잔 어때요? ☕',
@@ -31,6 +35,7 @@ export const TIME_BLOCKS = [
     start: 16,
     end: 24,
     type: 'Dinner',
+    value: '저녁',
     messages: [
       '퇴근 전, 가볍게 한잔 하기 좋은 가게에요 🍻',
       '오늘 하루 마무리하러 가볼까요?',
@@ -44,6 +49,7 @@ export const TIME_BLOCKS = [
     start: 0,
     end: 4,
     type: 'Dinner',
+    value: '저녁',
     messages: [
       '퇴근 전, 가볍게 한잔 하기 좋은 가게에요 🍻',
       '오늘 하루 마무리하러 가볼까요?',
