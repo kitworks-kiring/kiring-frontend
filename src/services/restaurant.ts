@@ -1,6 +1,6 @@
 import {
   RestaurantNearbyListParams,
-  RestaurantNearbyListResponseType,
+  RealRestaurantNearbyListResponseType,
 } from '@/app/(header-layout)/place/types/restaurantType'
 import ApiClient from '@/lib/api/client'
 import { COMPANY_COORD } from '@/utils/calcDistance'
@@ -17,7 +17,7 @@ export const getRestaurantNearbyList = ({
   page,
   size,
   sort,
-}: RestaurantNearbyListParams): Promise<RestaurantNearbyListResponseType> => {
+}: RestaurantNearbyListParams): Promise<RealRestaurantNearbyListResponseType> => {
   const { lat: companyLat, lng: companyLng } = COMPANY_COORD
   return ApiClient.get('/matzip/nearby', {
     params: {

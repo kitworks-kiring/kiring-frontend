@@ -24,7 +24,7 @@ export interface RestaurantMapProps {
   onFocusChange: (restaurant: RestaurantType | null) => void
 }
 
-export interface PageNationResponseType {
+export interface PaginationResponseType {
   empty: boolean
   first: boolean
   hasNext: boolean
@@ -36,15 +36,16 @@ export interface PageNationResponseType {
   totalPages: number
 }
 
-export interface RestaurantNearbyListResponseType extends PageNationResponseType {
+export interface RestaurantNearbyListResponseType extends PaginationResponseType {
   content: RealRestaurantType[]
 }
 
 /**
  * 맛집 응답 타입
  * TODO: 추후 RealRestaurantType -> RestaurantType 으로 변경 예정
+ * TODO: 추후 RealRestaurantNearbyListResponseType -> RestaurantNearbyListResponseType 으로 변경 예정
  */
-export interface RealRestaurantType extends LatLngType {
+export interface RealRestaurantType {
   address: string
   categories: string[]
   distanceInMeters: number
@@ -59,7 +60,7 @@ export interface RealRestaurantType extends LatLngType {
   placeId: number
 }
 
-export interface RestaurantNearbyListResponseType {
+export interface RealRestaurantNearbyListResponseType {
   content: RealRestaurantType[]
   empty: boolean
   hasNext: boolean

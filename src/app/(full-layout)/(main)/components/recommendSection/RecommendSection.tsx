@@ -37,8 +37,6 @@ export default function RecommendSection() {
     enabled: !!currentTime.value,
   })
 
-  console.log(data, currentTime)
-
   return (
     <section className="z-1 mt-[-26px] flex w-full flex-col rounded-t-2xl bg-white pb-6">
       <SectionHeader
