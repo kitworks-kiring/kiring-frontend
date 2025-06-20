@@ -87,9 +87,9 @@ export default function MemberSection() {
         )}
 
         {!isLogin && Array.isArray(data) && (
-          <div className="mx-4 flex h-19 items-center justify-between">
-            {data.slice(0, 5).map(({ profileImageUrl }, index) => (
-              <div key={profileImageUrl + index}>
+          <div className="scroll-hidden flex h-19 items-center gap-6 overflow-x-scroll px-4">
+            {data.map(({ profileImageUrl }, index) => (
+              <div key={profileImageUrl + index} className="flex-shrink-0">
                 <Image
                   src={profileImageUrl}
                   alt="profile"
