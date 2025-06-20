@@ -1,0 +1,69 @@
+@keyframes customShake {
+  0% {
+    transform: rotate(-2deg) translateX(2px);
+  }
+  2% {
+    transform: rotate(-10deg) translateX(2px);
+  }
+  4% {
+    transform: rotate(8deg) translateX(-2px);
+  }
+  8% {
+    transform: rotate(-6deg) translateX(2px);
+  }
+  12% {
+    transform: rotate(6deg) translateX(-2px);
+  }
+  16% {
+    transform: rotate(-5deg) translateX(2px);
+  }
+  20% {
+    transform: rotate(5deg) translateX(-2px);
+  }
+  24% {
+    transform: rotate(-4deg) translateX(1.5px);
+  }
+  28% {
+    transform: rotate(4deg) translateX(-1.5px);
+  }
+  32% {
+    transform: rotate(-3deg) translateX(1.2px);
+  }
+  36% {
+    transform: rotate(3deg) translateX(-1.2px);
+  }
+  40% {
+    transform: rotate(-2.5deg) translateX(1px);
+  }
+  44% {
+    transform: rotate(2.5deg) translateX(-1px);
+  }
+  48% {
+    transform: rotate(-2deg) translateX(0.8px);
+  }
+  52% {
+    transform: rotate(2deg) translateX(-0.8px);
+  }
+  56% {
+    transform: rotate(-1.5deg) translateX(0.6px);
+  }
+  60% {
+    transform: rotate(1.5deg) translateX(-0.6px);
+  }
+  64% {
+    transform: rotate(-1deg) translateX(0.4px);
+  }
+  68% {
+    transform: rotate(1deg) translateX(-0.4px);
+  }
+  72% {
+    transform: rotate(-0.8deg) translateX(0.3px);
+  }
+  76% {
+    transform: rotate(0.8deg) translateX(-0.3px);
+  }
+}
+.custom-shake {
+  animation: customShake 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: top center;
+}

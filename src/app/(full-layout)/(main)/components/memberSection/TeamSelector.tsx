@@ -10,7 +10,7 @@ interface TeamSelectorProps {
 // 팀 선택 버튼 컴포넌트
 export default function TeamSelector({ teams, selectedTeam, onTeamSelect }: TeamSelectorProps) {
   return (
-    <div className="scroll-hidden flex items-center gap-2 overflow-x-scroll">
+    <div className="scroll-hidden flex items-center gap-2 overflow-x-scroll px-4">
       {teams.map((team) => (
         <div
           key={team.code}

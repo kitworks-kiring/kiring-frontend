@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -10,11 +10,21 @@ import TeamSelector from '@/app/(full-layout)/(main)/components/memberSection/Te
 import { TEAMS } from '@/app/(full-layout)/constants'
 import { useAuthStore } from '@/stores/login'
 import { useRouter } from 'next/navigation'
+import { useUserStore } from '@/stores/user'
 
 export default function MemberSection() {
-  const [selectedTeam, setSelectedTeam] = useState<number>(TEAMS[0].id)
+  const { user } = useUserStore()
+  const [selectedTeam, setSelectedTeam] = useState<number>(user?.team?.id ?? TEAMS[0].id)
   const { isLogin } = useAuthStore()
   const router = useRouter()
+
+  // 팀 선택 초기화
+  useEffect(() => {
+    if (user?.team?.id) {
+      setSelectedTeam(user.team.id)
+    }
+  }, [user])
+
   // 팀 멤버 데이터를 가져오는 쿼리
   const { data, isLoading, error } = useQuery({
     queryKey: ['teamMembers', selectedTeam, isLogin],
@@ -29,7 +39,7 @@ export default function MemberSection() {
           router.push('/community')
         }}
       />
-      <div className={clsx('mx-4 flex flex-col justify-center', isLogin && 'gap-[18px]')}>
+      <div className={clsx('flex flex-col justify-center', isLogin && 'gap-[18px]')}>
         {isLogin && (
           <TeamSelector teams={TEAMS} selectedTeam={selectedTeam} onTeamSelect={setSelectedTeam} />
         )}
@@ -49,7 +59,7 @@ export default function MemberSection() {
         {isLogin && data && 'members' in data && Array.isArray(data.members) && (
           <div
             className={clsx(
-              'flex items-center gap-[7%]',
+              'flex items-center gap-[7%] px-4',
               data.members.length <= 4 && 'justify-start',
               data.members.length === 5 && 'justify-between',
               data.members.length > 5 && 'scroll-hidden justify-between overflow-x-scroll',
@@ -77,9 +87,9 @@ export default function MemberSection() {
         )}
 
         {!isLogin && Array.isArray(data) && (
-          <div className="mx-4 flex h-19 items-center justify-between">
-            {data.slice(0, 5).map(({ profileImageUrl }, index) => (
-              <div key={profileImageUrl + index}>
+          <div className="scroll-hidden flex h-19 items-center gap-6 overflow-x-scroll px-4">
+            {data.map(({ profileImageUrl }, index) => (
+              <div key={profileImageUrl + index} className="flex-shrink-0">
                 <Image
                   src={profileImageUrl}
                   alt="profile"

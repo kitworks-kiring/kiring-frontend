@@ -1,6 +1,6 @@
 import { MemberMeType } from '@/app/types/memberType'
 import dayjs from 'dayjs'
-import MemberInfoItem from '@/app/(header-layout)/mypage/components/memberinfo/MemberInfoItem'
+import MemberInfoItem from '@/app/(header-layout)/profile/components/memberinfo/MemberInfoItem'
 
 export default function MemberInfoSection({ user }: { user: MemberMeType }) {
   return (
