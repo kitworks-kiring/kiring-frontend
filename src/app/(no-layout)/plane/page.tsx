@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { useQuery } from '@tanstack/react-query'
 import { useAuthStore } from '@/stores/login'
@@ -12,107 +12,153 @@ import { getMemberById } from '@/services/member'
 export default function SendPlanePage() {
   const { isLogin } = useAuthStore()
   const router = useRouter()
-  const [step, setStep] = useState<'write' | 'confirm'>('write')
+  const [step, setStep] = useState<'write' | 'confirm' | 'sending' | 'done'>('write')
   const [message, setMessage] = useState('')
+  const [showRewriteBtn, setShowRewriteBtn] = useState(false)
+  const [showSubmitBtn, setShowSubmitBtn] = useState(false)
 
-  const { data, isLoading } = useQuery<{ member: MemberMeType }>({
+  const { data } = useQuery<{ member: MemberMeType }>({
     queryKey: ['tempTestMember'],
     queryFn: () => getMemberById(8),
     enabled: isLogin,
   })
 
   const recommendation = data?.member
-  const isValid = message.trim().length > 0 && message.length <= 200
+  const isValid = message.trim().length > 0 && message.length <= 100
+  const isWriteStep = step === 'write'
 
   const handleSubmit = () => {
     if (!recommendation) return
-    router.push(`/plane/sending?to=${recommendation.id}&message=${encodeURIComponent(message)}`)
+    setStep('sending')
+    setTimeout(() => {
+      setStep('done')
+    }, 2000)
   }
+
+  useEffect(() => {
+    if (step === 'confirm') {
+      const timer1 = setTimeout(() => setShowRewriteBtn(true), 200)
+      const timer2 = setTimeout(() => setShowSubmitBtn(true), 100)
+      return () => {
+        clearTimeout(timer1)
+        clearTimeout(timer2)
+      }
+    } else {
+      setShowRewriteBtn(false)
+      setShowSubmitBtn(false)
+    }
+  }, [step])
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-white px-4 pt-6">
       {/* 공통 프로필 영역 */}
-      <div
-        className={clsx(
-          'absolute left-1/2 z-10 flex -translate-x-1/2 items-center transition-all duration-700',
-          step === 'write'
-            ? 'top-23 left-24 flex-row gap-3 text-black'
-            : 'top-1/3 flex-col text-purple-600',
-        )}
-      >
-        {recommendation && (
-          <>
-            <Image
-              src={recommendation.profileImageUrl || '/default/avatar.png'}
-              className="rounded-full border"
-              alt={`${recommendation.name} 프로필`}
-              width={step === 'write' ? 52 : 80}
-              height={step === 'write' ? 52 : 80}
-            />
-            <p className="text-lg font-semibold">{recommendation.name} 님에게</p>
-          </>
-        )}
-      </div>
+      {step !== 'sending' && step !== 'done' && recommendation && (
+        <div
+          className={clsx(
+            'absolute left-1/2 z-10 flex -translate-x-1/2 items-center transition-all duration-500',
+            isWriteStep
+              ? 'top-23 left-24 flex-row gap-3'
+              : 'top-3/10 w-full -translate-x-1/2 flex-col gap-3 p-4',
+          )}
+        >
+          <Image
+            src={recommendation.profileImageUrl || '/default/avatar.png'}
+            className="rounded-full border transition-all duration-500"
+            alt={`${recommendation.name} 프로필`}
+            width={isWriteStep ? 52 : 80}
+            height={isWriteStep ? 52 : 80}
+          />
+          <p
+            className={clsx(
+              '',
+              isWriteStep ? 'head4 text-black' : 'head3 text-center text-purple-600',
+            )}
+          >
+            {recommendation.name} <span className="text-black">님에게</span>
+            <span className={clsx('text-black', isWriteStep ? 'hidden' : 'block')}>
+              종이비행기를 보낼까요?
+            </span>
+          </p>
+        </div>
+      )}
 
       {/* 작성 화면 */}
-      <div
-        className={clsx(
-          'pt-33 transition-all duration-500',
-          step === 'write'
-            ? 'pointer-events-auto scale-100 opacity-100'
-            : 'pointer-events-none scale-95 opacity-0',
-        )}
-      >
-        <textarea
-          placeholder="어떤 메시지를 보낼까요?"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          maxLength={200}
-          className="h-50 w-full rounded-lg border p-4"
-        />
-        <div className="text-right text-sm text-gray-400">{message.length} / 200</div>
-        <button
-          className="mt-6 w-full rounded-lg bg-purple-500 py-4 text-white disabled:bg-gray-300"
-          disabled={!isValid}
-          onClick={() => setStep('confirm')}
-        >
-          다음
-        </button>
-      </div>
+      {step === 'write' && (
+        <div className="pt-33 transition-all duration-300">
+          <div className="relative">
+            <textarea
+              placeholder="어떤 메시지를 보낼까요?"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') e.preventDefault()
+              }}
+              maxLength={100}
+              className="head3 h-80 w-full rounded-lg border p-4 pb-8 focus:border-gray-300 focus:ring-0 focus:outline-none"
+            />
+            <div className="body2 absolute right-4 bottom-4 text-gray-400">
+              {message.length} / 100
+            </div>
+          </div>
+          <button
+            className="mt-10 w-full rounded-lg bg-purple-500 py-4 text-white disabled:bg-gray-300"
+            disabled={!isValid}
+            onClick={() => setStep('confirm')}
+          >
+            다음
+          </button>
+        </div>
+      )}
 
       {/* 확인 화면 */}
-      <div
-        className={clsx(
-          'absolute top-0 left-0 flex h-full w-full flex-col items-center px-4 pt-56 text-center transition-all duration-700',
-          step === 'confirm'
-            ? 'pointer-events-auto scale-100 opacity-100'
-            : 'pointer-events-none scale-95 opacity-0',
-        )}
-      >
-        {recommendation && (
-          <>
-            <div
+      {step === 'confirm' && recommendation && (
+        <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center px-4 pt-56 text-center transition-all duration-300">
+          <div className="fixed bottom-10 mt-10 flex w-full flex-col gap-4 px-4">
+            <button
+              onClick={() => setStep('write')}
               className={clsx(
-                'animate-fadeUpBtn fixed bottom-10 mt-10 flex w-full gap-4 opacity-0',
-                step === 'confirm' && 'opacity-100',
+                'flex-1 transform rounded-lg border border-purple-500 p-4 text-purple-500 transition-all duration-300',
+                showRewriteBtn ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
               )}
             >
-              <button
-                onClick={() => setStep('write')}
-                className="flex-1 rounded-lg border border-gray-400 py-3 text-gray-600"
-              >
-                다시쓰기
-              </button>
-              <button
-                onClick={handleSubmit}
-                className="flex-1 rounded-lg bg-purple-500 py-3 text-white"
-              >
-                보내기
-              </button>
-            </div>
-          </>
-        )}
-      </div>
+              다시쓰기
+            </button>
+            <button
+              onClick={handleSubmit}
+              className={clsx(
+                'flex-1 transform rounded-lg bg-purple-500 p-4 text-white transition-all duration-500',
+                showSubmitBtn ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
+              )}
+            >
+              보내기
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 보내는 중 애니메이션 */}
+      {step === 'sending' && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-white">
+          <Image src="/plane-sending.gif" alt="보내는 중" width={160} height={160} />
+          <p className="mt-6 text-lg text-gray-600">종이비행기를 보내는 중이에요...</p>
+        </div>
+      )}
+
+      {/* 전송 완료 화면 */}
+      {step === 'done' && recommendation && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-white text-center">
+          <Image src="/plane-complete.png" alt="전송 완료" width={160} height={160} />
+          <p className="head3 mt-6 text-purple-600">{recommendation.name}님에게</p>
+          <p className="mt-2 text-gray-600">따뜻한 편지가 전해졌어요 💌</p>
+
+          <button
+            className="flex-1 transform rounded-lg bg-purple-500 p-4 text-white transition-all duration-500"
+            onClick={() => router.push('/')}
+          >
+            메인으로 가기
+          </button>
+        </div>
+      )}
     </section>
   )
 }
