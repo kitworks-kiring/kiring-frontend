@@ -8,3 +8,8 @@ export interface CalendarResponseItem {
 }
 
 export type CalendarResponseType = CalendarResponseItem[]
+
+export interface WeeklyScheduleResponseType {
+  date: string
+  events: CalendarResponseItem[]
+}

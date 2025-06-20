@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { getWeeklySchedule } from '@/services/calendar'
 import DayScheduleList from '@/app/(full-layout)/calendar/components/DayScheduleList'
+import { WeeklyScheduleResponseType } from '@/app/(full-layout)/calendar/types/calendarType'
 
 const DAY_LABELS = ['월', '화', '수', '목', '금', '토', '일']
 
@@ -31,7 +32,7 @@ export default function WeeklyScheduleSection() {
 
   // API 데이터와 매칭
   const days = weekDates.map((date, idx) => {
-    const found = (data ?? []).find((d: { date: string }) => d.date === date)
+    const found = (data ?? []).find((d: WeeklyScheduleResponseType) => d.date === date)
     return {
       date,
       label: DAY_LABELS[idx],
