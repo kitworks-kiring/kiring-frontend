@@ -47,7 +47,8 @@ export default function LoginCallbackPage() {
       try {
         const { member } = await getMemberMe()
         setUser(member)
-        router.replace('/')
+        const isWelcomeShown = localStorage.getItem('welcomeShown')
+        router.replace(isWelcomeShown ? '/' : '/welcome')
       } catch (e) {
         console.error('❌ 유저 정보 조회 실패', e)
         router.replace('/login')
