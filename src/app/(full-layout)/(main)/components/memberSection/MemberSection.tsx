@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -10,11 +10,21 @@ import TeamSelector from '@/app/(full-layout)/(main)/components/memberSection/Te
 import { TEAMS } from '@/app/(full-layout)/constants'
 import { useAuthStore } from '@/stores/login'
 import { useRouter } from 'next/navigation'
+import { useUserStore } from '@/stores/user'
 
 export default function MemberSection() {
-  const [selectedTeam, setSelectedTeam] = useState<number>(TEAMS[0].id)
+  const { user } = useUserStore()
+  const [selectedTeam, setSelectedTeam] = useState<number>(user?.team?.id ?? TEAMS[0].id)
   const { isLogin } = useAuthStore()
   const router = useRouter()
+
+  // 팀 선택 초기화
+  useEffect(() => {
+    if (user?.team?.id) {
+      setSelectedTeam(user.team.id)
+    }
+  }, [user])
+
   // 팀 멤버 데이터를 가져오는 쿼리
   const { data, isLoading, error } = useQuery({
     queryKey: ['teamMembers', selectedTeam, isLogin],
