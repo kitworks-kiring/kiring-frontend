@@ -17,7 +17,7 @@ export default function NarrowCard({
   showMapTrue,
 }: {
   restaurant: RealRestaurantType
-  idx: number
+  idx?: number
   onFocusChange?: (restaurant: RealRestaurantType | null) => void
   onCenterChange?: (center: LatLngType) => void
   showMapTrue?: () => void
@@ -27,7 +27,8 @@ export default function NarrowCard({
   const setFocusChange = (restaurant: RealRestaurantType | null) => {
     if (!restaurant || !onFocusChange || !onCenterChange || !showMapTrue) return
     onFocusChange(restaurant)
-    onCenterChange({ lat: restaurant.latitude, lng: restaurant.longitude })
+    // TODO: API 수정되면 lat, lng 순서 변경
+    onCenterChange({ lat: restaurant.longitude, lng: restaurant.latitude })
     showMapTrue()
   }
 
@@ -40,7 +41,7 @@ export default function NarrowCard({
             alt={`${restaurant.name} 이미지`}
             width={100}
             height={100}
-            priority={idx <= 5}
+            priority={idx ? idx <= 5 : true}
             className="h-25 min-h-20 w-25 min-w-20 rounded-sm object-cover"
             onClick={() => onFocusChange && setFocusChange(restaurant)}
           />
@@ -65,7 +66,7 @@ export default function NarrowCard({
                 alt="좋아요 수 아이콘"
                 width={12}
                 height={12}
-                priority={idx <= 5}
+                priority={idx ? idx <= 5 : true}
               />
               <span className="text-purple-500">{restaurant.likeCount}</span>
             </div>
@@ -96,7 +97,7 @@ export default function NarrowCard({
               alt="좋아요 버튼 아이콘"
               width={20}
               height={20}
-              priority={idx <= 5}
+              priority={idx ? idx <= 5 : true}
             />
           </button>
         </div>

@@ -14,12 +14,12 @@ export interface RestaurantType extends LatLngType {
   liked: boolean
 }
 
-export type RestaurantListType = RestaurantType[]
+// export type RestaurantListType = RestaurantType[]
 
 export interface RestaurantMapProps {
   center: LatLngType
   onCenterChange: (center: LatLngType) => void
-  restaurantList: RestaurantNearbyListResponseType
+  restaurantList: RealRestaurantType[]
   focusedRestaurant: RealRestaurantType | null
   onFocusChange: (restaurant: RealRestaurantType | null) => void
 }
@@ -60,12 +60,15 @@ export interface RealRestaurantType {
   placeId: number
 }
 
+export type RestaurantListType = RestaurantType[]
+
 export interface RealRestaurantNearbyListResponseType {
   content: RealRestaurantType[]
   empty: boolean
   hasNext: boolean
   pageNumber?: number
 }
+
 export interface RestaurantNearbyListParams {
   lat?: number
   lon?: number

@@ -8,6 +8,7 @@ import BubbleTab, { BubbleItem } from '@/components/tabs/BubbleTab'
 import SortSelectBox, {
   SortItem,
 } from '@/app/(header-layout)/place/components/restaurant/SortSelectBox'
+import RestaurantMap from '@/app/(header-layout)/place/components/restaurant/RestaurantMap'
 import Navigation from '@/components/layout/Navigation'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import NarrowCard from '@/app/(header-layout)/place/components/restaurant/NarrowCard'
@@ -17,6 +18,7 @@ import {
   PLACE_BUBBLE_TAB_LIST,
   PLACE_SORT_DROPDOWN_LIST,
 } from '@/app/(header-layout)/place/constants'
+import { RealRestaurantType } from '@/app/(header-layout)/place/types/restaurantType'
 import PlaceCalendar from '@/assets/place-calendar.svg'
 
 export default function RestaurantContents() {
@@ -27,6 +29,8 @@ export default function RestaurantContents() {
     lat: COMPANY_COORD.lat,
     lng: COMPANY_COORD.lng,
   })
+  // 클릭한 레스토랑 데이터
+  const [focusedRestaurant, setFocusedRestaurant] = useState<RealRestaurantType | null>(null)
 
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
@@ -68,12 +72,20 @@ export default function RestaurantContents() {
       const { hasNext, pageNumber } = lastPage
       return hasNext && typeof pageNumber === 'number' ? pageNumber + 1 : undefined
     },
+    refetchOnWindowFocus: false,
   })
 
   const totalCount = data?.pages.reduce((total, page) => total + page.content.length, 0) || 0
 
   useEffect(() => {
-    console.log('data:', data)
+    // 초기값 설정: 첫 페이지 데이터가 로드되면 첫 번째 레스토랑을 중심으로 설정
+    const firstRestaurant = data?.pages?.[0]?.content?.[0] ?? null
+    if (firstRestaurant?.placeId) {
+      // TODO: API 수정되면 lat, lng 순서 변경
+      const { latitude: lng, longitude: lat } = firstRestaurant
+      setCenter({ lat, lng })
+      setFocusedRestaurant(firstRestaurant)
+    }
   }, [data])
 
   // 무한스크롤
@@ -134,7 +146,14 @@ export default function RestaurantContents() {
             data?.pages.map((page, pageIndex) => (
               <div key={pageIndex}>
                 {page.content.map((restaurant, idx) => (
-                  <NarrowCard key={restaurant.placeId} restaurant={restaurant} idx={idx} />
+                  <NarrowCard
+                    key={restaurant.placeId}
+                    idx={idx}
+                    restaurant={restaurant}
+                    onFocusChange={setFocusedRestaurant}
+                    onCenterChange={setCenter}
+                    showMapTrue={showMapTrue}
+                  />
                 ))}
               </div>
             ))}
@@ -150,7 +169,13 @@ export default function RestaurantContents() {
               : 'pointer-events-none translate-y-8 opacity-0',
           )}
         >
-          TODO: 카카오맵 컴포넌트 추가
+          <RestaurantMap
+            center={center}
+            onCenterChange={setCenter}
+            restaurantList={(data && data?.pages[0].content) ?? []}
+            focusedRestaurant={focusedRestaurant}
+            onFocusChange={setFocusedRestaurant}
+          />
         </div>
 
         {/* observer target */}
