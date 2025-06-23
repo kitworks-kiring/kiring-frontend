@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { likeToggleRestaurant } from '@/services/restaurant'
 import { useAuthStore } from '@/stores/login'
-import SvgButton from '@/components/ui/SvgButton'
-import LikedButton from '@/assets/liked-button.svg'
-import LikeButton from '@/assets/like-button.svg'
+import { NOT_LIKE_BTN_IMG_URL, LIKED_BTN_IMG_URL } from '@/app/(header-layout)/place/constants'
 import { RealRestaurantNearbyListResponseType } from '@/app/(header-layout)/place/types/restaurantType'
 
 interface LikeToggleButtonProps {
@@ -70,11 +69,14 @@ export default function LikeToggleButton({ isLiked, placeId }: LikeToggleButtonP
   }
 
   return (
-    <SvgButton
-      width={20}
-      height={20}
-      icon={liked ? <LikedButton /> : <LikeButton />}
-      onClick={handleClick}
-    />
+    <button type="button" onClick={handleClick}>
+      <span className="sr-only">좋아요 버튼</span>
+      <Image
+        src={liked ? LIKED_BTN_IMG_URL : NOT_LIKE_BTN_IMG_URL}
+        alt="좋아요 버튼 아이콘"
+        width={20}
+        height={20}
+      />
+    </button>
   )
 }
