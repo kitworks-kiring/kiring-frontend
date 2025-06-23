@@ -12,27 +12,27 @@ export const PLACE_DEFAULT_TAB_LIST = [
 
 export const PLACE_BUBBLE_TAB_LIST = [
   {
-    label: '랜덤',
-    value: 'random',
+    label: '전체',
+    value: '전체',
   },
   {
     label: '점심',
-    value: 'lunch',
+    value: '점심',
   },
   {
     label: '저녁',
-    value: 'dinner',
+    value: '저녁',
   },
   {
     label: '카페',
-    value: 'cafe',
+    value: '카페',
   },
 ] as const
 
 export const PLACE_SORT_DROPDOWN_LIST = [
   {
     label: '인기순',
-    value: 'popular',
+    value: 'likeCount',
   },
   {
     label: '거리순',
@@ -40,7 +40,7 @@ export const PLACE_SORT_DROPDOWN_LIST = [
   },
   {
     label: '최신순',
-    value: 'latest',
+    value: 'id',
   },
 ] as const
 

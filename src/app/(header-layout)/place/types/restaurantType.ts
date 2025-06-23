@@ -19,9 +19,9 @@ export type RestaurantListType = RestaurantType[]
 export interface RestaurantMapProps {
   center: LatLngType
   onCenterChange: (center: LatLngType) => void
-  restaurantList: RestaurantListType
-  focusedRestaurant: RestaurantType | null
-  onFocusChange: (restaurant: RestaurantType | null) => void
+  restaurantList: RestaurantNearbyListResponseType
+  focusedRestaurant: RealRestaurantType | null
+  onFocusChange: (restaurant: RealRestaurantType | null) => void
 }
 
 export interface PaginationResponseType {
@@ -64,6 +64,7 @@ export interface RealRestaurantNearbyListResponseType {
   content: RealRestaurantType[]
   empty: boolean
   hasNext: boolean
+  pageNumber?: number
 }
 export interface RestaurantNearbyListParams {
   lat?: number

@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { Map as KakaoMap, ZoomControl, MapMarker, CustomOverlayMap } from 'react-kakao-maps-sdk'
 import clsx from 'clsx'
 import { getCalcDistance } from '@/utils/calcDistance'
-import NarrowCard from '@/app/(header-layout)/place/components/restaurant/NarrowCard'
+// import NarrowCard from '@/app/(header-layout)/place/components/restaurant/NarrowCard'
 import { MARKER_IMG_URL, LIKE_IMG_URL } from '@/app/(header-layout)/place/constants'
 import {
   RestaurantMapProps,
@@ -60,9 +60,9 @@ export default function RestaurantMap({
         onIdle={getMapCenterPoint}
       >
         {restaurantList.map((restaurant) => (
-          <div key={restaurant.id} className="relative">
+          <div key={restaurant.placeId} className="relative">
             <MapMarker
-              key={`marker-${restaurant.id}`}
+              key={`marker-${restaurant.placeId}`}
               position={{ lat: restaurant.lat, lng: restaurant.lng }}
               title={restaurant.name}
               image={{
@@ -72,7 +72,7 @@ export default function RestaurantMap({
               onClick={(marker) => onMarkerClick(marker, restaurant)}
             />
             <CustomOverlayMap
-              key={`overlay-${restaurant.id}`}
+              key={`overlay-${restaurant.placeId}`}
               position={{ lat: restaurant.lat, lng: restaurant.lng }}
               zIndex={5}
               xAnchor={0}
@@ -81,7 +81,7 @@ export default function RestaurantMap({
               <div
                 className={clsx(
                   'position-centered-x',
-                  focusedRestaurant?.id === restaurant.id ? 'visible' : 'invisible',
+                  focusedRestaurant?.placeId === restaurant.placeId ? 'visible' : 'invisible',
                 )}
               >
                 <div className="flex-col-center gap-0.5 rounded-3xl border-2 border-purple-500 bg-white px-4 py-2">
@@ -103,9 +103,9 @@ export default function RestaurantMap({
         ))}
         <ZoomControl position={'RIGHT'} />
       </KakaoMap>
-      <div className="position-centered-x absolute bottom-10 z-50 w-9/10 rounded-l-2xl rounded-r-2xl bg-white px-2 shadow-lg">
+      {/* <div className="position-centered-x absolute bottom-10 z-50 w-9/10 rounded-l-2xl rounded-r-2xl bg-white px-2 shadow-lg">
         {focusedRestaurant && <NarrowCard restaurantList={[focusedRestaurant]} />}
-      </div>
+      </div> */}
     </>
   )
 }
