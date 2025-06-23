@@ -10,3 +10,21 @@ export interface PlaneSender {
   name: string
   profileImageUrl: string
 }
+
+export interface PlaneSendMessage {
+  senderId: number
+  receiverId: number
+  message: string
+}
+
+export interface PlaneTodayMessage {
+  todaySentCount: number
+  hasTodayReceived: boolean
+  todayRecommendation: PlaneTodayRecommendation
+}
+export interface PlaneTodayRecommendation {
+  id: number
+  name: string
+  profileImageUrl: string
+  kiringImageUrl: string
+}

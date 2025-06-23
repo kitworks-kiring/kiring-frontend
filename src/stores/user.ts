@@ -1,21 +1,23 @@
-import { useQuery } from '@tanstack/react-query'
-import { getMemberMe } from '@/services/member'
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import { MemberMeType } from '@/app/types/memberType'
-import { useAuthStore } from '@/stores/login'
 
-export const useUser = () => {
-  const { isLogin } = useAuthStore()
-
-  const query = useQuery<{ member: MemberMeType }>({
-    queryKey: ['memberMe'],
-    queryFn: getMemberMe,
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5,
-    enabled: isLogin,
-  })
-
-  return {
-    user: query.data?.member,
-    ...query,
-  }
+interface UserState {
+  user: MemberMeType | null
+  setUser: (user: MemberMeType) => void
+  clearUser: () => void
 }
+
+export const useUserStore = create<UserState>()(
+  persist(
+    (set) => ({
+      user: null,
+      setUser: (user) => set({ user }),
+      clearUser: () => set({ user: null }),
+    }),
+    {
+      name: 'kiring-user',
+      partialize: (state) => ({ user: state.user }),
+    },
+  ),
+)

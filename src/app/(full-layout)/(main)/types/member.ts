@@ -26,3 +26,14 @@ export interface Member {
 export interface MembersResponse {
   members: Member[]
 }
+
+export interface MemberImage {
+  id?: number
+  name?: string
+  profileImageUrl: string
+  kiringImageUrl: string
+}
+
+export interface MembersImagesResponse {
+  members: MemberImage[]
+}

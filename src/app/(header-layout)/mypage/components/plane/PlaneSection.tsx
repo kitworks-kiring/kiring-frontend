@@ -2,7 +2,7 @@ import PlaneMessageCard from '@/app/(header-layout)/mypage/components/plane/Plan
 import { useQuery } from '@tanstack/react-query'
 import { getPlaneRead } from '@/services/plane'
 import { useAuthStore } from '@/stores/login'
-import { PlaneMessage } from '../../types/plane'
+import { PlaneMessage } from '@/app/(header-layout)/mypage/types/plane'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export default function PlaneSection() {
@@ -27,7 +27,7 @@ export default function PlaneSection() {
         </section>
       )}
 
-      {isLoading && isLogin && planeMessages.length === 0 && (
+      {!isLoading && isLogin && planeMessages.length === 0 && (
         <section className="nav-pd h-full">
           <p className="flex-row-center body3 h-full text-gray-800">
             종이 비행기를 조회할 수 없습니다.

@@ -51,7 +51,7 @@ export default function MembersContents() {
           onChange={handleBubbleSelect}
           propsClass="body4"
         />
-        <section className="flex h-[calc(100vh-224px)] flex-col overflow-y-auto px-4 py-5 [&::-webkit-scrollbar]:hidden">
+        <section className="scroll-hidden flex h-[calc(100vh-224px)] flex-col overflow-y-auto px-4 py-5">
           {selectedBubble === 'all'
             ? members?.members.map((member) => <MemberItem key={member.id} member={member} />)
             : members?.members

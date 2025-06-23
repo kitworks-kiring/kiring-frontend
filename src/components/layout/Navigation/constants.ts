@@ -10,6 +10,13 @@ export interface NavButtons {
   endpoint: string
 }
 
+export interface HeaderPage {
+  title: string
+  endpoint: string
+  showProfileIcon: boolean
+  showBackButton: boolean
+}
+
 export const NAV_BUTTONS: NavButtons[] = [
   {
     icon: NavPlaceIcon,
@@ -35,5 +42,20 @@ export const NAV_BUTTONS: NavButtons[] = [
     icon: NavCommunityIcon,
     title: '커뮤니티',
     endpoint: '/community',
+  },
+]
+
+export const HEADER_PAGES: HeaderPage[] = [
+  {
+    title: '프로필',
+    endpoint: '/profile',
+    showProfileIcon: false,
+    showBackButton: true,
+  },
+  {
+    title: '종이비행기 보내기',
+    endpoint: '/plane',
+    showProfileIcon: false,
+    showBackButton: true,
   },
 ]

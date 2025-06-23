@@ -21,7 +21,7 @@ export default function DefaultTab({ tabs, active, onChange }: DefaultTabProps) 
     >
       <ul role="tablist" className="flex">
         {tabs.map(({ label, value }) => (
-          <li key={value} className="flex-row-center h-9 w-15">
+          <li key={value} className="flex-row-center h-9 min-w-15">
             <button
               role="tab"
               type="button"

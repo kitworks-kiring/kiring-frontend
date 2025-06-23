@@ -63,6 +63,26 @@
   }
 }
 
+@keyframes floatUpAndDown {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+@keyframes floatDownAndUp {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
 /* 공통 초기 상태 */
 .effect-name,
 .effect-welcome,
@@ -113,4 +133,12 @@
     fadeScaleIn 0.3s ease-out forwards,
     floatTwinkle 6s ease-in-out infinite;
   animation-delay: 1.5s;
+}
+
+.float-up-and-down {
+  animation: floatUpAndDown 4500ms ease-out infinite;
+}
+
+.float-down-and-up {
+  animation: floatDownAndUp 4500ms ease-out infinite;
 }
