@@ -1,11 +1,7 @@
-import React from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
-import {
-  LIKE_IMG_URL,
-  NOT_LIKE_BTN_IMG_URL,
-  LIKED_BTN_IMG_URL,
-} from '@/app/(header-layout)/place/constants'
+import LikeToggleButton from '@/components/ui/LikeToggleButton'
+import { LIKE_IMG_URL } from '@/app/(header-layout)/place/constants'
 import { LatLngType } from '@/utils/calcDistance'
 import { RealRestaurantType } from '@/app/(header-layout)/place/types/restaurantType'
 
@@ -90,16 +86,7 @@ export default function NarrowCard({
           </li>
         </ul>
         <div className="flex items-start justify-end">
-          <button type="button">
-            <span className="sr-only">좋아요 버튼</span>
-            <Image
-              src={restaurant.isLiked ? LIKED_BTN_IMG_URL : NOT_LIKE_BTN_IMG_URL}
-              alt="좋아요 버튼 아이콘"
-              width={20}
-              height={20}
-              priority={idx ? idx <= 5 : true}
-            />
-          </button>
+          <LikeToggleButton isLiked={restaurant.isLiked} placeId={restaurant.placeId} />
         </div>
       </div>
     </>
