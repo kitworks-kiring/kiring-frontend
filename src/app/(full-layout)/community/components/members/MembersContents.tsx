@@ -21,10 +21,7 @@ const MemberItem = ({ member }: { member: Member }) => {
         />
         <div className="body2-sb text-basic-black">{member.name}</div>
       </div>
-      <button
-        className="body4 text-basic-black rounded-full border border-gray-200 px-4 py-2"
-        onClick={() => console.log('paper plane to ', member.name)}
-      >
+      <button className="body4 text-basic-black rounded-full border border-gray-200 px-4 py-2">
         <span className="mb-[-2px] block">종이 비행기</span>
       </button>
     </div>
