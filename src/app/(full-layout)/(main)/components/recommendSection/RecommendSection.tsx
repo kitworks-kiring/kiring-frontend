@@ -32,7 +32,7 @@ export default function RecommendSection() {
 
   // 시간별 맛집 조회
   const { data } = useQuery({
-    queryKey: ['recommend-place'],
+    queryKey: ['restaurantList', currentTime.value],
     queryFn: () => getRestaurantNearbyList({ categoryName: currentTime.value, page: 1, size: 7 }),
     enabled: !!currentTime.value,
   })
