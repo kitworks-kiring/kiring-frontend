@@ -10,6 +10,11 @@ import Header from '@/components/layout/Header'
 import { getPlaneTodayMessage, postPlaneSendMessage } from '@/services/plane'
 import { useUserStore } from '@/stores/user'
 import { PlaneTodayMessage } from '@/app/(header-layout)/mypage/types/plane'
+import SmCloud from '@/assets/plane/sm-cloud.svg'
+import MdCloud from '@/assets/plane/md-cloud.svg'
+import LgCloud from '@/assets/plane/lg-cloud.svg'
+import LetterPlane from '@/assets/plane/letter-plane.svg'
+import Complete from '@/assets/plane/complete.svg'
 
 export default function SendPlanePage() {
   const { isLogin } = useAuthStore()
@@ -26,12 +31,9 @@ export default function SendPlanePage() {
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
-  const { data } = useQuery<{ data: PlaneTodayMessage }>({
+  const { data } = useQuery<PlaneTodayMessage>({
     queryKey: ['planeTodayMessage'],
-    queryFn: async () => {
-      const res = await getPlaneTodayMessage()
-      return res.data
-    },
+    queryFn: getPlaneTodayMessage,
     enabled: isLogin,
   })
 
@@ -63,52 +65,52 @@ export default function SendPlanePage() {
     }
   }
 
-  const handleConfirmStepAnimation = () => {
-    if (step === 'confirm') {
-      const timer1 = setTimeout(() => setShowRewriteBtn(true), 200)
-      const timer2 = setTimeout(() => setShowSubmitBtn(true), 100)
+  const handleStepAnimation = (
+    condition: boolean,
+    actions: [() => void, () => void],
+    delays: [number, number],
+    resets: [() => void, () => void],
+  ) => {
+    if (condition) {
+      const timer1 = setTimeout(actions[0], delays[0])
+      const timer2 = setTimeout(actions[1], delays[1])
       return () => {
         clearTimeout(timer1)
         clearTimeout(timer2)
       }
     } else {
-      setShowRewriteBtn(false)
-      setShowSubmitBtn(false)
+      resets[0]()
+      resets[1]()
       return undefined
     }
   }
 
-  const handleWriteStepAnimation = () => {
-    if (step === 'write') {
-      const timer1 = setTimeout(() => setShowTextarea(true), 100)
-      const timer2 = setTimeout(() => setShowNextButton(true), 200)
-      return () => {
-        clearTimeout(timer1)
-        clearTimeout(timer2)
-      }
-    } else {
-      setShowTextarea(false)
-      setShowNextButton(false)
-      return undefined
-    }
-  }
+  const statusStyle = 'float-down-and-up position-centered-x position-centered-y absolute z-1'
+  const bgElementStyle = 'float-up-and-down absolute'
+  const textStyle = 'effect-name fade-name head3 text-center leading-8 -mt-5'
 
   useEffect(() => {
     focusTextareaToEnd()
   }, [step])
 
   useEffect(() => {
-    const cleanupConfirm = handleConfirmStepAnimation()
-    return () => {
-      if (cleanupConfirm) cleanupConfirm()
-    }
+    const cleanupConfirm = handleStepAnimation(
+      step === 'confirm',
+      [() => setShowSubmitBtn(true), () => setShowRewriteBtn(true)],
+      [100, 200],
+      [() => setShowSubmitBtn(false), () => setShowRewriteBtn(false)],
+    )
+    return () => cleanupConfirm?.()
   }, [step])
 
   useEffect(() => {
-    const cleanupWrite = handleWriteStepAnimation()
-    return () => {
-      if (cleanupWrite) cleanupWrite()
-    }
+    const cleanupWrite = handleStepAnimation(
+      step === 'write',
+      [() => setShowTextarea(true), () => setShowNextButton(true)],
+      [100, 200],
+      [() => setShowTextarea(false), () => setShowNextButton(false)],
+    )
+    return () => cleanupWrite?.()
   }, [step])
 
   const handleSubmit = () => {
@@ -119,6 +121,40 @@ export default function SendPlanePage() {
       receiverId: recommendation.id,
       message,
     })
+  }
+
+  const renderProfileArea = () => {
+    if (step === 'sending' || step === 'done' || !recommendation) return null
+
+    return (
+      <div
+        className={clsx(
+          'absolute left-1/2 z-10 flex -translate-x-1/2 items-center transition-all duration-500',
+          isWriteStep
+            ? 'top-23 left-26 flex-row gap-3'
+            : 'top-3/10 w-full -translate-x-1/2 flex-col gap-3 p-4',
+        )}
+      >
+        <Image
+          src={recommendation.profileImageUrl || '/default/avatar.png'}
+          className="rounded-full border transition-all duration-500"
+          alt={`${recommendation.name} 프로필`}
+          width={isWriteStep ? 52 : 80}
+          height={isWriteStep ? 52 : 80}
+        />
+        <p
+          className={clsx(
+            '',
+            isWriteStep ? 'head4 text-black' : 'head3 text-center text-purple-600',
+          )}
+        >
+          {recommendation.name} <span className="text-black">님에게</span>
+          <span className={clsx('text-black', isWriteStep ? 'hidden' : 'block')}>
+            종이비행기를 보낼까요?
+          </span>
+        </p>
+      </div>
+    )
   }
 
   const renderWriteStep = () => (
@@ -189,61 +225,53 @@ export default function SendPlanePage() {
     </div>
   )
 
-  const renderSendingStep = () => (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white">
-      <Image src="/plane-sending.gif" alt="보내는 중" width={160} height={160} />
-      <p className="mt-6 text-lg text-gray-600">종이비행기를 보내는 중이에요...</p>
-    </div>
-  )
+  const renderSendingOrDoneStep = () => (
+    <div className="absolute inset-0 flex flex-col items-center bg-white text-center">
+      {/* 공통 구름 */}
+      <SmCloud className={clsx('right-15 bottom-160 z-1', bgElementStyle)} />
+      <MdCloud className={clsx('bottom-130 -left-10 z-2', bgElementStyle)} />
+      <LgCloud className={clsx('-right-15 bottom-95 z-3', bgElementStyle)} />
 
-  const renderDoneStep = () => (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white text-center">
-      <Image src="/plane-complete.png" alt="전송 완료" width={160} height={160} />
-      <p className="head3 mt-6 text-purple-600">{recommendation?.name}님에게</p>
-      <p className="mt-2 text-gray-600">따뜻한 편지가 전해졌어요 💌</p>
-
-      <button
-        className="flex-1 transform rounded-lg bg-purple-500 p-4 text-white transition-all duration-500"
-        onClick={() => router.push('/')}
-      >
-        메인으로 가기
-      </button>
-    </div>
-  )
-
-  const renderProfileArea = () => {
-    if (step === 'sending' || step === 'done' || !recommendation) return null
-
-    return (
-      <div
+      {/* 비행기 */}
+      <LetterPlane
         className={clsx(
-          'absolute left-1/2 z-10 flex -translate-x-1/2 items-center transition-all duration-500',
-          isWriteStep
-            ? 'top-23 left-26 flex-row gap-3'
-            : 'top-3/10 w-full -translate-x-1/2 flex-col gap-3 p-4',
+          'absolute bottom-100 z-3 transition-transform duration-1000 ease-in-out',
+          step === 'sending' ? 'animate-plane-flight' : 'float-down-and-up',
         )}
-      >
-        <Image
-          src={recommendation.profileImageUrl || '/default/avatar.png'}
-          className="rounded-full border transition-all duration-500"
-          alt={`${recommendation.name} 프로필`}
-          width={isWriteStep ? 52 : 80}
-          height={isWriteStep ? 52 : 80}
-        />
-        <p
+      />
+
+      {/* 완료 애니메이션 요소 */}
+      {step === 'done' && (
+        <Complete
           className={clsx(
-            '',
-            isWriteStep ? 'head4 text-black' : 'head3 text-center text-purple-600',
+            'animate-complete-show float-down-and-up absolute right-27 bottom-142 z-5',
           )}
-        >
-          {recommendation.name} <span className="text-black">님에게</span>
-          <span className={clsx('text-black', isWriteStep ? 'hidden' : 'block')}>
-            종이비행기를 보낼까요?
-          </span>
+        />
+      )}
+
+      {/* 텍스트 메시지 */}
+      <div className="absolute bottom-55">
+        <p className="head3 mt-6 text-purple-600">{recommendation?.name}님에게</p>
+        <p className="mt-2 text-gray-600">
+          {step === 'sending' ? '종이비행기를 보내는 중이에요...' : '따뜻한 편지가 전해졌어요 💌'}
         </p>
       </div>
-    )
-  }
+
+      {/* 홈으로 버튼 */}
+      {step === 'done' && (
+        <div className="absolute bottom-10 left-0 w-full px-4">
+          <div className="mx-auto flex max-w-md flex-col gap-4">
+            <button
+              onClick={() => router.push('/')}
+              className="rounded-lg bg-purple-500 p-4 text-white transition-all duration-500"
+            >
+              홈으로
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
 
   return (
     <>
@@ -255,9 +283,7 @@ export default function SendPlanePage() {
 
         {step === 'confirm' && renderConfirmStep()}
 
-        {step === 'sending' && renderSendingStep()}
-
-        {step === 'done' && renderDoneStep()}
+        {(step === 'sending' || step === 'done') && renderSendingOrDoneStep()}
       </section>
     </>
   )
