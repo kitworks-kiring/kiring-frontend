@@ -142,3 +142,49 @@
 .float-down-and-up {
   animation: floatDownAndUp 4500ms ease-out infinite;
 }
+
+@keyframes planeFlight {
+  0% {
+    transform: translateY(300px) translateX(-400px) rotate(0deg);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(100px) rotate(0deg); /* 살짝 위로 날아가듯 */
+    opacity: 0;
+  }
+}
+
+.animate-plane-flight {
+  animation: planeFlight 1.5s ease-in-out infinite;
+}
+
+@keyframes rotateFadeIn {
+  0% {
+    opacity: 0;
+    transform: rotateY(0deg);
+  }
+  25% {
+    opacity: 0.25;
+    transform: rotateY(180deg);
+  }
+  50% {
+    opacity: 0.5;
+    transform: rotateY(0deg);
+  }
+  75% {
+    opacity: 0.75;
+    transform: rotateY(180deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(0deg);
+  }
+}
+
+.animate-complete-show {
+  animation: rotateFadeIn 1s ease-out forwards;
+}
