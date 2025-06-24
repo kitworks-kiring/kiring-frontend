@@ -13,9 +13,15 @@ interface SortSelectBoxProps {
   sortOptions: SortItem[]
   active: string
   onChange: (value: string) => void
+  propsClass?: string | false
 }
 
-export default function SortSelectBox({ sortOptions, active, onChange }: SortSelectBoxProps) {
+export default function SortSelectBox({
+  sortOptions,
+  active,
+  onChange,
+  propsClass,
+}: SortSelectBoxProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const currentActive = sortOptions.find((option) => option.value === active) ?? sortOptions[0]
@@ -67,7 +73,10 @@ export default function SortSelectBox({ sortOptions, active, onChange }: SortSel
           id="custom-select-list"
           role="listbox"
           aria-labelledby="sortbox-label"
-          className="absolute right-0 w-full rounded-sm border text-center"
+          className={clsx(
+            'absolute right-0 w-full rounded-sm border text-center',
+            propsClass && propsClass,
+          )}
           tabIndex={-1}
         >
           {sortOptions.map(({ label, value }, index) => (
