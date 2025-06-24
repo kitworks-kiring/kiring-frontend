@@ -1,10 +1,10 @@
 'use client'
 
-import PlaneMessageCard from '@/app/types/planeType'
+import PlaneMessageCard from '@/app/(header-layout)/profile/components/plane/PlaneMessageCard'
 import { useQuery } from '@tanstack/react-query'
 import { getPlaneRead } from '@/services/plane'
 import { useAuthStore } from '@/stores/login'
-import { PlaneMessage } from '@/app/(header-layout)/mypage/types/plane'
+import { PlaneMessage } from '@/app/types/plane'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export default function PlaneSection() {
