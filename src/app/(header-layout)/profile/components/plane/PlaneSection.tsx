@@ -2,13 +2,21 @@
 
 import PlaneMessageCard from '@/app/(header-layout)/profile/components/plane/PlaneMessageCard'
 import { useQuery } from '@tanstack/react-query'
-import { getPlaneRead } from '@/services/plane'
+import { getPlaneRead, getPlaneTodayMessage } from '@/services/plane'
 import { useAuthStore } from '@/stores/login'
-import { PlaneMessage } from '@/app/(header-layout)/profile/constants'
+import { PlaneMessage, PlaneTodayMessage } from '@/app/(header-layout)/profile/constants'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import Popup from '@/app/(full-layout)/(main)/components/introSection/Popup'
+import IcoPaperAirplane from '@/assets/ico-paper-airplane.svg'
+import { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
+import { useRouter } from 'next/navigation'
 
 export default function PlaneSection() {
+  const router = useRouter()
   const { isLogin } = useAuthStore()
+  const [isPopup, setIsPopup] = useState(false)
+  const today = dayjs().format('YYYY-MM-DD')
 
   const { data: planeMessages = [], isLoading } = useQuery<PlaneMessage[]>({
     queryKey: ['planeRead'],
@@ -17,14 +25,66 @@ export default function PlaneSection() {
     enabled: isLogin,
   })
 
+  const { data: todayPlane } = useQuery<PlaneTodayMessage>({
+    queryKey: ['todayPlane'],
+    queryFn: getPlaneTodayMessage,
+    enabled: isLogin && isPopup,
+    refetchOnWindowFocus: false,
+  })
+  useEffect(() => {
+    if (todayPlane && todayPlane.todaySentCount > 0) {
+      setIsPopup(false)
+    }
+  }, [todayPlane])
+
   const hasMessages = planeMessages.length > 0
   const isEmpty = !isLoading && isLogin && !hasMessages
+
+  const handleClosePopup = () => {
+    localStorage.setItem('popupLastIntroClosedDate', today)
+    setIsPopup(false)
+  }
+
+  useEffect(() => {
+    const lastClosedDate = localStorage.getItem('popupLastIntroClosedDate')
+
+    if (lastClosedDate !== today) {
+      setIsPopup(true)
+      localStorage.removeItem('popupLastIntroClosedDate')
+    }
+  }, [])
 
   return (
     <section className="container">
       <div className="head5 px-4">
         <p className="text-black">내가 받은 종이비행기</p>
       </div>
+
+      {isPopup && (
+        <div className="px-4">
+          <Popup
+            onClick={() => {
+              router.push('/plane')
+              if (todayPlane?.todaySentCount && todayPlane.todaySentCount > 0) {
+                handleClosePopup()
+              }
+            }}
+            page="profile"
+            Ico={<IcoPaperAirplane />}
+            title={
+              <span className="body4-sb text-gray-800">
+                오늘은{' '}
+                <span className="text-purple-500">{todayPlane?.todayRecommendation.name}</span>
+                님에게 비행기를 보낼 수 있어요!
+              </span>
+            }
+            description={
+              <span className="body5 text-purple-500">하루 한 번, 랜덤 종이 비행기 보내기</span>
+            }
+            onClose={handleClosePopup}
+          />
+        </div>
+      )}
 
       {isLoading && (
         <section className="h-full p-20">

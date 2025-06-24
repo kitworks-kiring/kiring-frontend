@@ -2,6 +2,7 @@ interface Sender {
   id: number
   name: string
   profileImageUrl: string
+  kiringImageUrl?: string
 }
 
 export interface PlaneMessage {
@@ -9,6 +10,12 @@ export interface PlaneMessage {
   sender: Sender
   message: string
   sentAt: string
+}
+
+export interface PlaneTodayMessage {
+  todaySentCount: number
+  hasTodayReceived: boolean
+  todayRecommendation: Sender
 }
 
 export const planeMessages: PlaneMessage[] = [

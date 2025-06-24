@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import DefaultKiring from '@/assets/intro-kiring.svg'
 import IcoPaperAirplane from '@/assets/ico-paper-airplane.svg'
+import IcoReceivePaperAirplane from '@/assets/ico-receive-paper-airplane.svg'
 import Popup from '@/app/(full-layout)/(main)/components/introSection/Popup'
 import IntroKiringRing from '@/assets/intro-kiring-ring.svg'
 import { useAuthStore } from '@/stores/login'
@@ -11,6 +12,10 @@ import '@/styles/animations/intro.css'
 import { useUserStore } from '@/stores/user'
 import Image from 'next/image'
 import { formatElapsedDate } from '@/utils/date'
+import { useQuery } from '@tanstack/react-query'
+import { PlaneMessage, PlaneTodayMessage } from '@/app/types/plane'
+import { getPlaneTodayMessage, getPlaneRead } from '@/services/plane'
+import { useRouter } from 'next/navigation'
 
 interface IntroSectionProps {
   visible?: boolean
@@ -18,22 +23,55 @@ interface IntroSectionProps {
 }
 
 export default function IntroSection({ visible = true, onClose }: IntroSectionProps) {
-  const [isPopup, setIsPopup] = useState(false)
+  const [showReadPlanePopup, setShowReadPlanePopup] = useState(false)
+  const [showTodayPlanePopup, setShowTodayPlanePopup] = useState(false)
+  const [todayPlanePopupClosed, setTodayPlanePopupClosed] = useState(false)
   const [isShaking, setIsShaking] = useState(false)
   const [closing, setClosing] = useState(false)
   const { user } = useUserStore()
   const { isLogin } = useAuthStore()
-
+  const router = useRouter()
   const today = dayjs().format('YYYY-MM-DD')
 
-  useEffect(() => {
-    const lastClosedDate = localStorage.getItem('popupLastClosedDate')
+  const { data: todayPlane } = useQuery<PlaneTodayMessage>({
+    queryKey: ['todayMainPlane'],
+    queryFn: getPlaneTodayMessage,
+    enabled: isLogin,
+    refetchOnWindowFocus: false,
+  })
 
-    if (lastClosedDate !== today) {
-      setIsPopup(true)
-      localStorage.removeItem('popupLastClosedDate')
+  const { data: readPlane } = useQuery<PlaneMessage[]>({
+    queryKey: ['readPlane'],
+    queryFn: getPlaneRead,
+    enabled: isLogin,
+    refetchOnWindowFocus: false,
+  })
+
+  useEffect(() => {
+    if (!isLogin) return
+    const lastReceivePlaneClosed = localStorage.getItem('popupReceivePlaneClosedDate')
+    const lastReceivedPlaneId = localStorage.getItem('popupLastReceivedPlaneId')
+    const lastIntroClosed = localStorage.getItem('popupLastIntroClosedDate')
+
+    // 1순위: 받은 비행기 팝업
+    if (readPlane && readPlane.length > 0) {
+      const latestPlaneId = String(readPlane[0].messageId)
+      if (lastReceivePlaneClosed === today && lastReceivedPlaneId === latestPlaneId) {
+        setShowReadPlanePopup(false)
+      } else {
+        setShowReadPlanePopup(true)
+        setShowTodayPlanePopup(false)
+        return
+      }
     }
-  }, [])
+
+    // 2순위: 보내는 팝업 (리시브 팝업이 안 뜨는 경우만)
+    if (todayPlane && !todayPlanePopupClosed && todayPlane.todaySentCount === 0) {
+      if (lastIntroClosed !== today) {
+        setShowTodayPlanePopup(true)
+      }
+    }
+  }, [isLogin, today, readPlane, todayPlane, todayPlanePopupClosed])
 
   useEffect(() => {
     setIsShaking(true)
@@ -49,29 +87,69 @@ export default function IntroSection({ visible = true, onClose }: IntroSectionPr
     }
   }, [visible, onClose])
 
-  const handleClosePopup = () => {
-    localStorage.setItem('popupLastClosedDate', today)
-    setIsPopup(false)
+  const handleCloseReadPlanePopup = () => {
+    localStorage.setItem('popupLastReadPlaneClosedDate', today)
+    setShowReadPlanePopup(false)
+  }
+
+  const handleCloseReceivePlanePopup = () => {
+    const latestPlaneId = readPlane && readPlane.length > 0 ? String(readPlane[0].messageId) : ''
+    localStorage.setItem('popupReceivePlaneClosedDate', today)
+    localStorage.setItem('popupLastReceivedPlaneId', latestPlaneId)
+    setShowReadPlanePopup(false)
+  }
+
+  const handleCloseTodayPlanePopup = () => {
+    localStorage.setItem('popupLastIntroClosedDate', today)
+    setShowTodayPlanePopup(false)
+    setTodayPlanePopupClosed(true)
   }
 
   return (
     <section
       className={`full-width relative bg-gradient-to-b from-white from-[-10%] to-purple-100 py-3 transition-all duration-300 ease-in-out ${closing ? 'pointer-events-none -translate-y-6 opacity-0' : 'translate-y-0 opacity-100'}`}
     >
-      {isPopup && isLogin && (
+      {isLogin && showReadPlanePopup && (
         <div className="px-4">
           <Popup
+            page="main"
+            onClick={() => {
+              router.push('/profile')
+              handleCloseReceivePlanePopup()
+            }}
+            Ico={<IcoReceivePaperAirplane />}
+            title={
+              <span className="body4-sb text-gray-800">
+                띵동! 오늘의 랜덤 종이비행기가 도착했어요
+              </span>
+            }
+            description={<span className="body5 text-purple-500">누굴까? 지금 확인해보세요</span>}
+            onClose={handleCloseReadPlanePopup}
+          />
+        </div>
+      )}
+      {isLogin && !showReadPlanePopup && showTodayPlanePopup && (
+        <div className="px-4">
+          <Popup
+            onClick={() => {
+              router.push('/plane')
+              if (todayPlane?.todaySentCount && todayPlane.todaySentCount > 0) {
+                handleCloseTodayPlanePopup()
+              }
+            }}
+            page="main"
             Ico={<IcoPaperAirplane />}
             title={
               <span className="body4-sb text-gray-800">
-                오늘은 <span className="text-purple-500">{'백혜인'}</span>님에게 비행기를 보낼 수
-                있어요!
+                오늘은{' '}
+                <span className="text-purple-500">{todayPlane?.todayRecommendation.name}</span>
+                님에게 비행기를 보낼 수 있어요!
               </span>
             }
             description={
-              <span className="body5 text-purple-500">하루 한 번, 랜덤 종이 비행기 보내기</span>
+              <span className="body5 text-purple-500">하루 한 번, 랜덤 종이비행기 보내기</span>
             }
-            onClose={handleClosePopup}
+            onClose={handleCloseTodayPlanePopup}
           />
         </div>
       )}

@@ -8,9 +8,11 @@ interface PopupProps {
   title: React.ReactNode
   description: React.ReactNode
   onClose: () => void
+  onClick?: () => void
+  page?: 'profile' | 'main'
 }
 
-export default function Popup({ Ico, title, description, onClose }: PopupProps) {
+export default function Popup({ Ico, title, description, onClose, page, onClick }: PopupProps) {
   const [closing, setClosing] = useState(false)
 
   const handleClose = () => {
@@ -22,7 +24,8 @@ export default function Popup({ Ico, title, description, onClose }: PopupProps) 
 
   return (
     <div
-      className={`full-width flex h-16 items-center justify-between rounded-[20px] bg-white p-3 transition-all duration-300 ease-in-out ${closing ? 'pointer-events-none -translate-y-6 opacity-0' : 'translate-y-0 opacity-100'}`}
+      onClick={onClick}
+      className={`full-width flex h-16 items-center justify-between rounded-[20px] p-3 transition-all duration-300 ease-in-out hover:cursor-pointer ${closing ? 'pointer-events-none -translate-y-6 opacity-0' : 'translate-y-0 opacity-100'} ${page === 'profile' ? 'bg-gray-50' : 'bg-white'}`}
     >
       <div className="flex items-center gap-3">
         {Ico}
