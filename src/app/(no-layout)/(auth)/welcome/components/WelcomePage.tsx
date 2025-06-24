@@ -7,7 +7,6 @@ import clsx from 'clsx'
 import WelcomeEffect from '@/app/(no-layout)/(auth)/welcome/components/WelcomeEffect'
 import { useUserStore } from '@/stores/user'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
-import { useUser } from '@/stores/user'
 
 export default function WelcomePage() {
   const router = useRouter()
