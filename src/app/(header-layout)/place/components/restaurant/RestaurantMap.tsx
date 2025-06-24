@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import Image from 'next/image'
 import { Map as KakaoMap, ZoomControl, MapMarker, CustomOverlayMap } from 'react-kakao-maps-sdk'
 import clsx from 'clsx'
 import { getCalcDistance } from '@/utils/calcDistance'
@@ -6,9 +7,8 @@ import NarrowCard from '@/app/(header-layout)/place/components/restaurant/Narrow
 import { MARKER_IMG_URL, LIKE_IMG_URL } from '@/app/(header-layout)/place/constants'
 import {
   RestaurantMapProps,
-  RestaurantType,
+  RealRestaurantType,
 } from '@/app/(header-layout)/place/types/restaurantType'
-import Image from 'next/image'
 
 export default function RestaurantMap({
   center,
@@ -41,7 +41,7 @@ export default function RestaurantMap({
     }
   }
 
-  const onMarkerClick = (marker: kakao.maps.Marker, restaurant: RestaurantType) => {
+  const onMarkerClick = (marker: kakao.maps.Marker, restaurant: RealRestaurantType) => {
     isProgrammaticMove.current = true
     mapRef.current?.panTo(marker.getPosition())
     onFocusChange(restaurant)
@@ -52,18 +52,15 @@ export default function RestaurantMap({
       <KakaoMap
         ref={mapRef}
         center={center}
-        style={{
-          width: '100%',
-          height: '100%',
-        }}
+        style={{ width: '100%', height: '100%' }}
         level={3}
         onIdle={getMapCenterPoint}
       >
         {restaurantList.map((restaurant) => (
-          <div key={restaurant.id} className="relative">
+          <div key={`wrap-${restaurant.placeId}`} className="relative">
             <MapMarker
-              key={`marker-${restaurant.id}`}
-              position={{ lat: restaurant.lat, lng: restaurant.lng }}
+              key={`marker-${restaurant.placeId}`}
+              position={{ lat: restaurant.latitude, lng: restaurant.longitude }}
               title={restaurant.name}
               image={{
                 src: MARKER_IMG_URL,
@@ -72,8 +69,8 @@ export default function RestaurantMap({
               onClick={(marker) => onMarkerClick(marker, restaurant)}
             />
             <CustomOverlayMap
-              key={`overlay-${restaurant.id}`}
-              position={{ lat: restaurant.lat, lng: restaurant.lng }}
+              key={`overlay-${restaurant.placeId}`}
+              position={{ lat: restaurant.latitude, lng: restaurant.longitude }}
               zIndex={5}
               xAnchor={0}
               yAnchor={1.15}
@@ -81,7 +78,7 @@ export default function RestaurantMap({
               <div
                 className={clsx(
                   'position-centered-x',
-                  focusedRestaurant?.id === restaurant.id ? 'visible' : 'invisible',
+                  focusedRestaurant?.placeId === restaurant.placeId ? 'visible' : 'invisible',
                 )}
               >
                 <div className="flex-col-center gap-0.5 rounded-3xl border-2 border-purple-500 bg-white px-4 py-2">
@@ -94,7 +91,7 @@ export default function RestaurantMap({
                       height={14}
                       className="object-contain"
                     />
-                    <span className="body4-sb text-purple-500">{restaurant.likes}</span>
+                    <span className="body4-sb text-purple-500">{restaurant.likeCount}</span>
                   </div>
                 </div>
               </div>
@@ -104,7 +101,7 @@ export default function RestaurantMap({
         <ZoomControl position={'RIGHT'} />
       </KakaoMap>
       <div className="position-centered-x absolute bottom-10 z-50 w-9/10 rounded-l-2xl rounded-r-2xl bg-white px-2 shadow-lg">
-        {focusedRestaurant && <NarrowCard restaurantList={[focusedRestaurant]} />}
+        {focusedRestaurant && <NarrowCard restaurant={focusedRestaurant} />}
       </div>
     </>
   )
