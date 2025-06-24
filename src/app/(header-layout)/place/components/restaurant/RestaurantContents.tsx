@@ -1,4 +1,7 @@
-// 내/외부 라이브러리
+// TODO: 레이아웃 구조 완성되면 eslint 무효화 코드 제거
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+//  내/외부 라이브러리
 import { useState, useRef } from 'react'
 import { Map as KakaoMap } from 'react-kakao-maps-sdk'
 import clsx from 'clsx'
@@ -34,8 +37,12 @@ export default function RestaurantContents() {
   // ref
   const mapRef = useRef<kakao.maps.Map>(null)
 
+  // variable
+  const isSheetExpanded = sheetPosition === 'expanded'
+
   // style
   const sectionStyle = 'position-centered-x full-width absolute'
+  const floatingBtnStyle = 'body4 rounded-l-xl rounded-r-xl bg-white px-3 py-2 shadow-xl'
 
   // bubble tab, sort dropdown 초기값 설정
   const initialActiveBubble = PLACE_BUBBLE_TAB_LIST[0].value
@@ -50,7 +57,7 @@ export default function RestaurantContents() {
   }))
 
   return (
-    <div className="relative h-full bg-gray-50 pt-9">
+    <div className="relative h-full pt-9">
       {/* 카카오맵 */}
       <section className={clsx('top-0 left-0 z-0 h-full pt-9', sectionStyle)}>
         <KakaoMap
@@ -65,35 +72,56 @@ export default function RestaurantContents() {
       {/* 리스트 */}
       <section
         className={clsx(
-          '',
-          'left-0 z-1 rounded-t-3xl bg-white',
+          'left-0 overflow-hidden',
           sectionStyle,
-          sheetPosition === 'half' && 'top-1/2 h-1/2 overflow-y-hidden',
-          sheetPosition === 'collapsed' && 'bottom-0 h-22 overflow-y-hidden',
-          sheetPosition === 'expanded' && 'top-2',
+          sheetPosition === 'half' && 'top-1/2 h-1/2',
+          sheetPosition === 'collapsed' && 'bottom-0 h-32',
+          sheetPosition === 'expanded' && 'top-8',
         )}
       >
-        <button type="button" className="mx-auto my-3 block h-1 w-20 rounded-sm bg-gray-200">
-          <span className="sr-only">목록 보기</span>
-        </button>
-        <div
-          className={clsx(
-            'flex items-center justify-between pr-2',
-            sheetPosition === 'expanded' && 'sticky top-0 h-12 bg-red-500',
+        {!isSheetExpanded && (
+          <div className="mx-2 mb-2 flex justify-between">
+            <button type="button" className={floatingBtnStyle}>
+              GPS
+            </button>
+            <button type="button" className={floatingBtnStyle}>
+              이 위치 재검색
+            </button>
+            <button type="button" className={floatingBtnStyle}>
+              목록보기
+            </button>
+          </div>
+        )}
+        <div className={clsx('relative h-full bg-white pt-1', !isSheetExpanded && 'rounded-t-xl')}>
+          {!isSheetExpanded && (
+            <button type="button" className="mx-auto my-3 block h-1 w-20 rounded-sm bg-gray-200">
+              <span className="sr-only">목록 보기</span>
+            </button>
           )}
-        >
-          <BubbleTab bubbles={bubbles} active={bubbleSelected} onChange={onBubbleSelect} />
-          <SortSelectBox
-            sortOptions={sortOptions}
-            active={selectedSort}
-            onChange={onSelectSort}
-            propsClass={sheetPosition === 'collapsed' && 'bottom-0'}
-          />
-        </div>
-        <div>
-          {Array.from({ length: 50 }).map((_, index) => (
-            <div key={index}>{index}</div>
-          ))}
+          <div
+            className={clsx(
+              'flex items-center justify-between bg-amber-100 pr-2',
+              isSheetExpanded && 'sticky top-0',
+            )}
+          >
+            <BubbleTab
+              bubbles={bubbles}
+              active={bubbleSelected}
+              onChange={onBubbleSelect}
+              hasBorder={false}
+            />
+            <SortSelectBox
+              sortOptions={sortOptions}
+              active={selectedSort}
+              onChange={onSelectSort}
+              propsClass={sheetPosition === 'collapsed' && 'bottom-0'}
+            />
+          </div>
+          <div className="">
+            {Array.from({ length: 50 }).map((_, index) => (
+              <div key={index}>{index}</div>
+            ))}
+          </div>
         </div>
       </section>
     </div>
