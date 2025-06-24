@@ -16,16 +16,17 @@ export default function Header() {
   const { user } = useUserStore()
 
   const PAGES = [...NAV_BUTTONS, { title: '프로필', endpoint: '/profile' }]
-
+  const BACK_BTN_PAGES = ['/profile', '/place']
   const matchedNavItem =
     PAGES.find(({ endpoint }) => endpoint === pathname) ??
-    PAGES.find(({ endpoint }) => endpoint === '/')
+    PAGES.find(({ endpoint }) => endpoint === '/')!
+  const needsBackBtn = BACK_BTN_PAGES.includes(matchedNavItem.endpoint)
 
   return (
     <nav aria-label="헤더 네비게이션" className="full-width fixed top-0 z-10 h-14 bg-white p-4">
       <div className="flex h-full w-full justify-between">
         <div className="flex items-center gap-4">
-          {matchedNavItem?.endpoint === '/profile' && (
+          {needsBackBtn && (
             <SvgButton ariaLabel="뒤로가기" icon={<ArrowHeader />} onClick={() => router.back()} />
           )}
           {matchedNavItem?.endpoint === '/' ? (
