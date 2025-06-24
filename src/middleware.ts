@@ -25,7 +25,7 @@ export async function middleware(request: NextRequest) {
         shouldRemoveCookies = true
       }
     } catch (error) {
-      console.log('❌ Token 유효성 error:', error)
+      console.error('❌ Token 유효성 error:', error)
       shouldRemoveCookies = true
     }
   }
@@ -33,30 +33,18 @@ export async function middleware(request: NextRequest) {
   if (accessToken) await checkValidToken()
 
   const isLoginPage = ['/login', '/login/callback'].includes(pathname)
-  const isProtectedPage = ['/mypage', '/community', '/plane'].some((prefix) =>
+  const isProtectedPage = ['/profile', '/community', '/plane'].some((prefix) =>
     pathname.startsWith(prefix),
   )
 
   // 1. 로그인된 사용자가 로그인 페이지 접근 → 홈으로 리디렉트
   if (isAuthenticated && isLoginPage) {
-    const res = NextResponse.redirect(new URL('/', request.url))
-    if (shouldRemoveCookies) {
-      res.cookies.delete('accessToken')
-      res.cookies.delete('refreshToken')
-      console.log('🧹 쿠키 삭제됨 (홈 리디렉트)')
-    }
-    return res
+    return NextResponse.redirect(new URL('/', request.url))
   }
 
   // 2. 비로그인 사용자가 보호 페이지 접근 → 로그인 페이지로 리디렉트
   if (!isAuthenticated && isProtectedPage) {
-    const res = NextResponse.redirect(new URL('/login', request.url))
-    if (shouldRemoveCookies) {
-      res.cookies.delete('accessToken')
-      res.cookies.delete('refreshToken')
-      console.log('🧹 쿠키 삭제됨 (로그인 리디렉트)')
-    }
-    return res
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 
   // 3. 유효성 검사 실패 시 → 토큰 삭제 및 상태 정리 (CSR에서 checkToken 실행)
