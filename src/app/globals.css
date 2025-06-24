@@ -2,6 +2,7 @@
 @import '../styles/design-tokens.css'; /* 토큰 적용 CSS */
 @import '../styles/utilities.css';
 @import '../styles/animations/welcome.css';
+@import '../styles/animations/plane.css';
 
 @custom-variant dark (&:is(.dark *));
 
