@@ -1,3 +1,5 @@
+'use client'
+
 import PlaneMessageCard from '@/app/(header-layout)/mypage/components/plane/PlaneMessageCard'
 import { useQuery } from '@tanstack/react-query'
 import { getPlaneRead } from '@/services/plane'
@@ -7,13 +9,16 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export default function PlaneSection() {
   const { isLogin } = useAuthStore()
-  const { data, isLoading } = useQuery<PlaneMessage[]>({
+
+  const { data: planeMessages = [], isLoading } = useQuery<PlaneMessage[]>({
     queryKey: ['planeRead'],
     queryFn: getPlaneRead,
     refetchOnWindowFocus: false,
     enabled: isLogin,
   })
-  const planeMessages = data ?? []
+
+  const hasMessages = planeMessages.length > 0
+  const isEmpty = !isLoading && isLogin && !hasMessages
 
   return (
     <section className="container">
@@ -27,20 +32,32 @@ export default function PlaneSection() {
         </section>
       )}
 
-      {!isLoading && isLogin && planeMessages.length === 0 && (
-        <section className="nav-pd h-full">
-          <p className="flex-row-center body3 h-full text-gray-800">
-            종이 비행기를 조회할 수 없습니다.
-          </p>
-        </section>
+      {isEmpty && (
+        <div className="mt-4 flex gap-4 px-4">
+          <ul className="flex w-full justify-center">
+            <li className="flex h-56 w-full flex-col items-center justify-center rounded-xl border bg-white p-5">
+              <p className="body2 text-center text-gray-500">아직 받은 종이비행기가 없어요</p>
+            </li>
+          </ul>
+        </div>
       )}
 
-      {!isLoading && planeMessages.length > 0 && (
+      {hasMessages && (
         <>
-          <div className="mt-4 flex gap-4 overflow-x-scroll px-4 [&::-webkit-scrollbar]:hidden">
+          <div
+            className={`mt-4 flex gap-4 px-4 ${
+              planeMessages.length > 1
+                ? 'overflow-x-scroll [&::-webkit-scrollbar]:hidden'
+                : 'justify-center'
+            }`}
+          >
             <ul className="flex gap-4">
-              {planeMessages.map((plane: PlaneMessage) => (
-                <PlaneMessageCard key={plane.messageId} plane={plane} />
+              {planeMessages.map((plane) => (
+                <PlaneMessageCard
+                  key={plane.messageId}
+                  plane={plane}
+                  isSingle={planeMessages.length === 1}
+                />
               ))}
             </ul>
           </div>
