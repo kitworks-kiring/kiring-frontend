@@ -58,4 +58,10 @@ export const HEADER_PAGES: HeaderPage[] = [
     showProfileIcon: false,
     showBackButton: true,
   },
+  {
+    title: '플레이스',
+    endpoint: '/place',
+    showProfileIcon: true,
+    showBackButton: true,
+  },
 ]

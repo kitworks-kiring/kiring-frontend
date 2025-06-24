@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import Image from 'next/image'
 import HeaderLogo from '@/assets/header-logo.svg'
 import ArrowHeader from '@/assets/arrow-header.svg'
@@ -16,11 +17,13 @@ export default function Header() {
   const { isLogin } = useAuthStore()
   const { user } = useUserStore()
 
-  const PAGES = [...NAV_BUTTONS, ...HEADER_PAGES]
-
-  const matchedNavItem =
-    PAGES.find(({ endpoint }) => endpoint === pathname) ??
-    PAGES.find(({ endpoint }) => endpoint === '/')!
+  const matchedNavItem = useMemo(() => {
+    return (
+      HEADER_PAGES.find(({ endpoint }) => endpoint === pathname) ??
+      NAV_BUTTONS.find(({ endpoint }) => endpoint === pathname) ??
+      NAV_BUTTONS.find(({ endpoint }) => endpoint === '/')!
+    )
+  }, [pathname])
 
   return (
     <nav aria-label="헤더 네비게이션" className="full-width fixed top-0 z-10 h-14 bg-white p-4">
