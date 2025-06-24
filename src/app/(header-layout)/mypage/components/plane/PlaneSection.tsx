@@ -4,7 +4,7 @@ import PlaneMessageCard from '@/app/(header-layout)/profile/components/plane/Pla
 import { useQuery } from '@tanstack/react-query'
 import { getPlaneRead } from '@/services/plane'
 import { useAuthStore } from '@/stores/login'
-import { PlaneMessage } from '@/app/(header-layout)/profile/constants'
+import { PlaneMessage } from '@/app/types/plane'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export default function PlaneSection() {
