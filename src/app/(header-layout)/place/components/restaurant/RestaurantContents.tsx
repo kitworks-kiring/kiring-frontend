@@ -56,13 +56,13 @@ export default function RestaurantContents() {
     isFetchingNextPage, // 다음 페이지 호출 중 여부
     isLoading,
   } = useInfiniteQuery({
-    queryKey: ['restaurantList', bubbleSelected, selectedSort],
+    queryKey: ['restaurantList', bubbleSelected, selectedSort, center],
     queryFn: ({ pageParam = 0 }) =>
       getRestaurantNearbyList({
         lat: center.lat,
         lon: center.lng,
         categoryName: bubbleSelected,
-        radius: 1000,
+        radius: 800,
         page: pageParam,
         size: 10,
         sort: selectedSort,
@@ -75,23 +75,9 @@ export default function RestaurantContents() {
     refetchOnWindowFocus: false,
   })
 
-  const totalCount = data?.pages.reduce((total, page) => total + page.content.length, 0) || 0
-
-  useEffect(() => {
-    // 초기값 설정: 첫 페이지 데이터가 로드되면 첫 번째 레스토랑을 중심으로 설정
-    const firstRestaurant = data?.pages?.[0]?.content?.[0] ?? null
-    if (firstRestaurant?.placeId) {
-      // TODO: API 수정되면 lat, lng 순서 변경
-      const { latitude: lng, longitude: lat } = firstRestaurant
-      setCenter({ lat, lng })
-      setFocusedRestaurant(firstRestaurant)
-    }
-  }, [data])
-
   // 무한스크롤
   useEffect(() => {
     if (!hasNextPage || isFetchingNextPage || showMap) return
-
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -100,11 +86,9 @@ export default function RestaurantContents() {
       },
       { threshold: 0.1 },
     )
-
     if (loadMoreRef.current) {
       observer.observe(loadMoreRef.current)
     }
-
     return () => observer.disconnect()
   }, [fetchNextPage, hasNextPage, isFetchingNextPage, showMap])
 
@@ -115,7 +99,7 @@ export default function RestaurantContents() {
         <BubbleTab bubbles={bubbles} active={bubbleSelected} onChange={onBubbleSelect} />
         <div className="flex h-12 items-center justify-between px-4">
           <p className="body4 text-gray-500">
-            <b>{totalCount}개</b>의 매장
+            <b>{data?.pages?.[0]?.totalElements ?? '0'}개</b>의 매장
           </p>
           <div className="flex-row-center">
             <SortSelectBox

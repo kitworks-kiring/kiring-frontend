@@ -23,8 +23,7 @@ export default function NarrowCard({
   const setFocusChange = (restaurant: RealRestaurantType | null) => {
     if (!restaurant || !onFocusChange || !onCenterChange || !showMapTrue) return
     onFocusChange(restaurant)
-    // TODO: API 수정되면 lat, lng 순서 변경
-    onCenterChange({ lat: restaurant.longitude, lng: restaurant.latitude })
+    onCenterChange({ lat: restaurant.latitude, lng: restaurant.longitude })
     showMapTrue()
   }
 
@@ -52,7 +51,9 @@ export default function NarrowCard({
               {restaurant.name}
             </button>
             {restaurant.likeCount >= 15 && (
-              <span className="body6 rounded-lg bg-purple-50 px-2 py-1 text-purple-300">인기</span>
+              <span className="body6 ml-1 rounded-lg bg-purple-50 px-2 py-1 text-purple-300">
+                인기
+              </span>
             )}
           </li>
           <li className={clsx(flexItemsCenter, 'body5 gap-1')}>

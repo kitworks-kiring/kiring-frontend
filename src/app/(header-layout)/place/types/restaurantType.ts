@@ -67,6 +67,7 @@ export interface RealRestaurantNearbyListResponseType {
   empty: boolean
   hasNext: boolean
   pageNumber?: number
+  totalElements?: number
 }
 
 export interface RestaurantNearbyListParams {

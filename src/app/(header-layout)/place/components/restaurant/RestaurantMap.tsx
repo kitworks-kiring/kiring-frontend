@@ -60,8 +60,7 @@ export default function RestaurantMap({
           <div key={`wrap-${restaurant.placeId}`} className="relative">
             <MapMarker
               key={`marker-${restaurant.placeId}`}
-              // TODO: API 수정되면 lat, lng 순서 변경
-              position={{ lat: restaurant.longitude, lng: restaurant.latitude }}
+              position={{ lat: restaurant.latitude, lng: restaurant.longitude }}
               title={restaurant.name}
               image={{
                 src: MARKER_IMG_URL,
@@ -71,8 +70,7 @@ export default function RestaurantMap({
             />
             <CustomOverlayMap
               key={`overlay-${restaurant.placeId}`}
-              // TODO: API 수정되면 lat, lng 순서 변경
-              position={{ lat: restaurant.longitude, lng: restaurant.latitude }}
+              position={{ lat: restaurant.latitude, lng: restaurant.longitude }}
               zIndex={5}
               xAnchor={0}
               yAnchor={1.15}
