@@ -31,7 +31,7 @@ export function formatRelativeTime(dateString: string): string {
 }
 
 // 기준 날짜로 부터 경과 기간 (1년 2개월 3일)
-export function formatElapsedDate(dateString: string): string {
+export function formatElapsedDate(dateString: string, isMain?: boolean): string | string[] {
   if (!dateString) return ''
 
   const start = new Date(dateString)
@@ -45,9 +45,13 @@ export function formatElapsedDate(dateString: string): string {
   const days = diffDays % 30
 
   const parts = []
-  if (years > 0) parts.push(`${years}년`)
-  if (months > 0) parts.push(`${months}개월`)
-  if (days > 0) parts.push(`${days}일`)
+  if (years > 0) parts.push(isMain ? `${years}` : `${years}년`)
+  if (months > 0) parts.push(isMain ? `${months}` : `${months}개월`)
+  if (days > 0) parts.push(isMain ? `${days}` : `${days}일`)
+
+  if (isMain) {
+    return parts
+  }
 
   return parts.length > 0 ? parts.join(' ') : '오늘'
 }

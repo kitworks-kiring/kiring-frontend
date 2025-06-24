@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import HeaderLogo from '@/assets/header-logo.svg'
 import ArrowHeader from '@/assets/arrow-header.svg'
 import DefaultProfile from '@/assets/default-profile.svg'
@@ -7,11 +8,13 @@ import SvgButton from '@/components/ui/SvgButton'
 import { NAV_BUTTONS, HEADER_PAGES } from '@/components/layout/Navigation/constants'
 import { useRouter, usePathname } from 'next/navigation'
 import { useAuthStore } from '@/stores/login'
+import { useUserStore } from '@/stores/user'
 
 export default function Header() {
   const router = useRouter()
   const pathname = usePathname()
   const { isLogin } = useAuthStore()
+  const { user } = useUserStore()
 
   const PAGES = [...NAV_BUTTONS, ...HEADER_PAGES]
 
@@ -44,15 +47,30 @@ export default function Header() {
         </div>
         <div className="flex gap-3">
           {/* TODO: 2차 알림 버튼 추가 */}
-          {isLogin &&
-          matchedNavItem &&
-          (!('showProfileIcon' in matchedNavItem) || matchedNavItem.showProfileIcon) ? (
-            <SvgButton
-              ariaLabel="마이페이지로 이동"
-              icon={<DefaultProfile />}
-              onClick={() => router.push('/mypage')}
-            />
-          ) : isLogin ? null : (
+          {isLogin ? (
+            matchedNavItem && 'showProfileIcon' in matchedNavItem ? (
+              matchedNavItem.showProfileIcon ? (
+                <SvgButton
+                  ariaLabel="마이페이지로 이동"
+                  icon={<DefaultProfile />}
+                  onClick={() => router.push('/mypage')}
+                />
+              ) : null // showProfileIcon이 false면 아무 것도 안 보여줌
+            ) : user?.profileImageUrl ? (
+              <button
+                className="h-6 w-6 overflow-hidden rounded-full"
+                onClick={() => router.push('/profile')}
+              >
+                <Image
+                  src={user.profileImageUrl}
+                  alt="profile"
+                  width={24}
+                  height={24}
+                  className="aspect-square h-6 w-6 scale-140 object-contain"
+                />
+              </button>
+            ) : null
+          ) : (
             <button onClick={() => router.push('/login')}>
               <span className="body2-sb mt-0.5 text-purple-500">로그인</span>
             </button>

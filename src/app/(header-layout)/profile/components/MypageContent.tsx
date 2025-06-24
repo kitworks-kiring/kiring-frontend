@@ -2,9 +2,9 @@
 
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/stores/login'
-import PlaneSection from '@/app/(header-layout)/mypage/components/plane/PlaneSection'
-import MemberInfoSection from '@/app/(header-layout)/mypage/components/memberinfo/MemberInfoSection'
-import ProfileSection from '@/app/(header-layout)/mypage/components/profile/ProfileSection'
+import PlaneSection from '@/app/(header-layout)/profile/components/plane/PlaneSection'
+import MemberInfoSection from '@/app/(header-layout)/profile/components/memberinfo/MemberInfoSection'
+import ProfileSection from '@/app/(header-layout)/profile/components/profile/ProfileSection'
 import { useUserStore } from '@/stores/user'
 
 export default function MyPageContent() {

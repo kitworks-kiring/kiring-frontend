@@ -7,9 +7,21 @@ import IcoPaperAirplane from '@/assets/ico-paper-airplane.svg'
 import Popup from '@/app/(full-layout)/(main)/components/introSection/Popup'
 import IntroKiringRing from '@/assets/intro-kiring-ring.svg'
 import { useAuthStore } from '@/stores/login'
+import '@/styles/animations/intro.css'
+import { useUserStore } from '@/stores/user'
+import Image from 'next/image'
+import { formatElapsedDate } from '@/utils/date'
 
-export default function IntroSection() {
+interface IntroSectionProps {
+  visible?: boolean
+  onClose?: () => void
+}
+
+export default function IntroSection({ visible = true, onClose }: IntroSectionProps) {
   const [isPopup, setIsPopup] = useState(false)
+  const [isShaking, setIsShaking] = useState(false)
+  const [closing, setClosing] = useState(false)
+  const { user } = useUserStore()
   const { isLogin } = useAuthStore()
 
   const today = dayjs().format('YYYY-MM-DD')
@@ -23,13 +35,29 @@ export default function IntroSection() {
     }
   }, [])
 
+  useEffect(() => {
+    setIsShaking(true)
+    setTimeout(() => setIsShaking(false), 500)
+  }, [])
+
+  useEffect(() => {
+    if (!visible) {
+      setClosing(true)
+      setTimeout(() => {
+        onClose?.()
+      }, 300)
+    }
+  }, [visible, onClose])
+
   const handleClosePopup = () => {
     localStorage.setItem('popupLastClosedDate', today)
     setIsPopup(false)
   }
 
   return (
-    <section className="full-width relative bg-gradient-to-b from-white from-[-10%] to-purple-100 py-3">
+    <section
+      className={`full-width relative bg-gradient-to-b from-white from-[-10%] to-purple-100 py-3 transition-all duration-300 ease-in-out ${closing ? 'pointer-events-none -translate-y-6 opacity-0' : 'translate-y-0 opacity-100'}`}
+    >
       {isPopup && isLogin && (
         <div className="px-4">
           <Popup
@@ -54,9 +82,23 @@ export default function IntroSection() {
             <br />
             함께한지
             <br />
-            <span className="text-system-purple">{'1'}</span>년{' '}
-            <span className="text-system-purple">{'1'}</span>개월{' '}
-            <span className="text-system-purple">{'1'}</span>일이 <br /> 되었어요!
+            {Array.isArray(formatElapsedDate(user?.joinedAt ?? '', true)) ? (
+              (formatElapsedDate(user?.joinedAt ?? '', true) as string[]).map((part, index) => (
+                <span key={index} className="text-system-purple">
+                  {part}
+                  <span className="text-basic-black">
+                    {index == 0 && '년 '}
+                    {index == 1 && '개월 '}
+                    {index == 2 && '일'}
+                  </span>
+                </span>
+              ))
+            ) : (
+              <span className="text-system-purple">
+                {formatElapsedDate(user?.joinedAt ?? '', true)}
+              </span>
+            )}
+            <br /> 되었어요!
           </span>
         ) : (
           <span className="head3 text-basic-black">
@@ -71,10 +113,17 @@ export default function IntroSection() {
         <div className="relative flex max-w-[190px] flex-col items-center">
           <IntroKiringRing className="absolute top-1 left-12" />
           {isLogin ? (
-            // 로그인 후: 개인 Kiring Img
-            <DefaultKiring className="mt-5 w-full" />
+            user?.kiringImageUrl && (
+              <Image
+                src={user?.kiringImageUrl}
+                alt="intro-kiring"
+                width={190}
+                height={190}
+                className={`mt-5 w-full ${isShaking && 'custom-shake'}`}
+              />
+            )
           ) : (
-            <DefaultKiring className="mt-5 w-full" />
+            <DefaultKiring className={`mt-5 w-full ${isShaking && 'custom-shake'}`} />
           )}
         </div>
       </div>

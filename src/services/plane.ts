@@ -1,9 +1,5 @@
 import ApiClient from '@/lib/api/client'
-import {
-  PlaneMessage,
-  PlaneSendMessage,
-  PlaneTodayMessage,
-} from '@/app/(header-layout)/mypage/types/plane'
+import { PlaneMessage, PlaneSendMessage, PlaneTodayMessage } from '@/app/types/plane'
 
 export const getPlaneRead = (): Promise<PlaneMessage[]> => {
   return ApiClient.get('/plane/read')

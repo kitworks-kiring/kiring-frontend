@@ -23,7 +23,7 @@ export default function WelcomePage() {
     }
 
     router.prefetch('/')
-    router.prefetch('/mypage')
+    router.prefetch('/profile')
 
     if (user) {
       setTimeout(() => setShowAnimation(true))
@@ -34,7 +34,7 @@ export default function WelcomePage() {
 
   const handleMypage = () => {
     localStorage.setItem('welcomeShown', 'true')
-    router.push('/mypage')
+    router.push('/profile')
   }
 
   const handleHome = () => {
