@@ -11,11 +11,7 @@ import PlaneWriteStep from '@/app/(no-layout)/plane/components/PlaneWriteStep'
 import PlaneConfirmStep from '@/app/(no-layout)/plane/components/PlaneConfirmStep'
 import PlaneSendingOrDoneStep from '@/app/(no-layout)/plane/components/PlaneSendingOrDoneStep'
 import PlaneProfile from '@/app/(no-layout)/plane/components/PlaneProfile'
-import {
-  PlaneAnimStates,
-  PlaneStep,
-  PlaneTodayMessage,
-} from '@/app/(header-layout)/mypage/types/plane'
+import { PlaneAnimStates, PlaneStep, PlaneTodayMessage } from '@/app/types/plane'
 
 export default function SendPlanePage() {
   const { isLogin } = useAuthStore()

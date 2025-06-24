@@ -1,4 +1,4 @@
-import { PlaneConfirmStepProps, PlaneStep } from '@/app/(header-layout)/mypage/types/plane'
+import { PlaneConfirmStepProps, PlaneStep } from '@/app/types/plane'
 import clsx from 'clsx'
 
 export default function PlaneConfirmStep({

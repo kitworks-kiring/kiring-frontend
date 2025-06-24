@@ -4,7 +4,7 @@ import LgCloud from '@/assets/plane/lg-cloud.svg'
 import LetterPlane from '@/assets/plane/letter-plane.svg'
 import Complete from '@/assets/plane/complete.svg'
 import clsx from 'clsx'
-import { PlaneSendingOrDoneStepProps, PlaneStep } from '@/app/(header-layout)/mypage/types/plane'
+import { PlaneSendingOrDoneStepProps, PlaneStep } from '@/app/types/plane'
 
 export default function PlaneSendingOrDoneStep({
   step,

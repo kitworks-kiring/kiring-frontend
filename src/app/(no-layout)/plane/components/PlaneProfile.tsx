@@ -1,4 +1,4 @@
-import { PlaneProfileProps, PlaneStep } from '@/app/(header-layout)/mypage/types/plane'
+import { PlaneProfileProps, PlaneStep } from '@/app/types/plane'
 import clsx from 'clsx'
 import Image from 'next/image'
 

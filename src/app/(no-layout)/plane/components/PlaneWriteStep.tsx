@@ -1,4 +1,4 @@
-import { PlaneStep, PlaneWriteStepProps } from '@/app/(header-layout)/mypage/types/plane'
+import { PlaneStep, PlaneWriteStepProps } from '@/app/types/plane'
 import clsx from 'clsx'
 
 export default function PlaneWriteStep({
