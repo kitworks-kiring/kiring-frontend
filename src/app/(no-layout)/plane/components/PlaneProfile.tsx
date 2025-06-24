@@ -1,16 +1,11 @@
-import { PlaneTodayRecommendation } from '@/app/(header-layout)/mypage/types/plane'
+import { PlaneProfileProps, PlaneStep } from '@/app/(header-layout)/mypage/types/plane'
 import clsx from 'clsx'
 import Image from 'next/image'
 
-export default function PlaneProfile({
-  step,
-  recommendation,
-}: {
-  step: string
-  recommendation?: PlaneTodayRecommendation
-}) {
-  if (step === 'sending' || step === 'done' || !recommendation) return null
-  const isWriteStep = step === 'write'
+export default function PlaneProfile({ step, recommendation }: PlaneProfileProps) {
+  if (step === PlaneStep.SENDING || step === PlaneStep.DONE || !recommendation) return null
+
+  const isWriteStep = step === PlaneStep.WRITE
 
   return (
     <div
@@ -22,6 +17,7 @@ export default function PlaneProfile({
       )}
     >
       <Image
+        //TODO : default 이미지 수정
         src={recommendation.profileImageUrl || '/default/avatar.png'}
         className="rounded-full border transition-all duration-500"
         alt={`${recommendation.name} 프로필`}

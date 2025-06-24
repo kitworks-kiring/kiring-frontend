@@ -11,7 +11,11 @@ import PlaneWriteStep from '@/app/(no-layout)/plane/components/PlaneWriteStep'
 import PlaneConfirmStep from '@/app/(no-layout)/plane/components/PlaneConfirmStep'
 import PlaneSendingOrDoneStep from '@/app/(no-layout)/plane/components/PlaneSendingOrDoneStep'
 import PlaneProfile from '@/app/(no-layout)/plane/components/PlaneProfile'
-import { PlaneTodayMessage } from '@/app/(header-layout)/mypage/types/plane'
+import {
+  PlaneAnimStates,
+  PlaneStep,
+  PlaneTodayMessage,
+} from '@/app/(header-layout)/mypage/types/plane'
 
 export default function SendPlanePage() {
   const { isLogin } = useAuthStore()
@@ -20,7 +24,7 @@ export default function SendPlanePage() {
   const queryClient = useQueryClient()
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
-  const [step, setStep] = useState<'write' | 'confirm' | 'sending' | 'done'>('write')
+  const [step, setStep] = useState<PlaneStep>(PlaneStep.WRITE)
   const [message, setMessage] = useState('')
   const [animStates, setAnimStates] = useState({
     showRewriteBtn: false,
@@ -45,17 +49,19 @@ export default function SendPlanePage() {
     onSuccess: async () => {
       await new Promise((r) => setTimeout(r, 3000))
       queryClient.invalidateQueries({ queryKey: ['planeMessages'] })
-      setStep('done')
+      setStep(PlaneStep.DONE)
     },
     onError: () => {
       alert('메시지 전송에 실패했습니다. 다시 시도해주세요.')
-      setStep('confirm')
+      setStep(PlaneStep.CONFIRM)
     },
   })
 
   useEffect(() => {
+    // clearTimeout 처리(메모리 누수 방지)
+    const timeouts: NodeJS.Timeout[] = []
     const resetAll = () => {
-      setAnimStates({
+      const initialState: PlaneAnimStates = {
         showRewriteBtn: false,
         showSubmitBtn: false,
         showTextarea: false,
@@ -63,24 +69,25 @@ export default function SendPlanePage() {
         showSendingText: false,
         showDoneText: false,
         showHomeBtn: false,
-      })
+      }
+      setAnimStates(initialState)
     }
 
-    const planMap: Record<typeof step, { key: keyof typeof animStates; delay: number }[]> = {
-      write: [
+    const planMap: Record<PlaneStep, { key: keyof typeof animStates; delay: number }[]> = {
+      [PlaneStep.WRITE]: [
         { key: 'showNextButton', delay: 100 },
         { key: 'showTextarea', delay: 200 },
       ],
-      confirm: [
+      [PlaneStep.CONFIRM]: [
         { key: 'showSubmitBtn', delay: 100 },
         { key: 'showRewriteBtn', delay: 200 },
       ],
-      sending: [
+      [PlaneStep.SENDING]: [
         { key: 'showSendingText', delay: 100 },
-        { key: 'showDoneText', delay: -1 }, // false 처리용 (아래에서 따로 제거)
+        { key: 'showDoneText', delay: -1 },
       ],
-      done: [
-        { key: 'showSendingText', delay: -1 }, // false 처리용
+      [PlaneStep.DONE]: [
+        { key: 'showSendingText', delay: -1 },
         { key: 'showDoneText', delay: 400 },
         { key: 'showHomeBtn', delay: 500 },
       ],
@@ -91,26 +98,32 @@ export default function SendPlanePage() {
     const plan = planMap[step]
     plan.forEach(({ key, delay }) => {
       if (delay === -1) {
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
           setAnimStates((prev) => ({ ...prev, [key]: false }))
         }, 100) // false 처리도 딜레이 줄 수 있음
+        timeouts.push(timeout)
       } else {
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
           setAnimStates((prev) => ({ ...prev, [key]: true }))
         }, delay)
+        timeouts.push(timeout)
       }
     })
 
-    if (step === 'write' && textareaRef.current) {
+    if (step === PlaneStep.WRITE && textareaRef.current) {
       const len = textareaRef.current.value.length
       textareaRef.current.focus()
       textareaRef.current.setSelectionRange(len, len)
+    }
+
+    return () => {
+      timeouts.forEach(clearTimeout)
     }
   }, [step])
 
   const handleSubmit = () => {
     if (!recommendation || !user) return
-    setStep('sending')
+    setStep(PlaneStep.SENDING)
     mutation.mutate({
       senderId: user.id,
       receiverId: recommendation.id,
@@ -120,10 +133,10 @@ export default function SendPlanePage() {
 
   return (
     <>
-      {(step === 'write' || step === 'confirm') && <Header />}
+      {[PlaneStep.WRITE, PlaneStep.CONFIRM].includes(step) && <Header />}
       <section className="relative min-h-screen w-full overflow-hidden bg-white px-4 pt-6">
         <PlaneProfile step={step} recommendation={recommendation} />
-        {step === 'write' && (
+        {step === PlaneStep.WRITE && (
           <PlaneWriteStep
             message={message}
             setMessage={setMessage}
@@ -133,10 +146,10 @@ export default function SendPlanePage() {
             animStates={animStates}
           />
         )}
-        {step === 'confirm' && (
+        {step === PlaneStep.CONFIRM && (
           <PlaneConfirmStep setStep={setStep} handleSubmit={handleSubmit} animStates={animStates} />
         )}
-        {(step === 'sending' || step === 'done') && (
+        {[PlaneStep.SENDING, PlaneStep.DONE].includes(step) && (
           <PlaneSendingOrDoneStep
             step={step}
             recommendation={recommendation}

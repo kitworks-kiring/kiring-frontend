@@ -1,17 +1,5 @@
+import { PlaneStep, PlaneWriteStepProps } from '@/app/(header-layout)/mypage/types/plane'
 import clsx from 'clsx'
-import type { RefObject } from 'react'
-
-type PlaneWriteStepProps = {
-  message: string
-  setMessage: (msg: string) => void
-  setStep: (step: 'write' | 'confirm' | 'sending' | 'done') => void
-  isValid: boolean
-  textareaRef: RefObject<HTMLTextAreaElement | null>
-  animStates: {
-    showTextarea: boolean
-    showNextButton: boolean
-  }
-}
 
 export default function PlaneWriteStep({
   message,
@@ -53,7 +41,7 @@ export default function PlaneWriteStep({
         <button
           className="mt-10 w-full rounded-lg bg-purple-500 py-4 text-white disabled:bg-gray-300"
           disabled={!isValid}
-          onClick={() => setStep('confirm')}
+          onClick={() => setStep(PlaneStep.CONFIRM)}
         >
           다음
         </button>

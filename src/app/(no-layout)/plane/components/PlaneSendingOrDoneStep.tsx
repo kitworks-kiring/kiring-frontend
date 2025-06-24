@@ -4,18 +4,7 @@ import LgCloud from '@/assets/plane/lg-cloud.svg'
 import LetterPlane from '@/assets/plane/letter-plane.svg'
 import Complete from '@/assets/plane/complete.svg'
 import clsx from 'clsx'
-type AppRouterInstance = ReturnType<typeof import('next/navigation').useRouter>
-
-type PlaneSendingOrDoneStepProps = {
-  step: 'sending' | 'done'
-  recommendation?: { name: string }
-  animStates: {
-    showSendingText: boolean
-    showDoneText: boolean
-    showHomeBtn: boolean
-  }
-  router: AppRouterInstance
-}
+import { PlaneSendingOrDoneStepProps, PlaneStep } from '@/app/(header-layout)/mypage/types/plane'
 
 export default function PlaneSendingOrDoneStep({
   step,
@@ -34,11 +23,11 @@ export default function PlaneSendingOrDoneStep({
       <LetterPlane
         className={clsx(
           'absolute bottom-100 z-3 transition-transform duration-1000 ease-in-out',
-          step === 'sending' ? 'animate-plane-flight' : 'float-down-and-up',
+          step === PlaneStep.SENDING ? 'animate-plane-flight' : 'float-down-and-up',
         )}
       />
 
-      {step === 'done' && (
+      {step === PlaneStep.DONE && (
         <Complete className="animate-complete-show absolute right-30 bottom-140 z-5" />
       )}
 
@@ -64,7 +53,7 @@ export default function PlaneSendingOrDoneStep({
         </p>
       </div>
 
-      {step === 'done' && (
+      {step === PlaneStep.DONE && (
         <div
           className={clsx(
             'absolute bottom-10 left-0 w-full px-4 transition-all duration-500',

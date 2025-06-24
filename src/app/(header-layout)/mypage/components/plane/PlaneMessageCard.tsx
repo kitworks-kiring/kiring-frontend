@@ -26,6 +26,7 @@ export default function PlaneMessageCard({
       <div className="flex items-end justify-between">
         <div className="flex items-center gap-3">
           <Image
+            //TODO : default 이미지 수정
             src={plane.sender.profileImageUrl || '/default/avatar.png'}
             alt={`${plane.sender.name} 프로필 이미지`}
             width={52}

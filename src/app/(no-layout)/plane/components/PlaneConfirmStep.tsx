@@ -1,13 +1,5 @@
+import { PlaneConfirmStepProps, PlaneStep } from '@/app/(header-layout)/mypage/types/plane'
 import clsx from 'clsx'
-
-type PlaneConfirmStepProps = {
-  setStep: (step: 'write' | 'confirm' | 'sending' | 'done') => void
-  handleSubmit: () => void
-  animStates: {
-    showRewriteBtn: boolean
-    showSubmitBtn: boolean
-  }
-}
 
 export default function PlaneConfirmStep({
   setStep,
@@ -18,7 +10,7 @@ export default function PlaneConfirmStep({
     <div className="absolute bottom-10 left-0 w-full px-4">
       <div className="mx-auto flex max-w-md flex-col gap-4">
         <button
-          onClick={() => setStep('write')}
+          onClick={() => setStep(PlaneStep.WRITE)}
           className={clsx(
             'rounded-lg border border-purple-500 p-4 text-purple-500 transition-all duration-300',
             animStates.showRewriteBtn ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
