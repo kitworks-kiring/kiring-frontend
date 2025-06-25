@@ -160,7 +160,7 @@ export default function RestaurantContents() {
     setSheetPosition((prev) => (['half', 'collapsed'].includes(prev) ? 'expanded' : 'collapsed'))
   }
 
-  //
+  // 에러 발생 시 에러 페이지로 랜딩
   useEffect(() => {
     if (isRefetchError || isFetchNextPageError) {
       router.push('/error')
@@ -269,7 +269,7 @@ export default function RestaurantContents() {
           <div
             className={clsx(
               'z-1 mx-2 mb-2 flex justify-between',
-              isOverlayVisible ? 'invisible' : 'visible',
+              sheetPosition !== 'half' && isOverlayVisible ? 'invisible' : 'visible',
             )}
           >
             <button type="button" className={floatingBtnStyle}>
