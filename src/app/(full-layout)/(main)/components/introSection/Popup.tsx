@@ -34,7 +34,12 @@ export default function Popup({ Ico, title, description, onClose, page, onClick 
           {description}
         </div>
       </div>
-      <button onClick={handleClose}>
+      <button
+        onClick={(e) => {
+          e.stopPropagation()
+          handleClose()
+        }}
+      >
         <IcoClose />
       </button>
     </div>

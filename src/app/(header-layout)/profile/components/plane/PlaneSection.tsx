@@ -61,7 +61,7 @@ export default function PlaneSection() {
       </div>
 
       {isPopup && (
-        <div className="px-4">
+        <div className="mt-3 px-4">
           <Popup
             onClick={() => {
               router.push('/plane')
