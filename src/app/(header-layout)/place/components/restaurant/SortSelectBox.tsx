@@ -74,7 +74,7 @@ export default function SortSelectBox({
           role="listbox"
           aria-labelledby="sortbox-label"
           className={clsx(
-            'absolute right-0 w-full rounded-sm border text-center',
+            'absolute right-0 z-1 w-full rounded-sm border text-center',
             propsClass && propsClass,
           )}
           tabIndex={-1}

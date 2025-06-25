@@ -14,7 +14,7 @@ export interface RestaurantType extends LatLngType {
   liked: boolean
 }
 
-// export type RestaurantListType = RestaurantType[]
+export type RestaurantListType = RestaurantType[]
 
 export interface RestaurantMapProps {
   center: LatLngType
@@ -34,10 +34,6 @@ export interface PaginationResponseType {
   pageSize: number
   totalElements: number
   totalPages: number
-}
-
-export interface RestaurantNearbyListResponseType extends PaginationResponseType {
-  content: RealRestaurantType[]
 }
 
 /**
@@ -60,14 +56,8 @@ export interface RealRestaurantType {
   placeId: number
 }
 
-export type RestaurantListType = RestaurantType[]
-
-export interface RealRestaurantNearbyListResponseType {
+export interface RealRestaurantNearbyListResponseType extends PaginationResponseType {
   content: RealRestaurantType[]
-  empty: boolean
-  hasNext: boolean
-  pageNumber?: number
-  totalElements?: number
 }
 
 export interface RestaurantNearbyListParams {
