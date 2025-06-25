@@ -100,8 +100,8 @@ export default function LikeToggleButton({ isLiked, placeId }: LikeToggleButtonP
       <Image
         src={isLiked ? LIKED_BTN_IMG_URL : NOT_LIKE_BTN_IMG_URL}
         alt="좋아요 버튼 아이콘"
-        width={20}
-        height={20}
+        width={24}
+        height={24}
       />
     </button>
   )

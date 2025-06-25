@@ -158,7 +158,21 @@ export default function RestaurantContents() {
   // 바텀 시트 포지션 토글
   const toggleSheetPosition = () => {
     setSheetPosition((prev) => (['half', 'collapsed'].includes(prev) ? 'expanded' : 'collapsed'))
+    setFocusedRestaurant(null)
   }
+
+  // 좋아요 업데이트 시 포커스 된 레스토랑과 데이터 동기화
+  useEffect(() => {
+    if (focusedRestaurant && res?.pages) {
+      const updatedRestaurant = res.pages
+        .flatMap((page) => page.content)
+        .find((restaurant) => restaurant.placeId === focusedRestaurant.placeId)
+
+      if (updatedRestaurant && updatedRestaurant.likeCount !== focusedRestaurant.likeCount) {
+        setFocusedRestaurant(updatedRestaurant)
+      }
+    }
+  }, [res, focusedRestaurant])
 
   // 에러 발생 시 에러 페이지로 랜딩
   useEffect(() => {
@@ -250,7 +264,11 @@ export default function RestaurantContents() {
         </KakaoMap>
         <div className="position-centered-x absolute bottom-28 left-1/2 z-10 w-9/10 rounded-l-2xl rounded-r-2xl bg-white px-2 shadow-lg">
           {focusedRestaurant && isOverlayVisible && (
-            <NarrowCard restaurant={focusedRestaurant} isFloating />
+            <NarrowCard
+              key={`map-${focusedRestaurant.placeId}`}
+              restaurant={focusedRestaurant}
+              isFloating
+            />
           )}
         </div>
       </section>
@@ -337,7 +355,7 @@ export default function RestaurantContents() {
                 <Fragment key={pageIndex}>
                   {page.content.map((restaurant, idx) => (
                     <NarrowCard
-                      key={restaurant.placeId}
+                      key={`list-${restaurant.placeId}`}
                       idx={idx}
                       restaurant={restaurant}
                       onFocusChange={setFocusedRestaurant}
