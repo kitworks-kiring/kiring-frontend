@@ -322,7 +322,7 @@ export default function RestaurantContents() {
               className="mx-auto my-3 block h-1 w-20 rounded-sm bg-gray-200"
               onClick={toggleSheetPosition}
             >
-              <span className="sr-only">목록 보기</span>
+              <span className="sr-only">매장 목록 보기</span>
             </button>
           )}
           <div

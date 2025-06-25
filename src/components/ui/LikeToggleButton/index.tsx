@@ -19,6 +19,8 @@ type SinglePageData = {
   [key: string]: unknown
 }
 
+type QueryData = InfiniteQueryData | SinglePageData
+
 interface LikeToggleButtonProps {
   isLiked: boolean
   placeId: number
@@ -29,62 +31,58 @@ export default function LikeToggleButton({ isLiked, placeId }: LikeToggleButtonP
   const router = useRouter()
   const queryClient = useQueryClient()
 
+  // 레스토랑 좋아요 상태 업데이트
+  const updateRestaurantLikeStatus = (restaurant: RealRestaurantType) => {
+    if (restaurant.placeId !== placeId) return restaurant
+
+    return {
+      ...restaurant,
+      isLiked: !restaurant.isLiked,
+      likeCount: restaurant.isLiked ? restaurant.likeCount - 1 : restaurant.likeCount + 1,
+    }
+  }
+
+  // 무한스크롤 데이터일 경우
+  const updateInfiniteData = (data: InfiniteQueryData): InfiniteQueryData => ({
+    ...data,
+    pages: data.pages.map((page) => ({
+      ...page,
+      content: page.content.map(updateRestaurantLikeStatus),
+    })),
+  })
+
+  // 단일 페이지 데이터일 경우
+  const updateSingleData = (data: SinglePageData): SinglePageData => ({
+    ...data,
+    content: data.content.map(updateRestaurantLikeStatus),
+  })
+
+  // 쿼리 데이터 업데이트
+  const updateQueryData = (oldData: QueryData | undefined): QueryData | undefined => {
+    if (!oldData) return oldData
+
+    // 무한스크롤 구조 여부 확인 (pages 배열)
+    if ('pages' in oldData && Array.isArray(oldData.pages)) {
+      return updateInfiniteData(oldData as InfiniteQueryData)
+    }
+
+    // 단일 페이지 구조 여부 확인 (content 배열)
+    if ('content' in oldData && Array.isArray(oldData.content)) {
+      return updateSingleData(oldData as SinglePageData)
+    }
+
+    return oldData
+  }
+
   const { mutate } = useMutation({
     mutationFn: () => likeToggleRestaurant(placeId),
     onSuccess: () => {
+      // queryKey가 'restaurantList'인 모든 쿼리 데이터를 업데이트
       queryClient
         .getQueryCache()
         .findAll({ queryKey: ['restaurantList'] })
         .forEach((query) => {
-          queryClient.setQueryData(
-            query.queryKey,
-            (oldData: InfiniteQueryData | SinglePageData | undefined) => {
-              if (!oldData) return oldData
-
-              // 무한스크롤 데이터 구조 (pages 배열)
-              if ('pages' in oldData && Array.isArray(oldData.pages)) {
-                const infiniteData = oldData as InfiniteQueryData
-                return {
-                  ...infiniteData,
-                  pages: infiniteData.pages.map((page) => ({
-                    ...page,
-                    content: page.content.map((restaurant) =>
-                      restaurant.placeId === placeId
-                        ? {
-                            ...restaurant,
-                            isLiked: !restaurant.isLiked,
-                            likeCount: restaurant.isLiked
-                              ? restaurant.likeCount - 1
-                              : restaurant.likeCount + 1,
-                          }
-                        : restaurant,
-                    ),
-                  })),
-                }
-              }
-
-              // 단일 페이지 데이터 구조 (content 배열)
-              if ('content' in oldData && Array.isArray(oldData.content)) {
-                const singleData = oldData as SinglePageData
-                return {
-                  ...singleData,
-                  content: singleData.content.map((restaurant) =>
-                    restaurant.placeId === placeId
-                      ? {
-                          ...restaurant,
-                          isLiked: !restaurant.isLiked,
-                          likeCount: restaurant.isLiked
-                            ? restaurant.likeCount - 1
-                            : restaurant.likeCount + 1,
-                        }
-                      : restaurant,
-                  ),
-                }
-              }
-
-              return oldData
-            },
-          )
+          queryClient.setQueryData(query.queryKey, updateQueryData)
         })
     },
   })
