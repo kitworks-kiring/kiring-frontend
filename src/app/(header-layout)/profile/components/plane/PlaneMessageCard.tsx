@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import IcoPlane from '@/assets/ico-plane.svg'
-import { PlaneMessage } from '@/app/(header-layout)/profile/constants'
+import { PlaneMessage } from '@/app/types/plane'
 import { formatRelativeTime } from '@/utils/date'
 import clsx from 'clsx'
 import { useRouter } from 'next/navigation'
