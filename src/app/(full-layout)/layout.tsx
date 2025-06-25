@@ -5,7 +5,7 @@ export default function FullLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Header />
-      <main className="default-layout header-pd nav-pd">{children}</main>
+      <main className="default-layout header-pd nav-pd overflow-x-hidden">{children}</main>
       <Navigation />
     </>
   )
