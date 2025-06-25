@@ -4,7 +4,7 @@ import PlaneMessageCard from '@/app/(header-layout)/profile/components/plane/Pla
 import { useQuery } from '@tanstack/react-query'
 import { getPlaneRead, getPlaneTodayMessage } from '@/services/plane'
 import { useAuthStore } from '@/stores/login'
-import { PlaneMessage, PlaneTodayMessage } from '@/app/(header-layout)/profile/constants'
+import { PlaneMessage, PlaneTodayMessage } from '@/app/types/plane'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import Popup from '@/app/(full-layout)/(main)/components/introSection/Popup'
 import IcoPaperAirplane from '@/assets/ico-paper-airplane.svg'
