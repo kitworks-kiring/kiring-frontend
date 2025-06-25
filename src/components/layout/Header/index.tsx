@@ -19,11 +19,11 @@ export default function Header() {
   const PAGES = [...NAV_BUTTONS, ...HEADER_PAGES]
 
   const matchedNavItem =
-    PAGES.find(({ endpoint }) => endpoint === pathname) ??
+    PAGES.find(({ endpoint }) => pathname === endpoint || pathname.startsWith(endpoint + '/')) ??
     PAGES.find(({ endpoint }) => endpoint === '/')
 
   return (
-    <nav aria-label="헤더 네비게이션" className="full-width fixed top-0 z-10 h-14 bg-white p-4">
+    <nav aria-label="헤더 네비게이션" className="full-width fixed top-0 z-100 h-14 bg-white p-4">
       <div className="flex h-full w-full justify-between">
         <div className="flex items-center gap-4">
           {matchedNavItem &&

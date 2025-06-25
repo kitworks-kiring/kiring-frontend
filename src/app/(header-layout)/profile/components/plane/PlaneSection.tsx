@@ -11,11 +11,12 @@ import IcoPaperAirplane from '@/assets/ico-paper-airplane.svg'
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/navigation'
-
+import PlaneBottomSheet from '@/app/(header-layout)/profile/components/plane/PlaneBottomSheet'
 export default function PlaneSection() {
   const router = useRouter()
   const { isLogin } = useAuthStore()
   const [isPopup, setIsPopup] = useState(false)
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
   const today = dayjs().format('YYYY-MM-DD')
 
   const { data: planeMessages = [], isLoading } = useQuery<PlaneMessage[]>({
@@ -28,9 +29,11 @@ export default function PlaneSection() {
   const { data: todayPlane } = useQuery<PlaneTodayMessage>({
     queryKey: ['todayPlane'],
     queryFn: getPlaneTodayMessage,
-    enabled: isLogin && isPopup,
+    enabled: isLogin,
     refetchOnWindowFocus: false,
   })
+  console.log('🚀 ~ PlaneSection ~ todayPlane:', todayPlane)
+
   useEffect(() => {
     if (todayPlane && todayPlane.todaySentCount > 0) {
       setIsPopup(false)
@@ -126,10 +129,17 @@ export default function PlaneSection() {
             <button
               type="button"
               className="flex-row-center body4 mt-6 w-full gap-3 rounded-xl border border-black px-4 py-4 text-black"
+              onClick={() => setIsSheetOpen(true)}
             >
               종이비행기 {planeMessages.length}개 모두 보기
             </button>
           </div>
+
+          <PlaneBottomSheet
+            planeMessages={planeMessages}
+            open={isSheetOpen}
+            onClose={() => setIsSheetOpen(false)}
+          />
         </>
       )}
     </section>
