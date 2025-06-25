@@ -165,6 +165,7 @@ export default function RestaurantContents() {
   useEffect(() => {
     const setFocusFromParams = () => {
       const restaurantParams = JSON.parse(sessionStorage.getItem('restaurantParams') || '{}')
+      sessionStorage.removeItem('restaurantParams')
       const { latitude: paramLat = 0, longitude: paramLng = 0 } = restaurantParams
       if (!Object.keys(restaurantParams).length || !paramLat || !paramLng) return
 
