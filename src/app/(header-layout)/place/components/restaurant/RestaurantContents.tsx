@@ -161,6 +161,32 @@ export default function RestaurantContents() {
     setFocusedRestaurant(null)
   }
 
+  // 페이지 마운트 시 파라미터 확인 및 레스토랑 포커스 설정
+  useEffect(() => {
+    const setFocusFromParams = () => {
+      const restaurantParams = JSON.parse(sessionStorage.getItem('restaurantParams') || '{}')
+      const { latitude: paramLat = 0, longitude: paramLng = 0 } = restaurantParams
+      if (!Object.keys(restaurantParams).length || !paramLat || !paramLng) return
+
+      isProgrammaticMove.current = true
+      onSelectSort('distance')
+      setCenter({ lat: paramLat, lng: paramLng })
+      setFocusedRestaurant(restaurantParams)
+      setSheetPosition('collapsed')
+      mapRef.current?.setLevel(1)
+
+      return setTimeout(() => refetch({ cancelRefetch: true }), 1000)
+    }
+
+    const timeoutId = setFocusFromParams()
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+    }
+  }, [])
+
   // 좋아요 업데이트 시 포커스 된 레스토랑과 데이터 동기화
   useEffect(() => {
     if (focusedRestaurant && res?.pages) {
