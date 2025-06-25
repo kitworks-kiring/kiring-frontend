@@ -44,7 +44,6 @@ export default function IntroSection({ visible = true, onClose }: IntroSectionPr
     queryKey: ['readPlane'],
     queryFn: getPlaneRead,
     enabled: isLogin,
-    refetchOnWindowFocus: false,
   })
 
   useEffect(() => {
