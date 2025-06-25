@@ -74,7 +74,7 @@ export default function PlaneSection() {
             title={
               <span className="body4-sb text-gray-800">
                 오늘은{' '}
-                <span className="text-purple-500">{todayPlane?.todayRecommendation.name}</span>
+                <span className="text-purple-500">{todayPlane?.todayRecommendation?.name}</span>
                 님에게 비행기를 보낼 수 있어요!
               </span>
             }
