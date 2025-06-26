@@ -323,9 +323,13 @@ export default function RestaurantContents() {
               sheetPosition !== 'half' && isOverlayVisible ? 'invisible' : 'visible',
             )}
           >
-            <button type="button" className={floatingBtnStyle}>
-              <span className="sr-only">실시간 내 위치 확인</span>
-              <IcoGps />
+            <button
+              type="button"
+              className={clsx('pointer-events-none hidden h-0 w-0', floatingBtnStyle)}
+            >
+              {/* TODO: 2차 개발 시 geolocation 연동해서 GPS 기능 구현 */}
+              {/* <span className="sr-only">실시간 내 위치 확인</span>
+              <IcoGps /> */}
             </button>
             {isCenterChanged && (
               <button type="button" className={floatingBtnStyle} onClick={refetchNewList}>
