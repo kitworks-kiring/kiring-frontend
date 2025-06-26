@@ -1,26 +1,35 @@
+import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import Like from '@/assets/like.svg'
 import LikeToggleButton from '@/components/ui/LikeToggleButton'
-
-import Image from 'next/image'
-import { RealRestaurantType } from '@/app/(header-layout)/place/types/restaurantType'
+import { RestaurantType } from '@/app/(header-layout)/place/types/restaurantType'
 
 interface PlaceCardProps {
-  restaurant: RealRestaurantType
+  restaurant: RestaurantType
 }
 
 export default function PlaceCard({ restaurant }: PlaceCardProps) {
+  const router = useRouter()
+  const moveToPlace = (restaurant: RestaurantType) => {
+    if (!restaurant || !Object.keys(restaurant).length) return
+    sessionStorage.setItem('restaurantParams', JSON.stringify(restaurant))
+    router.push('/place')
+  }
+
   return (
     <div key={restaurant.placeId} className="flex flex-shrink-0 flex-col gap-2">
-      <Image
-        src={restaurant.imageUrl}
-        alt="recommend"
-        width={150}
-        height={150}
-        className="h-[150px] w-[150px] rounded-[12px] object-cover"
-      />
+      <button type="button" onClick={() => moveToPlace(restaurant)}>
+        <Image
+          src={restaurant.imageUrl}
+          alt={`${restaurant?.name || '레스토랑'} 이미지`}
+          width={150}
+          height={150}
+          className="h-[150px] w-[150px] rounded-[12px] object-cover"
+        />
+      </button>
       <div>
         <div className="flex items-center justify-between">
-          <span className="body2 text-basic-black">{restaurant.name}</span>
+          <span className="body2 text-basic-black block w-31 truncate">{restaurant.name}</span>
           <LikeToggleButton isLiked={restaurant.isLiked} placeId={restaurant.placeId} />
         </div>
         <div className="flex items-center gap-1">

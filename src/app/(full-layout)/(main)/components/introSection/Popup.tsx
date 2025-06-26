@@ -1,31 +1,24 @@
 'use client'
 
-import IcoClose from '@/assets/ico-close.svg'
-import { useState } from 'react'
+import IcoMainArrowRight from '@/assets/ico-main-arrow-right.svg'
+import clsx from 'clsx'
 
 interface PopupProps {
   Ico: React.ReactNode
   title: React.ReactNode
   description: React.ReactNode
-  onClose: () => void
   onClick?: () => void
   page?: 'profile' | 'main'
 }
 
-export default function Popup({ Ico, title, description, onClose, page, onClick }: PopupProps) {
-  const [closing, setClosing] = useState(false)
-
-  const handleClose = () => {
-    setClosing(true)
-    setTimeout(() => {
-      onClose()
-    }, 300) // 애니메이션 시간과 맞춤
-  }
-
+export default function Popup({ Ico, title, description, page, onClick }: PopupProps) {
   return (
     <div
       onClick={onClick}
-      className={`full-width flex h-16 items-center justify-between rounded-[20px] p-3 transition-all duration-300 ease-in-out hover:cursor-pointer ${closing ? 'pointer-events-none -translate-y-6 opacity-0' : 'translate-y-0 opacity-100'} ${page === 'profile' ? 'bg-gray-50' : 'bg-white'}`}
+      className={clsx(
+        'full-width flex h-16 items-center justify-between rounded-[20px] p-3 transition-all duration-300 ease-in-out hover:cursor-pointer',
+        page === 'profile' ? 'bg-gray-50' : 'bg-white',
+      )}
     >
       <div className="flex items-center gap-3">
         {Ico}
@@ -34,14 +27,7 @@ export default function Popup({ Ico, title, description, onClose, page, onClick 
           {description}
         </div>
       </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation()
-          handleClose()
-        }}
-      >
-        <IcoClose />
-      </button>
+      <IcoMainArrowRight />
     </div>
   )
 }

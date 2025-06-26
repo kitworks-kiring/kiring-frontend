@@ -10,6 +10,19 @@ import { useQuery } from '@tanstack/react-query'
 import { getRestaurantNearbyList } from '@/services/restaurant'
 import { TimeBlockType } from '@/app/(full-layout)/(main)/types/timeBlock'
 
+// 스켈레톤 카드 컴포넌트
+function PlaceCardSkeleton() {
+  return (
+    <div className="flex w-[150px] flex-shrink-0 flex-col gap-2">
+      <div className="h-[140px] w-full animate-pulse rounded-[12px] bg-gray-200" />
+      <div className="flex flex-col gap-1">
+        <div className="h-4 w-3/4 animate-pulse rounded bg-gray-200" />
+        <div className="h-3 w-1/2 animate-pulse rounded bg-gray-200" />
+      </div>
+    </div>
+  )
+}
+
 export default function RecommendSection() {
   const router = useRouter()
   // 기본값(SSR)
@@ -31,7 +44,7 @@ export default function RecommendSection() {
   }, [])
 
   // 시간별 맛집 조회
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['restaurantList', currentTime.value],
     queryFn: () => getRestaurantNearbyList({ categoryName: currentTime.value, page: 1, size: 7 }),
     enabled: !!currentTime.value,
@@ -43,11 +56,16 @@ export default function RecommendSection() {
         time={currentTime.type}
         title={randomMsg}
         onClick={() => router.push('/place')}
+        isLoading={isLoading}
       />
       <div className="scroll-hidden flex gap-4 overflow-x-scroll px-4">
-        {data?.content?.map((restaurant) => (
-          <PlaceCard key={restaurant.placeId} restaurant={restaurant} />
-        ))}
+        {isLoading
+          ? // 스켈레톤 UI 표시
+            Array.from({ length: 7 }).map((_, index) => <PlaceCardSkeleton key={index} />)
+          : // 실제 데이터 표시
+            data?.content?.map((restaurant) => (
+              <PlaceCard key={restaurant.placeId} restaurant={restaurant} />
+            ))}
       </div>
     </section>
   )

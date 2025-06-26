@@ -5,6 +5,8 @@ import MemberSection from '@/app/(full-layout)/(main)/components/memberSection/M
 import Footer from '@/app/(full-layout)/(main)/components/footer'
 import { Suspense } from 'react'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import NewsModal from '@/app/(full-layout)/(main)/components/NewsModal'
+import dayjs from 'dayjs'
 
 export default function Main() {
   return (
@@ -15,6 +17,7 @@ export default function Main() {
         <WeeklyScheduleSection />
         <MemberSection />
         <Footer />
+        {dayjs().isBefore('2025-07-04') && <NewsModal />}
       </div>
     </Suspense>
   )

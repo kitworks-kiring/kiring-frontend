@@ -22,7 +22,7 @@ export const COMPANY_COORD = {
   lng: 126.904091,
 }
 
-// 두 좌표(prevCoord, nextCoord)를 받아서 두 점 사이의 거리를 계산하는 함수
+// 두 좌표(prevCoord, nextCoord)를 받아서 두 점 사이의 직선 거리를 계산하는 함수
 export const getCalcDistance = ({ prevCoord, nextCoord }: CalcDistanceType) => {
   const { lat: prevLat, lng: prevLng } = prevCoord
   const { lat: nextLat, lng: nextLng } = nextCoord

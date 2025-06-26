@@ -11,13 +11,25 @@ interface BubbleTabProps {
   bubbles: BubbleItem[]
   active: string
   onChange: (value: string) => void
+  hasBorder?: boolean
   propsClass?: string
 }
 
-export default function BubbleTab({ bubbles, active, onChange, propsClass }: BubbleTabProps) {
+export default function BubbleTab({
+  bubbles,
+  active,
+  onChange,
+  hasBorder = true,
+  propsClass,
+}: BubbleTabProps) {
   return (
     <section>
-      <ul className="scroll-hidden top-21 flex items-center gap-2 overflow-x-scroll border-b-4 border-gray-50 px-4 py-3">
+      <ul
+        className={clsx(
+          'scroll-hidden top-21 flex items-center gap-2 overflow-x-scroll px-4 py-3',
+          hasBorder && 'border-b-4 border-gray-50',
+        )}
+      >
         {bubbles.map(({ label, value }) => (
           <li key={value} className="flex-row-center flex-shrink-0">
             <button

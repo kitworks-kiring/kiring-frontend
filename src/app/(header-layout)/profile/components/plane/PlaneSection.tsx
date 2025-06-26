@@ -32,11 +32,16 @@ export default function PlaneSection() {
     enabled: isLogin,
     refetchOnWindowFocus: false,
   })
-  console.log('🚀 ~ PlaneSection ~ todayPlane:', todayPlane)
 
   useEffect(() => {
-    if (todayPlane && todayPlane.todaySentCount > 0) {
-      setIsPopup(false)
+    if (todayPlane?.todaySentCount !== undefined) {
+      // 오늘 쪽지를 보냈으면 팝업 끄고, 안보냈으면 팝업 켜기
+      if (todayPlane.todaySentCount > 0) {
+        setIsPopup(false)
+        return
+      }
+      setIsPopup(true)
+      localStorage.removeItem('popupLastIntroClosedDate')
     }
   }, [todayPlane])
 
@@ -47,15 +52,6 @@ export default function PlaneSection() {
     localStorage.setItem('popupLastIntroClosedDate', today)
     setIsPopup(false)
   }
-
-  useEffect(() => {
-    const lastClosedDate = localStorage.getItem('popupLastIntroClosedDate')
-
-    if (lastClosedDate !== today) {
-      setIsPopup(true)
-      localStorage.removeItem('popupLastIntroClosedDate')
-    }
-  }, [])
 
   return (
     <section className="container">
@@ -84,7 +80,6 @@ export default function PlaneSection() {
             description={
               <span className="body5 text-purple-500">하루 한 번, 랜덤 종이 비행기 보내기</span>
             }
-            onClose={handleClosePopup}
           />
         </div>
       )}

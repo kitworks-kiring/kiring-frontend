@@ -3,6 +3,7 @@
 @import '../styles/utilities.css';
 @import '../styles/animations/welcome.css';
 @import '../styles/animations/plane.css';
+@import '../styles/animations/toast.css';
 
 @custom-variant dark (&:is(.dark *));
 
