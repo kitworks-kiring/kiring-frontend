@@ -5,7 +5,7 @@ import MemberSection from '@/app/(full-layout)/(main)/components/memberSection/M
 import Footer from '@/app/(full-layout)/(main)/components/footer'
 import { Suspense } from 'react'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
-import NewsModal from './components/NewsModal'
+import NewsModal from '@/app/(full-layout)/(main)/components/NewsModal'
 import dayjs from 'dayjs'
 
 export default function Main() {
