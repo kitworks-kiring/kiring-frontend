@@ -3,12 +3,14 @@
 import SectionHeader from '@/app/(full-layout)/(main)/components/SectionHeader'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useAuthStore } from '@/stores/login'
 import { useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { getWeeklySchedule } from '@/services/calendar'
+import { sortEvents } from '@/app/(full-layout)/calendar/util/sortEvents'
 import DayScheduleList from '@/app/(full-layout)/calendar/components/DayScheduleList'
+import { KIRING_EVENT_LIST } from '@/app/(full-layout)/calendar/constants'
 import { WeeklyScheduleResponseType } from '@/app/(full-layout)/calendar/types/calendarType'
 
 const DAY_LABELS = ['월', '화', '수', '목', '금', '토', '일']
@@ -50,7 +52,29 @@ export default function WeeklyScheduleSection() {
     }
   }, [data])
 
-  const selectedDay = days.find((d) => d.date === selectedDate)
+  // 선택된 날짜의 이벤트 데이터
+  const selectedDay = useMemo(() => {
+    const activeDay = days.find((d) => d.date === selectedDate)
+    if (!activeDay) return null
+
+    // 오픈 이벤트 데이터 필터링
+    const kiringEventList = KIRING_EVENT_LIST.filter((event) => {
+      const eventDate = dayjs(event.start).format('YYYY-MM-DD')
+      return eventDate === activeDay.date
+    }).map((event) => ({
+      ...event,
+      creatorName: null,
+    }))
+
+    // 이벤트 데이터 병합 및 정렬
+    const allEvents = [...activeDay.events, ...kiringEventList]
+    const sortedEvents = sortEvents(allEvents)
+
+    return {
+      ...activeDay,
+      events: sortedEvents,
+    }
+  }, [days, selectedDate])
 
   return (
     <section className="w-full bg-white pb-5">
