@@ -34,13 +34,13 @@ export default function PlaneSection() {
 
   useEffect(() => {
     if (todayPlane?.todaySentCount !== undefined) {
-      const setPopupTrue = () => {
-        setIsPopup(true)
-        localStorage.removeItem('popupLastIntroClosedDate')
-      }
-
       // 오늘 쪽지를 보냈으면 팝업 끄고, 안보냈으면 팝업 켜기
-      todayPlane.todaySentCount > 0 ? setIsPopup(false) : setPopupTrue()
+      if (todayPlane.todaySentCount > 0) {
+        setIsPopup(false)
+        return
+      }
+      setIsPopup(true)
+      localStorage.removeItem('popupLastIntroClosedDate')
     }
   }, [todayPlane])
 

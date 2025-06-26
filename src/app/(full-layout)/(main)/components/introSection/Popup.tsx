@@ -1,7 +1,6 @@
 'use client'
 
 import IcoMainArrowRight from '@/assets/ico-main-arrow-right.svg'
-import { useState } from 'react'
 import clsx from 'clsx'
 
 interface PopupProps {
