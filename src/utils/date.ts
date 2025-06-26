@@ -9,7 +9,7 @@ export function formatRelativeTime(dateString: string): string {
   const diffHours = Math.floor(diffTime / (1000 * 60 * 60))
 
   if (diffHours < 24) {
-    if (diffHours < 0) return '방금 전'
+    if (diffHours === 0) return '방금 전'
     return `${diffHours}시간 전`
   }
 
