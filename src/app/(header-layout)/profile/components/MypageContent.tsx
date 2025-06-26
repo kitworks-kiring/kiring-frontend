@@ -19,6 +19,7 @@ export default function MyPageContent() {
   const handleLogout = () => {
     setLogout()
     clearUser()
+    localStorage.setItem('welcomeShown', 'false') // 💡 웰컴페이지 다시 보이게 유도
     router.replace(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`)
   }
 

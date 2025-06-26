@@ -14,8 +14,9 @@ export const useAuthStore = create<AuthState>()(
       isLogin: false,
 
       setLogin: (accessToken, refreshToken) => {
-        Cookies.set('accessToken', accessToken, { path: '/', expires: 0.02 })
-        Cookies.set('refreshToken', refreshToken, { path: '/', expires: 7 })
+        // TODO: 리프레시 토큰으로 accessToken 재발급 api 연동되면 수정 예정
+        Cookies.set('accessToken', accessToken, { path: '/', expires: 30 })
+        Cookies.set('refreshToken', refreshToken, { path: '/', expires: 30 })
         set({ isLogin: true })
       },
 

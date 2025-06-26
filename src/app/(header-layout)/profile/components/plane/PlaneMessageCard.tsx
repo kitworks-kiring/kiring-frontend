@@ -23,12 +23,11 @@ export default function PlaneMessageCard({
       className={clsx(
         'flex h-56 flex-col justify-between rounded-xl border bg-white p-5',
         isSingle ? 'w-89' : 'w-80',
-        isToday && 'border-l-4 border-purple-500 pl-4',
       )}
     >
       <div>
         {isToday && (
-          <p className="mb-2 text-xs font-medium text-purple-500">오늘 도착한 메시지예요 🎉</p>
+          <p className="body4 mb-2 font-medium text-purple-500">오늘 도착한 메시지예요 🎉</p>
         )}
         <p className="body2 line-clamp-4 text-gray-800">{plane?.message}</p>
       </div>

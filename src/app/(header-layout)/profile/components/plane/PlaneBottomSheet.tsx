@@ -43,7 +43,7 @@ export default function PlaneBottomSheet({
     <>
       <div
         className={clsx(
-          'fixed inset-0 z-100 transition-opacity duration-300',
+          'fixed inset-0 z-100 mx-auto max-w-110 transition-opacity duration-300',
           hasInteracted && (closing ? 'opacity-0' : 'opacity-100'),
           'bg-black/70',
         )}
@@ -51,7 +51,7 @@ export default function PlaneBottomSheet({
       />
       <div
         className={clsx(
-          'fixed bottom-0 z-101 max-h-[80vh] w-full overflow-y-auto rounded-t-2xl bg-white',
+          'fixed bottom-0 z-101 max-h-[80vh] w-full max-w-110 overflow-y-auto rounded-t-2xl bg-white [&::-webkit-scrollbar]:hidden',
           hasInteracted && (closing ? 'animate-slide-down' : 'animate-slide-up'),
         )}
       >
