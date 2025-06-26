@@ -362,7 +362,7 @@ export default function RestaurantContents() {
           {!isSheetExpanded && (
             <button
               type="button"
-              className="mx-auto my-3 block h-1 w-20 rounded-sm bg-gray-200"
+              className="mx-auto my-3 block h-1 w-30 rounded-sm bg-gray-200"
               onClick={toggleSheetPosition}
             >
               <span className="sr-only">매장 목록 보기</span>
