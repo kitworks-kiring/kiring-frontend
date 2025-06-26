@@ -9,6 +9,8 @@ export default function MemberInfoSection({
   user: MemberMeType
   isMe?: boolean
 }) {
+  const currentYear = dayjs().format('YYYY')
+
   return (
     <section className="container px-4">
       <div className="head5">
@@ -22,7 +24,9 @@ export default function MemberInfoSection({
           />
           <MemberInfoItem
             label="생일"
-            value={user?.birthday ? dayjs(user.birthday).format('M월 D일') : '-'}
+            value={
+              user?.birthday ? dayjs(`${currentYear}-${user.birthday}`).format('M월 D일') : '-'
+            }
           />
           <MemberInfoItem
             label="전화번호"
