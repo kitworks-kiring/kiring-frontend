@@ -34,27 +34,29 @@ export default function CalendarContents() {
   })
 
   useEffect(() => {
-    const kiringEventList: CalendarResponseType = [
-      {
-        eventId: 9999,
-        eventType: 'NOTICE' as const,
-        title: '오늘은 키링 첫 오픈 날이에요!',
-        start: dayjs('2025-06-27').format('YYYY-MM-DDTHH:mm:ss'),
-        end: dayjs('2025-06-27').format('YYYY-MM-DDTHH:mm:ss'),
-      },
-      {
-        eventId: 9998,
-        eventType: 'NOTICE' as const,
-        title: '오늘은 QA 이벤트 마감일이에요!',
-        start: dayjs('2025-07-04').format('YYYY-MM-DDTHH:mm:ss'),
-        end: dayjs('2025-07-04').format('YYYY-MM-DDTHH:mm:ss'),
-      },
-    ]
-    const newCalendarRes: CalendarResponseType = calendarRes
-      ? [...calendarRes, ...kiringEventList]
-      : kiringEventList
-    setMonthlyScheduleList(newCalendarRes)
-  }, [calendarRes])
+    if (isLogin) {
+      const kiringEventList: CalendarResponseType = [
+        {
+          eventId: 9999,
+          eventType: 'NOTICE' as const,
+          title: '오늘은 키링 첫 오픈 날이에요!',
+          start: dayjs('2025-06-27').format('YYYY-MM-DDTHH:mm:ss'),
+          end: dayjs('2025-06-27').format('YYYY-MM-DDTHH:mm:ss'),
+        },
+        {
+          eventId: 9998,
+          eventType: 'NOTICE' as const,
+          title: '오늘은 QA 이벤트 마감일이에요!',
+          start: dayjs('2025-07-04').format('YYYY-MM-DDTHH:mm:ss'),
+          end: dayjs('2025-07-04').format('YYYY-MM-DDTHH:mm:ss'),
+        },
+      ]
+      const newCalendarRes: CalendarResponseType = calendarRes
+        ? [...calendarRes, ...kiringEventList]
+        : kiringEventList
+      setMonthlyScheduleList(newCalendarRes)
+    }
+  }, [calendarRes, isLogin])
 
   useEffect(() => {
     const list = monthlyScheduleList?.filter((schedule) => {
