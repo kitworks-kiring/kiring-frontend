@@ -326,7 +326,12 @@ export default function RestaurantContents() {
           >
             <button
               type="button"
-              className={clsx('pointer-events-none hidden h-0 w-0', floatingBtnStyle)}
+              // {/* TODO: 2차 개발 시 geolocation 연동해서 GPS 기능 구현 */}
+              // className={clsx('pointer-events-none hidden h-0 w-0', floatingBtnStyle)}
+              className={clsx(
+                'pointer-events-none hidden h-0 w-0',
+                'body4 flex-row-center gap-1 rounded-l-xl rounded-r-xl p-2 shadow-xl',
+              )}
             >
               {/* TODO: 2차 개발 시 geolocation 연동해서 GPS 기능 구현 */}
               {/* <span className="sr-only">실시간 내 위치 확인</span>
