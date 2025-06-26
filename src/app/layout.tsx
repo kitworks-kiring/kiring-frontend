@@ -6,6 +6,22 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Kiring',
   description: '회사 생활의 연결고리, 키링',
+  openGraph: {
+    title: 'Kiring',
+    description: '회사 생활의 연결고리, 키링',
+    url: 'https://kiring.vercel.app',
+    siteName: 'Kiring',
+    images: [
+      {
+        url: '/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Kiring',
+      },
+    ],
+    locale: 'ko_KR',
+    type: 'website',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
