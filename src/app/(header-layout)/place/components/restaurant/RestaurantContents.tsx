@@ -24,7 +24,7 @@ import {
 import { MARKER_IMG_URL, LIKE_IMG_URL } from '@/app/(header-layout)/place/constants'
 import IcoNarrow from '@/assets/restaurant/ico-narrow.svg'
 import IcoWide from '@/assets/restaurant/ico-wide.svg'
-import IcoGps from '@/assets/restaurant/ico-gps.svg'
+// import IcoGps from '@/assets/restaurant/ico-gps.svg'
 import IcoList from '@/assets/restaurant/ico-list.svg'
 import IcoListMore from '@/assets/restaurant/ico-list-more.svg'
 import IcoMap from '@/assets/restaurant/ico-map.svg'
@@ -139,9 +139,8 @@ export default function RestaurantContents() {
 
     const centerObj = mapRef?.current?.getCenter()
     if (centerObj) {
-      const newLat = centerObj.getLat()
-      const newLng = centerObj.getLng()
-      await setCenter({ lat: newLat, lng: newLng })
+      const newCenter = { lat: centerObj.getLat(), lng: centerObj.getLng() }
+      await setCenter(newCenter)
     }
     await refetch({ cancelRefetch: true })
   }
@@ -182,7 +181,7 @@ export default function RestaurantContents() {
       setSheetPosition('collapsed')
       mapRef.current?.setLevel(1)
 
-      return setTimeout(() => refetch({ cancelRefetch: true }), 1000)
+      return setTimeout(() => refetch({ cancelRefetch: true }), 0)
     }
 
     const timeoutId = setFocusFromParams()
@@ -216,7 +215,8 @@ export default function RestaurantContents() {
 
   // 토스트 메세지 표시
   useEffect(() => {
-    if (res && !hasNextPage && !isFetchNextPageError && !isRefetchError) {
+    const sholdShowToast = res && !hasNextPage && !isFetchNextPageError && !isRefetchError
+    if (sholdShowToast) {
       setToast(true)
       const timer = setTimeout(() => {
         setToast(false)
@@ -245,7 +245,7 @@ export default function RestaurantContents() {
           onIdle={onIdleKakaoMap}
         >
           {res &&
-            res?.pages.map((page, pageIndex) => (
+            res?.pages?.map((page, pageIndex) => (
               <Fragment key={`res-${pageIndex}`}>
                 {page.content.map((restaurant) => (
                   <Fragment key={`content-${restaurant.placeId}`}>
@@ -393,7 +393,7 @@ export default function RestaurantContents() {
             {!isLoading && !res?.pages?.[0]?.content?.length && (
               <p className="flex-row-center h-100 text-gray-700">일치하는 데이터가 없습니다.</p>
             )}
-            {res &&
+            {(res &&
               res?.pages.map((page, pageIndex) => (
                 <Fragment key={pageIndex}>
                   {page.content.map((restaurant, idx) =>
@@ -408,7 +408,7 @@ export default function RestaurantContents() {
                       />
                     ) : (
                       <WideCard
-                        key={`narrow-${restaurant.placeId}`}
+                        key={`wide-${restaurant.placeId}`}
                         idx={idx}
                         restaurant={restaurant}
                         onFocusChange={setFocusedRestaurant}
@@ -418,7 +418,8 @@ export default function RestaurantContents() {
                     ),
                   )}
                 </Fragment>
-              ))}
+              ))) ??
+              null}
           </div>
         </div>
         {isSheetExpanded && (
@@ -441,6 +442,9 @@ export default function RestaurantContents() {
             'full-width flex-row-center absolute bottom-17 z-0 h-12',
             'slide-up-down ease transition-all duration-200',
           )}
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
         >
           <span className="body4 bg-basic-black rounded-xl p-4 text-center text-white">
             현재 위치의 모든 매장을 불러왔어요!
