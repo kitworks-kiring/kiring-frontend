@@ -16,7 +16,7 @@ export function BeusableScript() {
                   }
               };
               w.__beusablerumclient__.load(a + "?url=" + encodeURIComponent(d.URL));
-          })(window, document, "//rum.beusable.net/load/" + ${process.env.NEXT_PUBLIC_BEUSABLE_TRACKING_ID});
+          })(window, document, "//rum.beusable.net/load/b250627e011204u990");
         `,
       }}
     />
