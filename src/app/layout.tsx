@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko" className="h-dvh">
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#317EFB" />
+        <meta name="theme-color" content="#ffffff" />
         <link rel="icon" href="/icons/icon-192x192.png" />
 
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
