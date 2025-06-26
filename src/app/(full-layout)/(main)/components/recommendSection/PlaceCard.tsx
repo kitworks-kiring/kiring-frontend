@@ -29,9 +29,7 @@ export default function PlaceCard({ restaurant }: PlaceCardProps) {
       </button>
       <div>
         <div className="flex items-center justify-between">
-          <button type="button" onClick={() => moveToPlace(restaurant)}>
-            <span className="body2 text-basic-black">{restaurant.name}</span>
-          </button>
+          <span className="body2 text-basic-black block w-31 truncate">{restaurant.name}</span>
           <LikeToggleButton isLiked={restaurant.isLiked} placeId={restaurant.placeId} />
         </div>
         <div className="flex items-center gap-1">

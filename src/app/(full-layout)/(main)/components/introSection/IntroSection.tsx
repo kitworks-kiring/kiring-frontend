@@ -16,6 +16,7 @@ import { useQuery } from '@tanstack/react-query'
 import { PlaneMessage, PlaneTodayMessage } from '@/app/types/plane'
 import { getPlaneTodayMessage, getPlaneRead } from '@/services/plane'
 import { useRouter } from 'next/navigation'
+import clsx from 'clsx'
 
 interface IntroSectionProps {
   visible?: boolean
@@ -26,6 +27,7 @@ export default function IntroSection({ visible = true, onClose }: IntroSectionPr
   const [showReadPlanePopup, setShowReadPlanePopup] = useState(false)
   const [showTodayPlanePopup, setShowTodayPlanePopup] = useState(false)
   const [todayPlanePopupClosed, setTodayPlanePopupClosed] = useState(false)
+
   const [isShaking, setIsShaking] = useState(false)
   const [closing, setClosing] = useState(false)
   const { user } = useUserStore()
@@ -86,11 +88,6 @@ export default function IntroSection({ visible = true, onClose }: IntroSectionPr
     }
   }, [visible, onClose])
 
-  const handleCloseReadPlanePopup = () => {
-    localStorage.setItem('popupLastReadPlaneClosedDate', today)
-    setShowReadPlanePopup(false)
-  }
-
   const handleCloseReceivePlanePopup = () => {
     const latestPlaneId = readPlane && readPlane.length > 0 ? String(readPlane[0].messageId) : ''
     localStorage.setItem('popupReceivePlaneClosedDate', today)
@@ -106,10 +103,13 @@ export default function IntroSection({ visible = true, onClose }: IntroSectionPr
 
   return (
     <section
-      className={`full-width relative bg-gradient-to-b from-white from-[-10%] to-purple-100 py-3 transition-all duration-300 ease-in-out ${closing ? 'pointer-events-none -translate-y-6 opacity-0' : 'translate-y-0 opacity-100'}`}
+      className={clsx(
+        'full-width relative min-h-[200px] bg-gradient-to-b from-white from-[-10%] to-purple-100 py-3 transition-all duration-300 ease-in-out',
+        closing ? 'pointer-events-none -translate-y-6 opacity-0' : 'translate-y-0 opacity-100',
+      )}
     >
       {isLogin && showReadPlanePopup && (
-        <div className="px-4">
+        <div className="mb-3 px-4">
           <Popup
             page="main"
             onClick={() => {
@@ -123,12 +123,11 @@ export default function IntroSection({ visible = true, onClose }: IntroSectionPr
               </span>
             }
             description={<span className="body5 text-purple-500">누굴까? 지금 확인해보세요</span>}
-            onClose={handleCloseReadPlanePopup}
           />
         </div>
       )}
       {isLogin && !showReadPlanePopup && showTodayPlanePopup && (
-        <div className="px-4">
+        <div className="mb-3 px-4">
           <Popup
             onClick={() => {
               router.push('/plane')
@@ -148,7 +147,6 @@ export default function IntroSection({ visible = true, onClose }: IntroSectionPr
             description={
               <span className="body5 text-purple-500">하루 한 번, 랜덤 종이비행기 보내기</span>
             }
-            onClose={handleCloseTodayPlanePopup}
           />
         </div>
       )}
@@ -191,13 +189,15 @@ export default function IntroSection({ visible = true, onClose }: IntroSectionPr
           <IntroKiringRing className="absolute top-1 left-12" />
           {isLogin ? (
             user?.kiringImageUrl && (
-              <Image
-                src={user?.kiringImageUrl}
-                alt="intro-kiring"
-                width={190}
-                height={190}
-                className={`mt-5 w-full ${isShaking && 'custom-shake'}`}
-              />
+              <div className="flex-row-center relative h-[190px] w-[190px]">
+                <Image
+                  src={user?.kiringImageUrl}
+                  alt="intro-kiring"
+                  width={150}
+                  height={150}
+                  className={`mt-5 w-[150px] ${isShaking && 'custom-shake'}`}
+                />
+              </div>
             )
           ) : (
             <DefaultKiring className={`mt-5 w-full ${isShaking && 'custom-shake'}`} />
