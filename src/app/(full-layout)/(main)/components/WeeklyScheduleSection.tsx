@@ -26,6 +26,8 @@ export default function WeeklyScheduleSection() {
   const { data } = useQuery({
     queryKey: ['weeklySchedule'],
     queryFn: () => getWeeklySchedule(),
+    enabled: isLogin,
+    refetchOnWindowFocus: false,
   })
   const router = useRouter()
 

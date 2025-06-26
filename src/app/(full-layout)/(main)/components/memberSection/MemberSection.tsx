@@ -11,8 +11,20 @@ import { TEAMS } from '@/app/(full-layout)/constants'
 import { useAuthStore } from '@/stores/login'
 import { useRouter } from 'next/navigation'
 import { useUserStore } from '@/stores/user'
-import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import { Member } from '@/app/(full-layout)/(main)/types/member'
+
+// 스켈레톤 멤버 컴포넌트
+function MemberSkeleton() {
+  return (
+    <div className="scroll-hidden flex h-19 items-start justify-start gap-6 overflow-x-scroll">
+      {Array.from({ length: 2 }).map((_, idx) => (
+        <div key={`skeleton-${idx}`} className="flex-shrink-0">
+          <div className="aspect-square h-13 w-13 animate-pulse rounded-full bg-gray-300" />
+        </div>
+      ))}
+    </div>
+  )
+}
 
 export default function MemberSection() {
   const router = useRouter()
@@ -57,9 +69,9 @@ export default function MemberSection() {
         )}
 
         {(isLoading || error) && (
-          <div className="flex-row-center mx-4 h-19">
+          <div className={clsx('mx-4 h-19', isLoading ? 'flex' : 'flex-row-center')}>
             {isLoading ? (
-              <LoadingSpinner />
+              <MemberSkeleton />
             ) : (
               <span className="body4 text-red-500">데이터를 불러오는데 실패했습니다.</span>
             )}

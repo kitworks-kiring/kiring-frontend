@@ -104,7 +104,7 @@ export default function IntroSection({ visible = true, onClose }: IntroSectionPr
   return (
     <section
       className={clsx(
-        'full-width relative min-h-[200px] bg-gradient-to-b from-white from-[-10%] to-purple-100 py-3 transition-all duration-300 ease-in-out',
+        'full-width relative min-h-[200px] bg-gradient-to-b from-white from-[-20%] to-purple-100 py-3 transition-all duration-300 ease-in-out',
         closing ? 'pointer-events-none -translate-y-6 opacity-0' : 'translate-y-0 opacity-100',
       )}
     >
