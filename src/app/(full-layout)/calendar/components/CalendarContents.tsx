@@ -9,6 +9,7 @@ import { useAuthStore } from '@/stores/login'
 import { getCalendarSchedules } from '@/services/calendar'
 import DayScheduleList from '@/app/(full-layout)/calendar/components/DayScheduleList'
 import IcoToggle from '@/assets/ico-toggle.svg'
+import { sortEvents } from '@/app/(full-layout)/calendar/util/sortEvents'
 import { SCHEDULE_TYPE_KO } from '@/app/(full-layout)/calendar/constants'
 import { CalendarResponseType } from '@/app/(full-layout)/calendar/types/calendarType'
 import './react-calendar.css'
@@ -17,10 +18,11 @@ export default function CalendarContents() {
   const [clickedDate, setClickedDate] = useState(dayjs().format('YYYY-MM-DD'))
   const [clickedYearMonth, setClickedYearMonth] = useState(dayjs().format('YYYY-MM'))
   const [clickedScheduleList, setClickedScheduleList] = useState<CalendarResponseType>([])
+  const [monthlyScheduleList, setMonthlyScheduleList] = useState<CalendarResponseType>([])
 
   const { isLogin } = useAuthStore()
 
-  const { data: monthlyScheduleList } = useQuery({
+  const { data: calendarRes } = useQuery<CalendarResponseType>({
     queryKey: ['calendar-schedules', clickedYearMonth],
     queryFn: () =>
       getCalendarSchedules({
@@ -32,10 +34,34 @@ export default function CalendarContents() {
   })
 
   useEffect(() => {
+    const kiringEventList: CalendarResponseType = [
+      {
+        eventId: 9999,
+        eventType: 'NOTICE' as const,
+        title: '오늘은 키링 첫 오픈 날이에요!',
+        start: dayjs('2025-06-27').format('YYYY-MM-DDTHH:mm:ss'),
+        end: dayjs('2025-06-27').format('YYYY-MM-DDTHH:mm:ss'),
+      },
+      {
+        eventId: 9998,
+        eventType: 'NOTICE' as const,
+        title: '오늘은 QA 이벤트 마감일이에요!',
+        start: dayjs('2025-07-04').format('YYYY-MM-DDTHH:mm:ss'),
+        end: dayjs('2025-07-04').format('YYYY-MM-DDTHH:mm:ss'),
+      },
+    ]
+    const newCalendarRes: CalendarResponseType = calendarRes
+      ? [...calendarRes, ...kiringEventList]
+      : kiringEventList
+    setMonthlyScheduleList(newCalendarRes)
+  }, [calendarRes])
+
+  useEffect(() => {
     const list = monthlyScheduleList?.filter((schedule) => {
       return dayjs(schedule.start).format('YYYY-MM-DD') === clickedDate
     })
-    setClickedScheduleList(list ?? [])
+    const sortedList = sortEvents(list || [])
+    setClickedScheduleList(sortedList)
   }, [clickedDate, monthlyScheduleList])
 
   return (
@@ -74,6 +100,9 @@ export default function CalendarContents() {
           }
           prev2Label={null}
           next2Label={null}
+          onActiveStartDateChange={({ activeStartDate }) => {
+            setClickedYearMonth(dayjs(activeStartDate).format('YYYY-MM'))
+          }}
           onClickDay={(value) => {
             setClickedDate(dayjs(value).format('YYYY-MM-DD'))
             setClickedYearMonth(dayjs(value).format('YYYY-MM'))
@@ -94,18 +123,18 @@ export default function CalendarContents() {
                   </>
                 )}
                 <div className="flex-row-center absolute bottom-1 h-2 w-full gap-1">
-                  {todaySchedulesList
+                  {sortEvents(todaySchedulesList || [])
                     ?.slice(0, 3)
                     ?.map(({ eventId, eventType }, idx) => (
                       <div
                         key={`${eventId}-${eventType}-${idx}`}
                         className={clsx(
                           'h-1 w-1 rounded-full',
+                          eventType === 'NOTICE' && 'bg-system-purple',
                           eventType === 'BIRTHDAY' && 'bg-system-yellow',
                           eventType === 'STUDY' && 'bg-system-green',
                           eventType === 'DINNER' && 'bg-system-blue',
                           eventType === 'HOLIDAY' && 'bg-system-red',
-                          eventType === 'NOTICE' && 'bg-system-purple',
                         )}
                       />
                     ))}

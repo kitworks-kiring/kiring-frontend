@@ -1,10 +1,11 @@
+export type EventType = 'NOTICE' | 'BIRTHDAY' | 'DINNER' | 'STUDY' | 'HOLIDAY' | 'EMPTY'
+
 export interface CalendarResponseItem {
   eventId: number | null
-  eventType: string
+  eventType: EventType
   title: string
-  start: Date
-  end: Date
-  creatorName: string | null
+  start: Date | string
+  end: Date | string
 }
 
 export type CalendarResponseType = CalendarResponseItem[]

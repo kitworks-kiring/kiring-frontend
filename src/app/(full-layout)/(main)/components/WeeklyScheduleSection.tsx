@@ -3,11 +3,12 @@
 import SectionHeader from '@/app/(full-layout)/(main)/components/SectionHeader'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useAuthStore } from '@/stores/login'
 import { useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { getWeeklySchedule } from '@/services/calendar'
+import { sortEvents } from '@/app/(full-layout)/calendar/util/sortEvents'
 import DayScheduleList from '@/app/(full-layout)/calendar/components/DayScheduleList'
 import { WeeklyScheduleResponseType } from '@/app/(full-layout)/calendar/types/calendarType'
 
@@ -50,7 +51,46 @@ export default function WeeklyScheduleSection() {
     }
   }, [data])
 
-  const selectedDay = days.find((d) => d.date === selectedDate)
+  // 선택된 날짜의 이벤트 데이터
+  const selectedDay = useMemo(() => {
+    const activeDay = days.find((d) => d.date === selectedDate)
+    if (!activeDay) return null
+
+    const kiringEventList = []
+
+    // 오픈 이벤트 날짜 추가
+    switch (activeDay.date) {
+      case '2025-06-27':
+        kiringEventList.push({
+          eventId: 9999,
+          eventType: 'NOTICE' as const,
+          title: '오늘은 키링 첫 오픈 날이에요!',
+          start: dayjs('2025-06-27').format('YYYY-MM-DDTHH:mm:ss'),
+          end: dayjs('2025-06-27').format('YYYY-MM-DDTHH:mm:ss'),
+          creatorName: null,
+        })
+        break
+      case '2025-07-04':
+        kiringEventList.push({
+          eventId: 9998,
+          eventType: 'NOTICE' as const,
+          title: '오늘은 QA 이벤트 마감일이에요!',
+          start: dayjs('2025-07-04').format('YYYY-MM-DDTHH:mm:ss'),
+          end: dayjs('2025-07-04').format('YYYY-MM-DDTHH:mm:ss'),
+          creatorName: null,
+        })
+        break
+    }
+
+    // 날짜 데이터 병합 및 정렬
+    const allEvnets = [...activeDay.events, ...kiringEventList]
+    const sortedEvents = sortEvents(allEvnets)
+
+    return {
+      ...activeDay,
+      events: sortedEvents,
+    }
+  }, [days, selectedDate])
 
   return (
     <section className="w-full bg-white pb-5">
