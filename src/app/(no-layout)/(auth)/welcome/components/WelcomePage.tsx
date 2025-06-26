@@ -16,7 +16,7 @@ export default function WelcomePage() {
   const [redirectHandled, setRedirectHandled] = useState(false)
 
   useEffect(() => {
-    const isWelcomeShown = localStorage.getItem('welcomeShown')
+    const isWelcomeShown = localStorage.getItem('welcomeShown') === 'true'
     if (isWelcomeShown) {
       router.replace('/')
       return

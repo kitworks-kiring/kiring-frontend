@@ -19,14 +19,16 @@ export default function Header() {
 
   const matchedNavItem = useMemo(() => {
     return (
-      HEADER_PAGES.find(({ endpoint }) => endpoint === pathname) ??
+      HEADER_PAGES.find(
+        ({ endpoint }) => pathname === endpoint || pathname.startsWith(endpoint + '/'),
+      ) ??
       NAV_BUTTONS.find(({ endpoint }) => endpoint === pathname) ??
       NAV_BUTTONS.find(({ endpoint }) => endpoint === '/')!
     )
   }, [pathname])
 
   return (
-    <nav aria-label="헤더 네비게이션" className="full-width fixed top-0 z-10 h-14 bg-white p-4">
+    <nav aria-label="헤더 네비게이션" className="full-width fixed top-0 z-50 h-14 bg-white p-4">
       <div className="flex h-full w-full justify-between">
         <div className="flex items-center gap-4">
           {matchedNavItem &&

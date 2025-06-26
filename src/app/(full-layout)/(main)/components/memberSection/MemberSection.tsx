@@ -11,12 +11,24 @@ import { TEAMS } from '@/app/(full-layout)/constants'
 import { useAuthStore } from '@/stores/login'
 import { useRouter } from 'next/navigation'
 import { useUserStore } from '@/stores/user'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import { Member } from '@/app/(full-layout)/(main)/types/member'
 
 export default function MemberSection() {
+  const router = useRouter()
   const { user } = useUserStore()
   const [selectedTeam, setSelectedTeam] = useState<number>(user?.team?.id ?? TEAMS[0].id)
   const { isLogin } = useAuthStore()
-  const router = useRouter()
+
+  const handleClickMember = (memberId: number) => {
+    router.push(memberId === user?.id ? '/profile' : `/profile/${memberId}`)
+  }
+
+  const sortByCurrentUserFirst = (a: Member, b: Member) => {
+    if (a.id === user?.id) return -1
+    if (b.id === user?.id) return 1
+    return 0
+  }
 
   // 팀 선택 초기화
   useEffect(() => {
@@ -44,15 +56,13 @@ export default function MemberSection() {
           <TeamSelector teams={TEAMS} selectedTeam={selectedTeam} onTeamSelect={setSelectedTeam} />
         )}
 
-        {isLoading && (
+        {(isLoading || error) && (
           <div className="flex-row-center mx-4 h-19">
-            <span className="body4 text-gray-400">로딩 중...</span>
-          </div>
-        )}
-
-        {error && (
-          <div className="flex-row-center mx-4 h-19">
-            <span className="body4 text-red-500">데이터를 불러오는데 실패했습니다.</span>
+            {isLoading ? (
+              <LoadingSpinner />
+            ) : (
+              <span className="body4 text-red-500">데이터를 불러오는데 실패했습니다.</span>
+            )}
           </div>
         )}
 
@@ -65,24 +75,31 @@ export default function MemberSection() {
               data.members.length > 5 && 'scroll-hidden justify-between overflow-x-scroll',
             )}
           >
-            {data.members.map(({ id, name, profileImageUrl }) => (
-              <div
-                key={id}
-                className={clsx(
-                  'flex flex-col gap-[10px] text-center',
-                  data.members.length === 5 ? 'flex-1' : 'flex-shrink-0',
-                )}
-              >
-                <Image
-                  src={profileImageUrl}
-                  alt={name || 'profile'}
-                  width={52}
-                  height={52}
-                  className="aspect-square h-13 w-13 rounded-full border border-gray-300 object-cover"
-                />
-                <span className="body4 text-gray-800">{name}</span>
-              </div>
-            ))}
+            {([...data.members] as Member[]).sort(sortByCurrentUserFirst).map((member) => {
+              const isCurrentUser = member.id === user?.id
+              return (
+                <div
+                  key={member.id}
+                  onClick={() => handleClickMember(member.id)}
+                  className={clsx(
+                    'flex cursor-pointer flex-col gap-[10px] text-center',
+                    data.members.length === 5 ? 'flex-1' : 'flex-shrink-0',
+                  )}
+                >
+                  <Image
+                    src={member.profileImageUrl}
+                    alt={member.name || 'profile'}
+                    width={52}
+                    height={52}
+                    className="aspect-square h-13 w-13 rounded-full border border-gray-300 object-cover"
+                  />
+                  <span className="body4 text-gray-800">
+                    {member.name}
+                    {isCurrentUser && ' (나)'}
+                  </span>
+                </div>
+              )
+            })}
           </div>
         )}
 

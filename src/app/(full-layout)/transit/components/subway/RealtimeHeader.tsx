@@ -8,7 +8,7 @@ interface RealtimeHeaderProps {
 
 export default function RealtimeHeader({ isLive, onToggle }: RealtimeHeaderProps) {
   return (
-    <div className="mt-2 flex w-fit items-center justify-between rounded-full border border-gray-200">
+    <div className="mt-2 flex w-fit items-center justify-between rounded-full">
       <button
         onClick={() => onToggle?.(true)}
         aria-pressed={isLive}
@@ -20,7 +20,7 @@ export default function RealtimeHeader({ isLive, onToggle }: RealtimeHeaderProps
       >
         실시간
       </button>
-      <button
+      {/* <button
         onClick={() => onToggle?.(false)}
         aria-pressed={!isLive}
         aria-label="시간표 보기"
@@ -30,7 +30,7 @@ export default function RealtimeHeader({ isLive, onToggle }: RealtimeHeaderProps
         )}
       >
         시간표
-      </button>
+      </button> */}
       <div className="flex-1" />
     </div>
   )

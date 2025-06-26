@@ -1,11 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import IcoPlane from '@/assets/ico-plane.svg'
 import { PlaneMessage } from '@/app/types/plane'
 import { formatRelativeTime } from '@/utils/date'
 import clsx from 'clsx'
-import { useRouter } from 'next/navigation'
+import dayjs from 'dayjs'
 
 export default function PlaneMessageCard({
   plane,
@@ -14,7 +13,8 @@ export default function PlaneMessageCard({
   plane: PlaneMessage
   isSingle?: boolean
 }) {
-  const router = useRouter()
+  const isToday = dayjs().isSame(plane.sentAt, 'day')
+
   return (
     <li
       className={clsx(
@@ -22,7 +22,12 @@ export default function PlaneMessageCard({
         isSingle ? 'w-89' : 'w-80',
       )}
     >
-      <p className="body2 line-clamp-4 text-gray-800">{plane?.message}</p>
+      <div>
+        {isToday && (
+          <p className="body4 mb-2 font-medium text-purple-500">오늘 도착한 메시지예요 🎉</p>
+        )}
+        <p className="body2 line-clamp-4 text-gray-800">{plane?.message}</p>
+      </div>
       <div className="flex items-end justify-between">
         <div className="flex items-center gap-3">
           <Image
@@ -40,7 +45,8 @@ export default function PlaneMessageCard({
             </p>
           </div>
         </div>
-        <button
+        {/* TODO : 2차 종이비행기 답장 기능 */}
+        {/* <button
           type="button"
           aria-label="비행기 답장 보내기"
           className="flex-row-center h-10 w-10 rounded-full bg-purple-500"
@@ -50,7 +56,7 @@ export default function PlaneMessageCard({
               router.push('/plane')
             }}
           />
-        </button>
+        </button> */}
       </div>
     </li>
   )

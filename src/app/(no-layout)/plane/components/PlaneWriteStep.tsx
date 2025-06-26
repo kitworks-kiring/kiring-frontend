@@ -13,6 +13,17 @@ export default function PlaneWriteStep({
     <div className="pt-33">
       <div
         className={clsx(
+          'mb-5 text-left transition-all duration-500',
+          animStates.showTextarea ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
+        )}
+      >
+        <p className="body3 text-gray-800">
+          하루에 한 번, 랜덤한 동료에게 종이비행기를 보낼 수 있어요.
+        </p>
+        <p className="body4 mt-1 text-purple-500">가볍게 안부를 전해보세요 ✉️</p>
+      </div>
+      <div
+        className={clsx(
           'transition-all duration-500',
           animStates.showTextarea ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
         )}
@@ -25,7 +36,7 @@ export default function PlaneWriteStep({
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
             maxLength={100}
-            className="head4 h-80 w-full rounded-lg border p-4 pb-8 font-normal focus:border-gray-300 focus:ring-0 focus:outline-none"
+            className="head4 h-70 w-full rounded-lg border p-4 pb-8 font-normal focus:border-gray-300 focus:ring-0 focus:outline-none"
           />
           <div className="body2 absolute right-4 bottom-4 text-gray-400">
             {message.length} / 100
