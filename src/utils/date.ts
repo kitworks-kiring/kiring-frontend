@@ -45,9 +45,9 @@ export function formatElapsedDate(dateString: string, isMain?: boolean): string 
   const days = diffDays % 30
 
   const parts = []
-  if (years > 0) parts.push(isMain ? `${years}` : `${years}년`)
-  if (months > 0) parts.push(isMain ? `${months}` : `${months}개월`)
-  if (days > 0) parts.push(isMain ? `${days}` : `${days}일`)
+  parts.push(isMain ? `${years}` : `${years}년`)
+  parts.push(isMain ? `${months}` : `${months}개월`)
+  parts.push(isMain ? `${days}` : `${days}일`)
 
   if (isMain) {
     return parts
