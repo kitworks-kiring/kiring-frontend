@@ -16,6 +16,7 @@ import SortSelectBox, {
 import NarrowCard from '@/app/(header-layout)/place/components/restaurant/NarrowCard'
 import NarrowSkeleton from '@/app/(header-layout)/place/components/restaurant/NarrowSkeleton'
 import WideCard from '@/app/(header-layout)/place/components/restaurant/WideCard'
+import WideSkeleton from './WideSkeleton'
 import SvgButton from '@/components/ui/SvgButton'
 import {
   PLACE_BUBBLE_TAB_LIST,
@@ -389,7 +390,7 @@ export default function RestaurantContents() {
           </div>
           {/* 리스트 */}
           <div className="relative">
-            {isLoading && <NarrowSkeleton />}
+            {isLoading && (cardLayout === 'narrow' ? <NarrowSkeleton /> : <WideSkeleton />)}
             {!isLoading && !res?.pages?.[0]?.content?.length && (
               <p className="flex-row-center h-100 text-gray-700">일치하는 데이터가 없습니다.</p>
             )}

@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-function SkeletonUi() {
+function NarrowCardSkeletonUi() {
   const flexItemsCenter = 'body5 flex items-center'
   const divGrayAnimation = 'bg-gray-200 animate-pulse'
   const roundedSm = `${divGrayAnimation} rounded-sm`
@@ -44,7 +44,7 @@ export default function NarrowSkeleton() {
   return (
     <>
       {Array.from({ length: 6 }).map((_, idx) => (
-        <SkeletonUi key={idx} />
+        <NarrowCardSkeletonUi key={idx} />
       ))}
     </>
   )
