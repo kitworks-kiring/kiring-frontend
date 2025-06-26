@@ -37,7 +37,7 @@ export const TIME_BLOCKS: TimeBlockType[] = [
     type: 'Dinner',
     value: '저녁',
     messages: [
-      '퇴근 전, 가볍게 한잔 하기 좋은 가게에요 🍻',
+      '퇴근 후, 가볍게 한잔 하기 좋은 가게에요 🍻',
       '오늘 하루 마무리하러 가볼까요?',
       '퇴근하고 한잔 하기 딱 좋은 곳이에요 🍺',
       '고생한 오늘, 여기서 힐링하세요',

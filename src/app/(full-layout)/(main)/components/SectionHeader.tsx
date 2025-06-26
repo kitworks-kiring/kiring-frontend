@@ -28,7 +28,9 @@ export default function SectionHeader({
           // 실제 데이터
           <>
             {time && <span className="body2-sb text-purple-200">{time}</span>}
-            <span className="head5 text-basic-black">{title}</span>
+            <button type="button" onClick={onClick} className="head5 text-basic-black">
+              {title}
+            </button>
           </>
         )}
       </div>
