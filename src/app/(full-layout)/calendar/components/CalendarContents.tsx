@@ -10,7 +10,7 @@ import { getCalendarSchedules } from '@/services/calendar'
 import DayScheduleList from '@/app/(full-layout)/calendar/components/DayScheduleList'
 import IcoToggle from '@/assets/ico-toggle.svg'
 import { sortEvents } from '@/app/(full-layout)/calendar/util/sortEvents'
-import { SCHEDULE_TYPE_KO } from '@/app/(full-layout)/calendar/constants'
+import { SCHEDULE_TYPE_KO, KIRING_EVENT_LIST } from '@/app/(full-layout)/calendar/constants'
 import { CalendarResponseType } from '@/app/(full-layout)/calendar/types/calendarType'
 import './react-calendar.css'
 
@@ -35,25 +35,9 @@ export default function CalendarContents() {
 
   useEffect(() => {
     if (isLogin) {
-      const kiringEventList: CalendarResponseType = [
-        {
-          eventId: 9999,
-          eventType: 'NOTICE' as const,
-          title: '오늘은 키링 첫 오픈 날이에요!',
-          start: dayjs('2025-06-27').format('YYYY-MM-DDTHH:mm:ss'),
-          end: dayjs('2025-06-27').format('YYYY-MM-DDTHH:mm:ss'),
-        },
-        {
-          eventId: 9998,
-          eventType: 'NOTICE' as const,
-          title: '오늘은 QA 이벤트 마감일이에요!',
-          start: dayjs('2025-07-04').format('YYYY-MM-DDTHH:mm:ss'),
-          end: dayjs('2025-07-04').format('YYYY-MM-DDTHH:mm:ss'),
-        },
-      ]
       const newCalendarRes: CalendarResponseType = calendarRes
-        ? [...calendarRes, ...kiringEventList]
-        : kiringEventList
+        ? [...calendarRes, ...KIRING_EVENT_LIST]
+        : KIRING_EVENT_LIST
       setMonthlyScheduleList(newCalendarRes)
     }
   }, [calendarRes, isLogin])

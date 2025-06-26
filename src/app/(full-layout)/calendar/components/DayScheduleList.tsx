@@ -28,7 +28,7 @@ export default function DayScheduleList({
     const day = dayjs(schedule?.start).format('D')
 
     const getStudyText = (title: string) => {
-      const [first, second] = title.trim().split(',') ?? ''
+      const [first = '', second = ''] = title.trim().split(',')
       return `${first ? first + '님' : ''}${second ? ', ' + second + '님' : ''} 팀스터디에요`
     }
 
