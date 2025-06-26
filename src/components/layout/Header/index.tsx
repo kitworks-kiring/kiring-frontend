@@ -4,7 +4,6 @@ import { useMemo } from 'react'
 import Image from 'next/image'
 import HeaderLogo from '@/assets/header-logo.svg'
 import ArrowHeader from '@/assets/arrow-header.svg'
-import DefaultProfile from '@/assets/default-profile.svg'
 import SvgButton from '@/components/ui/SvgButton'
 import { NAV_BUTTONS, HEADER_PAGES } from '@/components/layout/Navigation/constants'
 import { useRouter, usePathname } from 'next/navigation'
@@ -26,6 +25,17 @@ export default function Header() {
       NAV_BUTTONS.find(({ endpoint }) => endpoint === '/')!
     )
   }, [pathname])
+
+  const ProfileButton = () => {
+    return (
+      <button
+        className="h-6 w-6 overflow-hidden rounded-full"
+        onClick={() => router.push('/profile')}
+      >
+        <Image src={user?.profileImageUrl ?? ''} alt="profile" width={24} height={24} />
+      </button>
+    )
+  }
 
   return (
     <nav aria-label="헤더 네비게이션" className="full-width fixed top-0 z-50 h-14 bg-white p-4">
@@ -55,25 +65,10 @@ export default function Header() {
           {isLogin ? (
             matchedNavItem && 'showProfileIcon' in matchedNavItem ? (
               matchedNavItem.showProfileIcon ? (
-                <SvgButton
-                  ariaLabel="마이페이지로 이동"
-                  icon={<DefaultProfile />}
-                  onClick={() => router.push('/mypage')}
-                />
-              ) : null // showProfileIcon이 false면 아무 것도 안 보여줌
+                <ProfileButton />
+              ) : null
             ) : user?.profileImageUrl ? (
-              <button
-                className="h-6 w-6 overflow-hidden rounded-full"
-                onClick={() => router.push('/profile')}
-              >
-                <Image
-                  src={user.profileImageUrl}
-                  alt="profile"
-                  width={24}
-                  height={24}
-                  className="aspect-square h-6 w-6 scale-140 object-contain"
-                />
-              </button>
+              <ProfileButton />
             ) : null
           ) : (
             <button onClick={() => router.push('/login')}>
