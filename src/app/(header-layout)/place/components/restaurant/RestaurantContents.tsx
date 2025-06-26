@@ -15,19 +15,23 @@ import SortSelectBox, {
 } from '@/app/(header-layout)/place/components/restaurant/SortSelectBox'
 import NarrowCard from '@/app/(header-layout)/place/components/restaurant/NarrowCard'
 import NarrowSkeleton from '@/app/(header-layout)/place/components/restaurant/NarrowSkeleton'
+import WideCard from '@/app/(header-layout)/place/components/restaurant/WideCard'
+import SvgButton from '@/components/ui/SvgButton'
 import {
   PLACE_BUBBLE_TAB_LIST,
   PLACE_SORT_DROPDOWN_LIST,
 } from '@/app/(header-layout)/place/constants'
 import { MARKER_IMG_URL, LIKE_IMG_URL } from '@/app/(header-layout)/place/constants'
+import IcoNarrow from '@/assets/restaurant/ico-narrow.svg'
+import IcoWide from '@/assets/restaurant/ico-wide.svg'
 import IcoGps from '@/assets/restaurant/ico-gps.svg'
 import IcoList from '@/assets/restaurant/ico-list.svg'
 import IcoListMore from '@/assets/restaurant/ico-list-more.svg'
 import IcoMap from '@/assets/restaurant/ico-map.svg'
 import IcoReload from '@/assets/restaurant/ico-reload.svg'
 import {
-  RealRestaurantType,
-  RealRestaurantNearbyListResponseType,
+  RestaurantType,
+  RestaurantNearbyListResponseType,
 } from '@/app/(header-layout)/place/types/restaurantType'
 
 export default function RestaurantContents() {
@@ -36,10 +40,12 @@ export default function RestaurantContents() {
     lat: 37.53292281015791,
     lng: 126.90366188575777,
   })
+  // 리스트 카드 레이아웃
+  const [cardLayout, setCardLayout] = useState<'narrow' | 'wide'>('narrow')
   // 전체 목록 보기
   const [sheetPosition, setSheetPosition] = useState<'collapsed' | 'half' | 'expanded'>('half')
   // 클릭한 레스토랑 데이터
-  const [focusedRestaurant, setFocusedRestaurant] = useState<RealRestaurantType | null>(null)
+  const [focusedRestaurant, setFocusedRestaurant] = useState<RestaurantType | null>(null)
   // 중앙 시점 변동 여부
   const [isCenterChanged, setIsCenterChanged] = useState(false)
   // 토스트 메세지
@@ -80,7 +86,7 @@ export default function RestaurantContents() {
     isLoading,
     isFetchNextPageError, // 다음 페이지 호출 중 에러 여부
     isRefetchError, // 데이터 재호출 중 에러 여부
-  } = useInfiniteQuery<RealRestaurantNearbyListResponseType>({
+  } = useInfiniteQuery<RestaurantNearbyListResponseType>({
     queryKey: ['restaurantList', bubbleSelected, selectedSort],
     queryFn: ({ pageParam = 0 }) =>
       getRestaurantNearbyList({
@@ -110,7 +116,7 @@ export default function RestaurantContents() {
     const map = mapRef.current
     if (!map) return
 
-    const THRESHOLD = 50 // 중심 좌표 변화 감지 임계값(m)
+    const THRESHOLD = 30 // 중심 좌표 변화 감지 임계값(m)
     const centerObj = map.getCenter()
     const newLat = centerObj.getLat()
     const newLng = centerObj.getLng()
@@ -141,7 +147,7 @@ export default function RestaurantContents() {
   }
 
   // 마커 클릭 시 포커스 된 레스토랑 오버레이 출력
-  const onMarkerClick = (marker: kakao.maps.Marker, restaurant: RealRestaurantType) => {
+  const onMarkerClick = (marker: kakao.maps.Marker, restaurant: RestaurantType) => {
     isProgrammaticMove.current = true
     setSheetPosition('collapsed')
     setIsOverlayVisible(true)
@@ -149,8 +155,8 @@ export default function RestaurantContents() {
     setFocusedRestaurant(restaurant)
   }
 
-  // NarrowCard 클릭 시 포커스 된 레스토랑 오버레이 출력
-  const onClickNarrowCard = () => {
+  // 리스트 카드 클릭 시 포커스 된 레스토랑 오버레이 출력
+  const onClickListCard = () => {
     setSheetPosition('collapsed')
     setIsOverlayVisible(true)
   }
@@ -364,12 +370,18 @@ export default function RestaurantContents() {
               onChange={onBubbleSelect}
               hasBorder={false}
             />
-            <SortSelectBox
-              sortOptions={sortOptions}
-              active={selectedSort}
-              onChange={onSelectSort}
-              propsClass={sheetPosition === 'collapsed' && 'bottom-0'}
-            />
+            <div className="flex-row-center gap-1">
+              <SvgButton
+                icon={cardLayout === 'narrow' ? <IcoNarrow /> : <IcoWide />}
+                onClick={() => setCardLayout((prev) => (prev === 'narrow' ? 'wide' : 'narrow'))}
+              />
+              <SortSelectBox
+                sortOptions={sortOptions}
+                active={selectedSort}
+                onChange={onSelectSort}
+                propsClass={sheetPosition === 'collapsed' && 'bottom-0'}
+              />
+            </div>
           </div>
           {/* 리스트 */}
           <div className="relative">
@@ -380,16 +392,27 @@ export default function RestaurantContents() {
             {res &&
               res?.pages.map((page, pageIndex) => (
                 <Fragment key={pageIndex}>
-                  {page.content.map((restaurant, idx) => (
-                    <NarrowCard
-                      key={`list-${restaurant.placeId}`}
-                      idx={idx}
-                      restaurant={restaurant}
-                      onFocusChange={setFocusedRestaurant}
-                      onCenterChange={setCenter}
-                      onClickNarrowCard={onClickNarrowCard}
-                    />
-                  ))}
+                  {page.content.map((restaurant, idx) =>
+                    cardLayout === 'narrow' ? (
+                      <NarrowCard
+                        key={`narrow-${restaurant.placeId}`}
+                        idx={idx}
+                        restaurant={restaurant}
+                        onFocusChange={setFocusedRestaurant}
+                        onCenterChange={setCenter}
+                        onClickListCard={onClickListCard}
+                      />
+                    ) : (
+                      <WideCard
+                        key={`narrow-${restaurant.placeId}`}
+                        idx={idx}
+                        restaurant={restaurant}
+                        onFocusChange={setFocusedRestaurant}
+                        onCenterChange={setCenter}
+                        onClickListCard={onClickListCard}
+                      />
+                    ),
+                  )}
                 </Fragment>
               ))}
           </div>

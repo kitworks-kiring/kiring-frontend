@@ -1,29 +1,3 @@
-import { LatLngType } from '@/utils/calcDistance'
-
-// TODO: 추후 삭제 예정
-export interface RestaurantType extends LatLngType {
-  id: number
-  name: string
-  imageUrl: string
-  category: string
-  distance: string
-  averagePrice: string
-  likes: number
-  popular: boolean
-  menus: string[]
-  liked: boolean
-}
-
-export type RestaurantListType = RestaurantType[]
-
-export interface RestaurantMapProps {
-  center: LatLngType
-  onCenterChange: (center: LatLngType) => void
-  restaurantList: RealRestaurantType[]
-  focusedRestaurant: RealRestaurantType | null
-  onFocusChange: (restaurant: RealRestaurantType | null) => void
-}
-
 export interface PaginationResponseType {
   empty: boolean
   first: boolean
@@ -36,12 +10,7 @@ export interface PaginationResponseType {
   totalPages: number
 }
 
-/**
- * 맛집 응답 타입
- * TODO: 추후 RealRestaurantType -> RestaurantType 으로 변경 예정
- * TODO: 추후 RealRestaurantNearbyListResponseType -> RestaurantNearbyListResponseType 으로 변경 예정
- */
-export interface RealRestaurantType {
+export interface RestaurantType {
   address: string
   categories: string[]
   distanceInMeters: number
@@ -56,11 +25,11 @@ export interface RealRestaurantType {
   placeId: number
 }
 
-export interface RealRestaurantNearbyListResponseType extends PaginationResponseType {
-  content: RealRestaurantType[]
+export interface RestaurantNearbyListResponseType extends PaginationResponseType {
+  content: RestaurantType[]
 }
 
-export interface RestaurantNearbyListParams {
+export interface RestaurantNearbyListParamsType {
   lat?: number
   lon?: number
   radius?: number

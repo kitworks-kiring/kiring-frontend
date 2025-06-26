@@ -1,37 +1,37 @@
 import Image from 'next/image'
 import clsx from 'clsx'
 import LikeToggleButton from '@/components/ui/LikeToggleButton'
-import { LIKE_IMG_URL } from '@/app/(header-layout)/place/constants'
 import { LatLngType } from '@/utils/calcDistance'
-import { RealRestaurantType } from '@/app/(header-layout)/place/types/restaurantType'
+import { LIKE_IMG_URL } from '@/app/(header-layout)/place/constants'
+import { RestaurantType } from '@/app/(header-layout)/place/types/restaurantType'
 
 export default function NarrowCard({
   restaurant,
   idx,
   onFocusChange,
   onCenterChange,
-  onClickNarrowCard,
+  onClickListCard,
   isFloating,
 }: {
-  restaurant: RealRestaurantType
+  restaurant: RestaurantType
   idx?: number
-  onFocusChange?: (restaurant: RealRestaurantType | null) => void
+  onFocusChange?: (restaurant: RestaurantType | null) => void
   onCenterChange?: (center: LatLngType) => void
-  onClickNarrowCard?: () => void
+  onClickListCard?: () => void
   isFloating?: boolean
 }) {
   const flexItemsCenter = 'body5 flex items-center'
 
-  const setFocusChange = (restaurant: RealRestaurantType | null) => {
-    if (!restaurant || !onFocusChange || !onCenterChange || !onClickNarrowCard) return
+  const setFocusChange = (restaurant: RestaurantType | null) => {
+    if (!restaurant || !onFocusChange || !onCenterChange || !onClickListCard) return
     onFocusChange(restaurant)
     onCenterChange({ lat: restaurant.latitude, lng: restaurant.longitude })
-    onClickNarrowCard()
+    onClickListCard()
   }
 
   return (
     <div className="grid grid-cols-[1fr_2fr_0.5fr] border-b border-gray-50 px-3 py-4">
-      <button type="button">
+      <button type="button" onClick={() => onFocusChange && setFocusChange(restaurant)}>
         <Image
           src={restaurant.imageUrl}
           alt={`${restaurant.name} 이미지`}
@@ -42,19 +42,21 @@ export default function NarrowCard({
             'h-25 min-h-20 w-25 min-w-20 rounded-sm object-cover',
             isFloating && 'cursor-default',
           )}
-          onClick={() => onFocusChange && setFocusChange(restaurant)}
         />
       </button>
       <ul className={clsx('flex flex-col gap-2.5 max-[400px]:pl-4', isFloating ? 'pl-4' : 'pl-1')}>
-        <li>
+        <li className="flex items-start">
           <button
             type="button"
-            className={clsx('body2-sb text-left', isFloating && 'cursor-default')}
+            className={clsx(
+              'body2-sb text-left max-[400px]:max-w-[80%]',
+              isFloating && 'cursor-default max-[400px]:max-w-[75%]',
+            )}
             onClick={() => onFocusChange && setFocusChange(restaurant)}
           >
             {restaurant.name}
           </button>
-          {restaurant.likeCount >= 15 && (
+          {restaurant.likeCount >= 10 && (
             <span className="body6 ml-1 rounded-lg bg-purple-50 px-2 py-1 text-purple-300">
               인기
             </span>

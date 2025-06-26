@@ -5,17 +5,17 @@ import { likeToggleRestaurant } from '@/services/restaurant'
 import { useAuthStore } from '@/stores/login'
 import { NOT_LIKE_BTN_IMG_URL, LIKED_BTN_IMG_URL } from '@/app/(header-layout)/place/constants'
 import {
-  RealRestaurantNearbyListResponseType,
-  RealRestaurantType,
+  RestaurantNearbyListResponseType,
+  RestaurantType,
 } from '@/app/(header-layout)/place/types/restaurantType'
 
 type InfiniteQueryData = {
-  pages: RealRestaurantNearbyListResponseType[]
+  pages: RestaurantNearbyListResponseType[]
   pageParams: unknown[]
 }
 
 type SinglePageData = {
-  content: RealRestaurantType[]
+  content: RestaurantType[]
   [key: string]: unknown
 }
 
@@ -32,7 +32,7 @@ export default function LikeToggleButton({ isLiked, placeId }: LikeToggleButtonP
   const queryClient = useQueryClient()
 
   // 레스토랑 좋아요 상태 업데이트
-  const updateRestaurantLikeStatus = (restaurant: RealRestaurantType) => {
+  const updateRestaurantLikeStatus = (restaurant: RestaurantType) => {
     if (restaurant.placeId !== placeId) return restaurant
 
     return {

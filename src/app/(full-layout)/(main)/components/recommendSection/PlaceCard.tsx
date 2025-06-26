@@ -2,15 +2,15 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Like from '@/assets/like.svg'
 import LikeToggleButton from '@/components/ui/LikeToggleButton'
-import { RealRestaurantType } from '@/app/(header-layout)/place/types/restaurantType'
+import { RestaurantType } from '@/app/(header-layout)/place/types/restaurantType'
 
 interface PlaceCardProps {
-  restaurant: RealRestaurantType
+  restaurant: RestaurantType
 }
 
 export default function PlaceCard({ restaurant }: PlaceCardProps) {
   const router = useRouter()
-  const moveToPlace = (restaurant: RealRestaurantType) => {
+  const moveToPlace = (restaurant: RestaurantType) => {
     if (!restaurant || !Object.keys(restaurant).length) return
     sessionStorage.setItem('restaurantParams', JSON.stringify(restaurant))
     router.push('/place')
