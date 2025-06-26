@@ -13,7 +13,8 @@ export default function MyPageContent() {
   const { isLogin, setLogout } = useAuthStore()
   const { user, clearUser } = useUserStore()
 
-  const isMe = !params.memberId || Number(params.memberId) === user?.id
+  const memberIdParam = Array.isArray(params.memberId) ? params.memberId[0] : params.memberId
+  const isMe = !memberIdParam || Number(memberIdParam) === user?.id
 
   // ✅ 로그아웃 시 토큰 / 유저정보 삭제
   const handleLogout = () => {

@@ -12,7 +12,7 @@ export default function MemberInfoSection({
   return (
     <section className="container px-4">
       <div className="head5">
-        <p className="text-balck">{isMe ? '나의 정보' : '멤버 정보'}</p>
+        <p className="text-black">{isMe ? '나의 정보' : '멤버 정보'}</p>
       </div>
       <div className="mt-3 w-full">
         <ul className="space-y-4">

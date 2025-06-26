@@ -1,12 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-// import IcoPlane from '@/assets/ico-plane.svg'
 import { PlaneMessage } from '@/app/types/plane'
 import { formatRelativeTime } from '@/utils/date'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
-// import { useRouter } from 'next/navigation'
 
 export default function PlaneMessageCard({
   plane,
@@ -15,7 +13,6 @@ export default function PlaneMessageCard({
   plane: PlaneMessage
   isSingle?: boolean
 }) {
-  // const router = useRouter()
   const isToday = dayjs().isSame(plane.sentAt, 'day')
 
   return (
