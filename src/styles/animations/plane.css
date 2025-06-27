@@ -1,0 +1,78 @@
+/* 종이 비행기 모션 */
+@keyframes planeFlight {
+  0% {
+    transform: translateY(300px) translateX(-400px) rotate(0deg);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(100px) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+.animate-plane-flight {
+  animation: planeFlight 1.5s ease-in-out infinite;
+}
+
+/* 보내기 성공 rotate*/
+@keyframes rotateFadeIn {
+  0% {
+    opacity: 0;
+    transform: rotateY(0deg);
+  }
+  25% {
+    opacity: 0.25;
+    transform: rotateY(180deg);
+  }
+  50% {
+    opacity: 0.5;
+    transform: rotateY(0deg);
+  }
+  75% {
+    opacity: 0.75;
+    transform: rotateY(180deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(0deg);
+  }
+}
+
+.animate-complete-show {
+  animation: rotateFadeIn 1s ease-out forwards;
+}
+
+/* 받은 쪽지 보기 바텀 시트*/
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-in forwards;
+}

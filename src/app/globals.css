@@ -1,11 +1,14 @@
-@import 'tw-animate-css';
+@import 'tailwindcss';
+@import '../styles/design-tokens.css'; /* 토큰 적용 CSS */
+@import '../styles/utilities.css';
+@import '../styles/animations/welcome.css';
+@import '../styles/animations/plane.css';
+@import '../styles/animations/toast.css';
 
 @custom-variant dark (&:is(.dark *));
 
-@import 'tailwindcss/preflight';
-@tailwind utilities;
-
 @theme inline {
+  --font-sans: Pretendard, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -116,7 +119,25 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
+  body,
+  html {
+    font-synthesis: none;
+    font-family:
+      'Pretendard',
+      'Apple SD Gothic Neo',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      'Helvetica Neue',
+      sans-serif;
+  }
+  main {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  button {
+    @apply cursor-pointer;
   }
 }

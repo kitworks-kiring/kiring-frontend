@@ -1,0 +1,33 @@
+name: Synchronize develop to forked repo
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  sync:
+    if: github.repository == 'kitworks-kiring/kiring-frontend'
+    name: Sync forked repo
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.KIRING_DEV_GITHUB_TOKEN }}
+          fetch-depth: 0
+          ref: develop
+
+      - name: Add remote-url
+        run: |
+          git remote add forked-repo https://kiring-dev:${{ secrets.KIRING_DEV_GITHUB_TOKEN }}@github.com/kiring-dev/kiring-frontend-develop
+          git config user.name kiring-dev
+          git config user.email kiring.dev@gmail.com
+
+      - name: Push changes to forked-repo
+        run: |
+          git push -f forked-repo develop
+
+      - name: Clean up
+        run: |
+          git remote remove forked-repo
