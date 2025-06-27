@@ -1,19 +1,22 @@
 'use client'
 
-import PlaneMessageCard from '@/app/(header-layout)/profile/components/plane/PlaneMessageCard'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { getPlaneRead, getPlaneTodayMessage } from '@/services/plane'
+import { useRouter } from 'next/navigation'
+import dayjs from 'dayjs'
 import { useAuthStore } from '@/stores/login'
-import { PlaneMessage, PlaneTodayMessage } from '@/app/types/plane'
+import { useXScrollWheel } from '@/hooks/useXScrollWheel'
+import { getPlaneRead, getPlaneTodayMessage } from '@/services/plane'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import Popup from '@/app/(full-layout)/(main)/components/introSection/Popup'
-import IcoPaperAirplane from '@/assets/ico-paper-airplane.svg'
-import { useEffect, useState } from 'react'
-import dayjs from 'dayjs'
-import { useRouter } from 'next/navigation'
+import PlaneMessageCard from '@/app/(header-layout)/profile/components/plane/PlaneMessageCard'
 import PlaneBottomSheet from '@/app/(header-layout)/profile/components/plane/PlaneBottomSheet'
+import IcoPaperAirplane from '@/assets/ico-paper-airplane.svg'
+import { PlaneMessage, PlaneTodayMessage } from '@/app/types/plane'
+
 export default function PlaneSection() {
   const router = useRouter()
+  const scrollRef = useXScrollWheel()
   const { isLogin } = useAuthStore()
   const [isPopup, setIsPopup] = useState(false)
   const [isSheetOpen, setIsSheetOpen] = useState(false)
@@ -103,11 +106,13 @@ export default function PlaneSection() {
       {hasMessages && (
         <>
           <div
+            ref={scrollRef}
             className={`mt-4 flex gap-4 px-4 ${
               planeMessages.length > 1
                 ? 'overflow-x-scroll [&::-webkit-scrollbar]:hidden'
                 : 'justify-center'
             }`}
+            style={{ overscrollBehavior: 'contain' }}
           >
             <ul className="flex gap-4">
               {planeMessages.map((plane) => (

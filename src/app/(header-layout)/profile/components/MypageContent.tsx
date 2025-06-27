@@ -2,10 +2,10 @@
 
 import { useRouter, useParams } from 'next/navigation'
 import { useAuthStore } from '@/stores/login'
+import { useUserStore } from '@/stores/user'
 import PlaneSection from '@/app/(header-layout)/profile/components/plane/PlaneSection'
 import MemberInfoSection from '@/app/(header-layout)/profile/components/memberinfo/MemberInfoSection'
 import ProfileSection from '@/app/(header-layout)/profile/components/profile/ProfileSection'
-import { useUserStore } from '@/stores/user'
 
 export default function MyPageContent() {
   const router = useRouter()

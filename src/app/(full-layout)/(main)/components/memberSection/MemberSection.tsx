@@ -1,16 +1,17 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import Image from 'next/image'
-import SectionHeader from '@/app/(full-layout)/(main)/components/SectionHeader'
+import { useXScrollWheel } from '@/hooks/useXScrollWheel'
 import { getTeamMembers, getMemberImages } from '@/services/members'
+import { useAuthStore } from '@/stores/login'
+import { useUserStore } from '@/stores/user'
+import SectionHeader from '@/app/(full-layout)/(main)/components/SectionHeader'
 import TeamSelector from '@/app/(full-layout)/(main)/components/memberSection/TeamSelector'
 import { TEAMS } from '@/app/(full-layout)/constants'
-import { useAuthStore } from '@/stores/login'
-import { useRouter } from 'next/navigation'
-import { useUserStore } from '@/stores/user'
 import { Member } from '@/app/(full-layout)/(main)/types/member'
 
 // 스켈레톤 멤버 컴포넌트
@@ -28,6 +29,7 @@ function MemberSkeleton() {
 
 export default function MemberSection() {
   const router = useRouter()
+  const scrollRef = useXScrollWheel()
   const { user } = useUserStore()
   const [selectedTeam, setSelectedTeam] = useState<number>(user?.team?.id ?? TEAMS[0].id)
   const { isLogin } = useAuthStore()
@@ -80,12 +82,14 @@ export default function MemberSection() {
 
         {isLogin && data && 'members' in data && Array.isArray(data.members) && (
           <div
+            ref={scrollRef}
             className={clsx(
               'flex items-center gap-[7%] px-4',
               data.members.length <= 4 && 'justify-start',
               data.members.length === 5 && 'justify-between',
               data.members.length > 5 && 'scroll-hidden justify-between overflow-x-scroll',
             )}
+            style={{ overscrollBehavior: 'contain' }}
           >
             {([...data.members] as Member[]).sort(sortByCurrentUserFirst).map((member) => {
               const isCurrentUser = member.id === user?.id
