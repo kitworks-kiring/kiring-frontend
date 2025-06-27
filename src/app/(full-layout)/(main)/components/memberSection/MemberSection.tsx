@@ -72,7 +72,7 @@ export default function MemberSection() {
 
         <div
           ref={recommendScrollRef}
-          className="scroll-hidden mx-4 overflow-x-auto"
+          className="scroll-hidden overflow-x-auto px-4"
           style={{ overscrollBehavior: 'contain' }}
         >
           {(isLoading || error) && (
@@ -95,7 +95,7 @@ export default function MemberSection() {
               )}
               style={{ overscrollBehavior: 'contain' }}
             >
-              {([...data.members] as Member[]).sort(sortByCurrentUserFirst).map((member) => {
+              {([...data.members] as Member[]).sort(sortByCurrentUserFirst).map((member, index) => {
                 const isCurrentUser = member.id === user?.id
                 return (
                   <div
@@ -104,6 +104,7 @@ export default function MemberSection() {
                     className={clsx(
                       'flex cursor-pointer flex-col gap-[10px] text-center',
                       data.members.length === 5 ? 'flex-1' : 'flex-shrink-0',
+                      data.members.length - 1 === index && 'pr-4',
                     )}
                   >
                     <Image
@@ -126,7 +127,10 @@ export default function MemberSection() {
           {!isLogin && Array.isArray(data) && (
             <div className="scroll-hidden flex h-19 items-center gap-6">
               {data.map(({ profileImageUrl }, index) => (
-                <div key={profileImageUrl + index} className="flex-shrink-0">
+                <div
+                  key={profileImageUrl + index}
+                  className={clsx('flex-shrink-0', data.length - 1 === index && 'pr-4')}
+                >
                   <Image
                     src={profileImageUrl}
                     alt="profile"
