@@ -1,22 +1,12 @@
-import { useRef, useCallback, useEffect, useMemo } from 'react'
+import { useRef, useCallback, useEffect } from 'react'
 
-function debounce<T extends (...args: never[]) => void>(
-  func: T,
-  wait: number,
-): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout
-  return (...args: Parameters<T>) => {
-    clearTimeout(timeout)
-    timeout = setTimeout(() => func(...args), wait)
-  }
-}
-
-export function useXScrollWheel(debounceMs: number = 0) {
+export function useXScrollWheel() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const isMouseOver = useRef(false)
 
   const scrollHandler = useCallback((e: WheelEvent) => {
-    if (e.deltaY === 0 || e.deltaX !== 0) return
+    // 이미 가로 스크롤 중이면 무시
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return
 
     const element = scrollRef.current
     if (!element || !isMouseOver.current) return
@@ -24,22 +14,22 @@ export function useXScrollWheel(debounceMs: number = 0) {
     const { scrollLeft, scrollWidth, clientWidth } = element
     const maxScrollLeft = scrollWidth - clientWidth
 
-    // 스크롤 여유 공간 확인 (약간의 tolerance 추가)
-    const tolerance = 5
+    // 스크롤 필요 여부 확인
+    if (maxScrollLeft <= 0) return
+
+    const tolerance = 1
     const canScrollRight = scrollLeft < maxScrollLeft - tolerance
     const canScrollLeft = scrollLeft > tolerance
 
     const isScrollingRight = e.deltaY > 0
     const isScrollingLeft = e.deltaY < 0
 
-    // 가로 스크롤이 가능한 경우에만 처리
     if ((isScrollingRight && canScrollRight) || (isScrollingLeft && canScrollLeft)) {
       e.preventDefault()
-      e.stopPropagation() // 이벤트 버블링도 막기
+      e.stopPropagation()
 
-      requestAnimationFrame(() => {
-        element.scrollLeft += e.deltaY
-      })
+      // 부드러운 스크롤
+      element.scrollLeft += e.deltaY * 0.5
     }
   }, [])
 
@@ -51,25 +41,21 @@ export function useXScrollWheel(debounceMs: number = 0) {
     isMouseOver.current = false
   }, [])
 
-  const debouncedHandler = useMemo(
-    () => debounce(scrollHandler, debounceMs),
-    [scrollHandler, debounceMs],
-  )
-
   useEffect(() => {
     const element = scrollRef.current
     if (!element) return
 
-    element.addEventListener('wheel', debouncedHandler, { passive: false })
-    element.addEventListener('mouseenter', handleMouseEnter)
-    element.addEventListener('mouseleave', handleMouseLeave)
+    // passive: false로 preventDefault 가능하게 설정
+    element.addEventListener('wheel', scrollHandler, { passive: false })
+    element.addEventListener('mouseenter', handleMouseEnter, { passive: true })
+    element.addEventListener('mouseleave', handleMouseLeave, { passive: true })
 
     return () => {
-      element.removeEventListener('wheel', debouncedHandler)
+      element.removeEventListener('wheel', scrollHandler)
       element.removeEventListener('mouseenter', handleMouseEnter)
       element.removeEventListener('mouseleave', handleMouseLeave)
     }
-  }, [debouncedHandler, handleMouseEnter, handleMouseLeave])
+  }, [scrollHandler, handleMouseEnter, handleMouseLeave])
 
   return scrollRef
 }

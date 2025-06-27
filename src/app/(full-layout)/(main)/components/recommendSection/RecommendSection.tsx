@@ -26,7 +26,7 @@ function PlaceCardSkeleton() {
 
 export default function RecommendSection() {
   const router = useRouter()
-  const scrollRef = useXScrollWheel()
+  const recommendScrollRef = useXScrollWheel()
   // 기본값(SSR)
   const [currentTime, setCurrentTime] = useState<TimeBlockType>(TIME_BLOCKS[0])
   const [randomMsg, setRandomMsg] = useState('')
@@ -61,7 +61,7 @@ export default function RecommendSection() {
         isLoading={isLoading}
       />
       <div
-        ref={scrollRef}
+        ref={recommendScrollRef}
         className="scroll-hidden flex gap-4 overflow-x-scroll px-4"
         style={{ overscrollBehavior: 'contain' }}
       >
