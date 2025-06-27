@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Map as KakaoMap, MapMarker, CustomOverlayMap } from 'react-kakao-maps-sdk'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
+import { useSectionDrag } from '@/hooks/useSectionDrag'
 import { getCalcDistance } from '@/utils/calcDistance'
 import { getRestaurantNearbyList } from '@/services/restaurant'
 import { useSingleSelect } from '@/components/tabs/BubbleTab/useSingleSelect'
@@ -166,6 +167,23 @@ export default function RestaurantContents() {
     setSheetPosition((prev) => (['half', 'collapsed'].includes(prev) ? 'expanded' : 'collapsed'))
     setFocusedRestaurant(null)
   }
+
+  // 바텀 시트 상단 영역 드래그 감지
+  const dragHandlers = useSectionDrag(
+    {
+      onDragUp: () => {
+        if (['half', 'collapsed'].includes(sheetPosition)) {
+          setSheetPosition('expanded')
+        }
+      },
+      onDragDown: () => {
+        if (sheetPosition === 'half') {
+          setSheetPosition('collapsed')
+        }
+      },
+    },
+    40, // 드래그 최소 거리(px)
+  )
 
   // 페이지 마운트 시 파라미터 확인 및 레스토랑 포커스 설정
   useEffect(() => {
@@ -357,6 +375,7 @@ export default function RestaurantContents() {
           </div>
         )}
         <div
+          {...dragHandlers}
           className={clsx('relative min-h-dvh bg-white pt-1', !isSheetExpanded && 'rounded-t-xl')}
         >
           {!isSheetExpanded && (

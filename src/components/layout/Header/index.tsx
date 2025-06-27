@@ -58,10 +58,6 @@ export default function Header() {
     }
   }, [isTop])
 
-  useEffect(() => {
-    console.log('isTop:', isTop)
-  }, [isTop])
-
   const matchedNavItem = useMemo(() => {
     return (
       HEADER_PAGES.find(
