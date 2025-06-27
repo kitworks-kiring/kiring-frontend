@@ -19,7 +19,6 @@ export function useSectionDrag(callbacks: DragDirection, minDistance: number = 2
   }, [])
 
   const handleTouchMove = useCallback(() => {
-    // const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!touchStart.current) return
     isDragging.current = true
   }, [])
