@@ -70,19 +70,21 @@ export default function DayScheduleList({
     return (
       <li key={`${type}-${schedule?.eventId}-${index}`} className="flex items-center gap-3">
         {icon}
-
-        <p className="flex flex-col justify-center gap-1.5">
+        <div className="relative flex flex-col justify-center gap-1.5">
           <span className="body4-sb text-gray-800">{itemTitle}</span>
           {[9998, 9999].includes(schedule?.eventId ?? -1) ? (
-            <span className="body5 text-purple-500">
-              {schedule?.eventId === 9999
-                ? '회사생활이 조금 더 특별해질 거예요 🎉'
-                : '제출하고 🎁 이벤트 상품 꼭 받아가세요!'}
-            </span>
+            <>
+              <span className="body5 text-purple-500">
+                {schedule?.eventId === 9999
+                  ? '회사생활이 조금 더 특별해질 거예요 🎉'
+                  : '제출하고 🎁 이벤트 상품 꼭 받아가세요!'}
+              </span>
+              <div className="absolute top-0 -left-5 inline-flex h-1 w-1 animate-ping rounded-full bg-purple-500 opacity-75" />
+            </>
           ) : (
             <span className="body5 text-purple-500">{desc}</span>
           )}
-        </p>
+        </div>
       </li>
     )
   }

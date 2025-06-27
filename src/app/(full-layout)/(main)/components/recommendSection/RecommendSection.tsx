@@ -1,13 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
+import { useXScrollWheel } from '@/hooks/useXScrollWheel'
+import { getRestaurantNearbyList } from '@/services/restaurant'
 import SectionHeader from '@/app/(full-layout)/(main)/components/SectionHeader'
 import PlaceCard from '@/app/(full-layout)/(main)/components/recommendSection/PlaceCard'
-import { useRouter } from 'next/navigation'
 import { TIME_BLOCKS } from '@/app/(full-layout)/(main)/constants'
-import { useQuery } from '@tanstack/react-query'
-import { getRestaurantNearbyList } from '@/services/restaurant'
 import { TimeBlockType } from '@/app/(full-layout)/(main)/types/timeBlock'
 
 // 스켈레톤 카드 컴포넌트
@@ -25,6 +26,7 @@ function PlaceCardSkeleton() {
 
 export default function RecommendSection() {
   const router = useRouter()
+  const recommendScrollRef = useXScrollWheel()
   // 기본값(SSR)
   const [currentTime, setCurrentTime] = useState<TimeBlockType>(TIME_BLOCKS[0])
   const [randomMsg, setRandomMsg] = useState('')
@@ -58,7 +60,11 @@ export default function RecommendSection() {
         onClick={() => router.push('/place')}
         isLoading={isLoading}
       />
-      <div className="scroll-hidden flex gap-4 overflow-x-scroll px-4">
+      <div
+        ref={recommendScrollRef}
+        className="scroll-hidden flex gap-4 overflow-x-scroll px-4"
+        style={{ overscrollBehavior: 'contain' }}
+      >
         {isLoading
           ? // 스켈레톤 UI 표시
             Array.from({ length: 7 }).map((_, index) => <PlaceCardSkeleton key={index} />)

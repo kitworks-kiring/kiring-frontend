@@ -49,7 +49,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="h-dvh overflow-hidden bg-gray-100">
         <Providers>
-          <div className="full-width mx-auto flex h-full flex-col bg-white">{children}</div>
+          <div className="full-width mx-auto flex h-full flex-col bg-white shadow-[-10px_0_30px_-5px_rgba(0,0,0,0.05),10px_0_30px_-5px_rgba(0,0,0,0.05)]">
+            {children}
+          </div>
         </Providers>
         {/* analytics: </body> 태그 바로 앞에 위치해야 함 */}
         <BeusableScript />
