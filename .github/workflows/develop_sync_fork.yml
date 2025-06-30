@@ -7,8 +7,9 @@ on:
       - develop
 
 permissions:
-  contents: read
-  actions: read
+  contents: write
+  pull-requests: write
+  actions: write
 
 jobs:
   sync:
