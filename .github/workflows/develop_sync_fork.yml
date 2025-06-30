@@ -1,15 +1,8 @@
-name: Synchronize branches to forked repo
-
+name: Synchronize develop to forked repo
 on:
   push:
     branches:
-      - main
       - develop
-
-permissions:
-  contents: write
-  pull-requests: write
-  actions: write
 
 jobs:
   sync:
@@ -18,69 +11,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout current branch
+      - name: Checkout develop
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.KIRING_DEV_GITHUB_TOKEN }}
           fetch-depth: 0
-          ref: ${{ github.ref_name }}
+          ref: develop
 
-      - name: Debug info
+      - name: Add remote-url
         run: |
-          echo "Current repository: ${{ github.repository }}"
-          echo "Current branch: ${{ github.ref_name }}"
-          git remote -v
-
-      - name: Verify token
-        run: |
-          if [ -z "${{ secrets.KIRING_DEV_GITHUB_TOKEN }}" ]; then
-            echo "❌ KIRING_DEV_GITHUB_TOKEN is not set"
-            exit 1
-          else
-            echo "✅ Token is available"
-            # 토큰 길이 확인 (마스킹)
-            echo "Token length: ${#GITHUB_TOKEN}"
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.KIRING_DEV_GITHUB_TOKEN }}
-
-      - name: Configure Git
-        run: |
-          git config user.name "kiring-dev"
-          git config user.email "kiring.dev@gmail.com"
-
-      - name: Configure remote repository
-        run: |
-          # 기존 remote 제거 (있다면)
-          git remote remove forked-repo 2>/dev/null || true
-
-          # Personal Access Token을 사용한 remote 추가
-          git remote add forked-repo https://${{ secrets.KIRING_DEV_GITHUB_TOKEN }}@github.com/kiring-dev/kiring-frontend.git
-
-          # Remote 확인
-          git remote -v
-
-      - name: Check repository status
-        run: |
-          echo "Current branch: $(git branch --show-current)"
-          echo "Remote branches:"
-          git branch -r
-          echo "Latest commit:"
-          git log --oneline -1
+          git remote add forked-repo https://kiring-dev:${{ secrets.KIRING_DEV_GITHUB_TOKEN }}@github.com/kiring-dev/kiring-frontend-develop
+          git config user.name kiring-dev
+          git config user.email kiring.dev@gmail.com
 
       - name: Push changes to forked-repo
         run: |
-          echo "Pushing ${{ github.ref_name }} to forked repository..."
-          git push -f forked-repo ${{ github.ref_name }} || {
-            echo "❌ Push failed. Checking remote status..."
-            git remote -v
-            echo "Current branch status:"
-            git status
-            exit 1
-          }
-          echo "✅ Successfully pushed to forked repository"
+          git push -f forked-repo develop
 
       - name: Clean up
-        if: always()
         run: |
-          git remote remove forked-repo 2>/dev/null || true
-          echo "✅ Cleanup completed"
+          git remote remove forked-repo
