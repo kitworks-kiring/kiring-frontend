@@ -1,7 +1,8 @@
-name: Synchronize develop to forked repo
+name: Synchronize branches to forked repo
 on:
   push:
     branches:
+      - main
       - develop
 
 jobs:
@@ -11,22 +12,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout develop
+      - name: Checkout current branch
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.KIRING_DEV_GITHUB_TOKEN }}
           fetch-depth: 0
-          ref: develop
+          ref: ${{ github.ref_name }}
 
       - name: Add remote-url
         run: |
-          git remote add forked-repo https://kiring-dev:${{ secrets.KIRING_DEV_GITHUB_TOKEN }}@github.com/kiring-dev/kiring-frontend-develop
+          git remote add forked-repo https://kiring-dev:${{ secrets.KIRING_DEV_GITHUB_TOKEN }}@github.com/kiring-dev/kiring-frontend
           git config user.name kiring-dev
           git config user.email kiring.dev@gmail.com
 
       - name: Push changes to forked-repo
         run: |
-          git push -f forked-repo develop
+          git push -f forked-repo ${{ github.ref_name }}
 
       - name: Clean up
         run: |
