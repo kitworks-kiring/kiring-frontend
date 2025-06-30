@@ -20,7 +20,6 @@ jobs:
       - name: Checkout current branch
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.KIRING_DEV_GITHUB_TOKEN }}
           fetch-depth: 0
           ref: ${{ github.ref_name }}
 
@@ -29,6 +28,16 @@ jobs:
           echo "Current repository: ${{ github.repository }}"
           echo "Current branch: ${{ github.ref_name }}"
           git remote -v
+
+      # 🔧 토큰 유효성 확인 추가
+      - name: Verify token
+        run: |
+          if [ -z "${{ secrets.KIRING_DEV_GITHUB_TOKEN }}" ]; then
+            echo "❌ KIRING_DEV_GITHUB_TOKEN is not set"
+            exit 1
+          else
+            echo "✅ Token is available"
+          fi
 
       - name: Add remote-url
         run: |
