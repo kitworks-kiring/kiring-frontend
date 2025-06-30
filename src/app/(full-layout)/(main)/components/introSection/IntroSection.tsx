@@ -51,19 +51,19 @@ export default function IntroSection({ visible = true, onClose }: IntroSectionPr
   useEffect(() => {
     if (!isLogin) return
     const lastReceivePlaneClosed = localStorage.getItem('popupReceivePlaneClosedDate')
-    const lastReceivedPlaneId = localStorage.getItem('popupLastReceivedPlaneId')
     const lastIntroClosed = localStorage.getItem('popupLastIntroClosedDate')
+    const isReceivedToday = todayPlane?.hasTodayReceived === true
 
     // 1순위: 받은 비행기 팝업
-    if (readPlane && readPlane.length > 0) {
-      const latestPlaneId = String(readPlane[0].messageId)
-      if (lastReceivePlaneClosed === today && lastReceivedPlaneId === latestPlaneId) {
+    if (isReceivedToday) {
+      if (lastReceivePlaneClosed === today) {
         setShowReadPlanePopup(false)
-      } else {
-        setShowReadPlanePopup(true)
-        setShowTodayPlanePopup(false)
         return
       }
+
+      setShowReadPlanePopup(true)
+      setShowTodayPlanePopup(false)
+      return
     }
 
     // 2순위: 보내는 팝업 (리시브 팝업이 안 뜨는 경우만)
