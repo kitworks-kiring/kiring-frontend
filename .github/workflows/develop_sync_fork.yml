@@ -20,7 +20,7 @@ jobs:
 
       - name: Add remote-url
         run: |
-          git remote add forked-repo https://kiring-dev:${{ secrets.KIRING_DEV_GITHUB_TOKEN }}@github.com/kiring-dev/kiring-frontend-develop
+          git remote add forked-repo https://kiring-dev:${{ secrets.KIRING_DEV_GITHUB_TOKEN }}@github.com/kiring-dev/kiring-frontend
           git config user.name kiring-dev
           git config user.email kiring.dev@gmail.com
 
