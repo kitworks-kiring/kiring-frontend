@@ -30,7 +30,6 @@ jobs:
           echo "Current branch: ${{ github.ref_name }}"
           git remote -v
 
-      # 🔧 토큰 유효성 확인 추가
       - name: Verify token
         run: |
           if [ -z "${{ secrets.KIRING_DEV_GITHUB_TOKEN }}" ]; then
@@ -38,18 +37,50 @@ jobs:
             exit 1
           else
             echo "✅ Token is available"
+            # 토큰 길이 확인 (마스킹)
+            echo "Token length: ${#GITHUB_TOKEN}"
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.KIRING_DEV_GITHUB_TOKEN }}
 
-      - name: Add remote-url
+      - name: Configure Git
         run: |
-          git remote add forked-repo https://kiring-dev:${{ secrets.KIRING_DEV_GITHUB_TOKEN }}@github.com/kiring-dev/kiring-frontend
-          git config user.name kiring-dev
-          git config user.email kiring.dev@gmail.com
+          git config user.name "kiring-dev"
+          git config user.email "kiring.dev@gmail.com"
+
+      - name: Configure remote repository
+        run: |
+          # 기존 remote 제거 (있다면)
+          git remote remove forked-repo 2>/dev/null || true
+
+          # Personal Access Token을 사용한 remote 추가
+          git remote add forked-repo https://${{ secrets.KIRING_DEV_GITHUB_TOKEN }}@github.com/kiring-dev/kiring-frontend.git
+
+          # Remote 확인
+          git remote -v
+
+      - name: Check repository status
+        run: |
+          echo "Current branch: $(git branch --show-current)"
+          echo "Remote branches:"
+          git branch -r
+          echo "Latest commit:"
+          git log --oneline -1
 
       - name: Push changes to forked-repo
         run: |
-          git push -f forked-repo ${{ github.ref_name }}
+          echo "Pushing ${{ github.ref_name }} to forked repository..."
+          git push -f forked-repo ${{ github.ref_name }} || {
+            echo "❌ Push failed. Checking remote status..."
+            git remote -v
+            echo "Current branch status:"
+            git status
+            exit 1
+          }
+          echo "✅ Successfully pushed to forked repository"
 
       - name: Clean up
+        if: always()
         run: |
-          git remote remove forked-repo
+          git remote remove forked-repo 2>/dev/null || true
+          echo "✅ Cleanup completed"
