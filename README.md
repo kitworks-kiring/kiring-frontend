@@ -1,4 +1,4 @@
-![스터디 1](https://github.com/user-attachments/assets/a23f17b9-7996-484b-860c-2a5ff4669905)
+![스터디 1](https://github.com/user-attachments/assets/03dbb6af-f9f8-4ef0-ac03-566c5cb59b0e)
 ![스터디 2](https://github.com/user-attachments/assets/9b222c35-b557-4fe1-a1e9-ef1d79dbecb9)
 ![스터디 3](https://github.com/user-attachments/assets/23dd7c4c-f86a-4268-aabf-3039ccbd3389)
 ![스터디 4](https://github.com/user-attachments/assets/2e8478f0-679a-4405-95f4-f308a92f5a4b)
