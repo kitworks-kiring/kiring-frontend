@@ -10,6 +10,7 @@
 ![스터디 10](https://github.com/user-attachments/assets/cf47f2c1-fcf9-45fc-906a-c3fa9ef51f35)
 ![스터디 11](https://github.com/user-attachments/assets/52fda276-6f09-431c-8448-5a103c19b127)
 ![스터디 12](https://github.com/user-attachments/assets/b4fecb2c-d0b2-4a92-b3fd-850d0d4eb279)
+![스터디 13](https://github.com/user-attachments/assets/8cb0f297-1824-4b56-9862-283af192a6ca)
 ![스터디 14](https://github.com/user-attachments/assets/8ed16f5d-d478-406c-b0be-dc3eb1b6a6a5)
 ![스터디 15](https://github.com/user-attachments/assets/d9d296eb-a623-481f-a77a-323ba18cf0a7)
 ![스터디 16](https://github.com/user-attachments/assets/5745aff1-cc34-4833-9768-856faf1546b3)
