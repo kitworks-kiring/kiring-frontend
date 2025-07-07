@@ -17,7 +17,7 @@ export default function Main() {
         <WeeklyScheduleSection />
         <MemberSection />
         <Footer />
-        {dayjs().isBefore('2025-07-04') && <NewsModal />}
+        {dayjs().isBefore('2025-07-12') ? <NewsModal /> : null}
       </div>
     </Suspense>
   )
