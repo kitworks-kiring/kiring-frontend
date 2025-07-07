@@ -1,6 +1,6 @@
 'use client'
 
-import EventImage from '@/assets/news/open-event.png'
+import EventImage from '@/assets/news/event-result.png'
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
@@ -43,7 +43,11 @@ export default function NewsModal() {
       )}
     >
       <div className="flex flex-col gap-3">
-        <a href="https://forms.gle/aKYxA1zJ5RCeQJZF8" rel="noopener noreferrer" target="_blank">
+        <a
+          href="https://pub-cf3b9667253a490495a16433a99bd7ca.r2.dev/event-result.png"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           <img src={EventImage.src} alt="news image" className="w-full" />
         </a>
         <div className="text-body4 text-basic-white flex items-center justify-between px-0.5">
