@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="body5 mx-auto max-w-screen-md space-y-1 px-4">
         <p className="body4-sb text-gray-600">
           <a
-            href="https://kitworks.notion.site/kiring-privacy-policy"
+            href="https://hansololiviakim.notion.site/kiring-privacy-policy"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -12,7 +12,7 @@ export default function Footer() {
           </a>
           <span className="px-2 text-gray-300">|</span>
           <a
-            href="https://kitworks.notion.site/kiring-terms-of-service"
+            href="https://hansololiviakim.notion.site/kiring-terms-of-service"
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -30,7 +30,7 @@ export default function LoginPage() {
 
         <p className="body4-sb mt-8 text-gray-200">
           <a
-            href="https://kitworks.notion.site/kiring-privacy-policy"
+            href="https://hansololiviakim.notion.site/kiring-privacy-policy"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -38,7 +38,7 @@ export default function LoginPage() {
           </a>
           <span className="px-2 text-gray-200">|</span>
           <a
-            href="https://kitworks.notion.site/kiring-terms-of-service"
+            href="https://hansololiviakim.notion.site/kiring-terms-of-service"
             target="_blank"
             rel="noopener noreferrer"
           >
